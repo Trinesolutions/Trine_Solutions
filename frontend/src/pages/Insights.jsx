@@ -71,33 +71,35 @@ const Insights = () => {
       </section>
 
       {/* Search & Filter */}
-      <section className="py-12 gradient-subtle">
+      <section className="py-16 bg-white dark:bg-gray-950">
         <div className="container">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="flex flex-col gap-8">
             {/* Search */}
-            <div className="glass-card flex items-center px-6 py-3 rounded-full w-full md:w-96">
-              <Search className="w-5 h-5 mr-3 opacity-50" />
-              <input
-                type="text"
-                placeholder="Search insights..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                data-testid="insights-search-input"
-                className="flex-1 bg-transparent outline-none"
-              />
+            <div className="max-w-2xl mx-auto w-full">
+              <div className="relative">
+                <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search insights, articles, and topics..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  data-testid="insights-search-input"
+                  className="w-full pl-14 pr-6 py-4 rounded-2xl glass-card text-lg outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                />
+              </div>
             </div>
 
             {/* Category Filter */}
-            <div className="flex flex-wrap gap-2 justify-center">
+            <div className="flex flex-wrap gap-3 justify-center">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
                   data-testid={`category-${category.toLowerCase().replace(/\s+/g, '-')}`}
-                  className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
+                  className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                     selectedCategory === category
-                      ? 'bg-gradient-orange-blue text-white'
-                      : 'glass-card hover:scale-105'
+                      ? 'bg-gradient-orange-blue text-white shadow-lg scale-105'
+                      : 'glass-card hover:scale-105 hover:shadow-md'
                   }`}
                 >
                   {category}
