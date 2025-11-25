@@ -113,11 +113,13 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
                 {/* Language Selector */}
                 <div className="relative hidden sm:block">
                   <label htmlFor="language-selector" className="sr-only">Select language</label>
+                  <span id="language-description" className="sr-only">Choose your preferred language for the website</span>
                   <select
                     id="language-selector"
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
                     data-testid="language-selector"
+                    aria-describedby="language-description"
                     className="appearance-none bg-transparent pl-8 pr-3 py-2 rounded-full text-sm font-medium cursor-pointer outline-none hover:bg-opacity-10 hover:bg-gray-500 transition-all duration-300 focus:ring-2 focus:ring-orange-500"
                   >
                     <option value="EN">EN</option>

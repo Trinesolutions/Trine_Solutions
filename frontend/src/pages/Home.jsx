@@ -113,8 +113,7 @@ const Home = () => {
       {/* Trust & Partners */}
       <section className="py-12 bg-white dark:bg-gray-900" aria-labelledby="partners-title">
         <div className="container">
-          <h2 id="partners-title" className="sr-only">Our Trusted Partners</h2>
-          <p className="text-center text-gray-600 dark:text-gray-400 mb-8 font-medium">TRUSTED BY LEADING ENTERPRISES</p>
+          <h2 id="partners-title" className="text-center text-gray-600 dark:text-gray-400 mb-8 font-medium text-sm tracking-wider">TRUSTED BY LEADING ENTERPRISES</h2>
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
             {partners.map((partner, index) => (
               <div key={index} className="text-2xl font-bold text-gray-400 hover:text-orange-500 transition-colors duration-300">
@@ -126,7 +125,7 @@ const Home = () => {
       </section>
 
       {/* About Summary */}
-      <section className="gradient-subtle py-20">
+      <section className="gradient-subtle py-20" aria-labelledby="about-title">
         <div className="container">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-up">
