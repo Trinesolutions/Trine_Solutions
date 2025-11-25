@@ -7,14 +7,43 @@
 }
 
 :root {
+  /* Core Premium Color Palette */
+  --color-deepblue: #002C5F;
+  --color-purple: #7E57C2;
+  --color-pink: #EC4899;
+  --color-orange: #F78B1F;
+  --color-green: #22C55E;
+  --color-yellow: #FACC15;
+  --color-skyblue: #38BDF8;
+  --color-darkred: #B91C1C;
+  --color-black: #0A0A0A;
+  --color-white: #ffffff;
+  
+  /* Legacy aliases for backward compatibility */
   --orange: #F78B1F;
   --deep-blue: #002C5F;
   --light-bg: #FAFAFA;
   --dark-bg: #0A0A0A;
   --text-light: #1A1A1A;
   --text-dark: #F5F5F5;
-  --glass-bg: rgba(255, 255, 255, 0.1);
+  
+  /* UI Design Tokens */
+  --glass-bg: rgba(255, 255, 255, 0.18);
   --glass-border: rgba(255, 255, 255, 0.2);
+  --radius-xl: 22px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --blur-lg: 18px;
+  
+  /* Premium Gradients */
+  --gradient-1: linear-gradient(135deg, #002C5F, #7E57C2);
+  --gradient-2: linear-gradient(135deg, #F78B1F, #FACC15);
+  --gradient-3: linear-gradient(135deg, #EC4899, #38BDF8);
+  --gradient-4: linear-gradient(135deg, #22C55E, #F78B1F);
+  --gradient-orange-blue: linear-gradient(135deg, var(--color-orange) 0%, var(--color-deepblue) 100%);
+  --gradient-purple-pink: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%);
+  --gradient-green-yellow: linear-gradient(135deg, var(--color-green) 0%, var(--color-yellow) 100%);
+  --gradient-skyblue-purple: linear-gradient(135deg, var(--color-skyblue) 0%, var(--color-purple) 100%);
 }
 
 .dark {
@@ -22,7 +51,7 @@
   --dark-bg: #0A0A0A;
   --text-light: #F5F5F5;
   --text-dark: #F5F5F5;
-  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
@@ -79,11 +108,31 @@ html {
 
 /* Gradient Backgrounds */
 .gradient-orange-blue {
-  background: linear-gradient(135deg, var(--orange) 0%, var(--deep-blue) 100%);
+  background: linear-gradient(135deg, var(--color-orange) 0%, var(--color-deepblue) 100%);
 }
 
 .gradient-blue-orange {
-  background: linear-gradient(135deg, var(--deep-blue) 0%, var(--orange) 100%);
+  background: linear-gradient(135deg, var(--color-deepblue) 0%, var(--color-orange) 100%);
+}
+
+.gradient-purple-pink {
+  background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%);
+}
+
+.gradient-green-yellow {
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-yellow) 100%);
+}
+
+.gradient-skyblue-purple {
+  background: linear-gradient(135deg, var(--color-skyblue) 0%, var(--color-purple) 100%);
+}
+
+.gradient-pink-skyblue {
+  background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-skyblue) 100%);
+}
+
+.gradient-deepblue-purple {
+  background: linear-gradient(135deg, var(--color-deepblue) 0%, var(--color-purple) 100%);
 }
 
 .gradient-subtle {
@@ -92,6 +141,27 @@ html {
 
 .dark .gradient-subtle {
   background: linear-gradient(135deg, #1A1410 0%, #0D1520 100%);
+}
+
+/* Background Gradient Utilities */
+.bg-gradient-orange-blue {
+  background: var(--gradient-orange-blue);
+}
+
+.bg-gradient-1 {
+  background: var(--gradient-1);
+}
+
+.bg-gradient-2 {
+  background: var(--gradient-2);
+}
+
+.bg-gradient-3 {
+  background: var(--gradient-3);
+}
+
+.bg-gradient-4 {
+  background: var(--gradient-4);
 }
 
 /* Animations */
@@ -318,5 +388,322 @@ section {
   }
   h3 {
     font-size: 1.5rem;
+  }
+}
+
+/* =====================================================
+   ADMIN PORTAL STYLES
+   Scoped under .admin-portal to prevent collision with public site
+   ===================================================== */
+
+/* Admin Portal Container */
+.admin-portal {
+  --admin-primary: var(--color-deepblue);
+  --admin-secondary: var(--color-orange);
+  --admin-success: var(--color-green);
+  --admin-warning: var(--color-yellow);
+  --admin-danger: var(--color-darkred);
+  --admin-info: var(--color-skyblue);
+  --admin-purple: var(--color-purple);
+  --admin-pink: var(--color-pink);
+}
+
+/* Admin Button Base */
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 8px;
+}
+
+.admin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Admin Primary Button - High Contrast Orange */
+.admin-btn-primary {
+  background: var(--color-orange);
+  color: white;
+  box-shadow: 0 2px 8px rgba(247, 139, 31, 0.3);
+}
+
+.admin-btn-primary:hover:not(:disabled) {
+  background: #E67D0F;
+  box-shadow: 0 4px 12px rgba(247, 139, 31, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Admin Secondary Button - Deep Blue */
+.admin-btn-secondary {
+  background: var(--color-deepblue);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 44, 95, 0.3);
+}
+
+.admin-btn-secondary:hover:not(:disabled) {
+  background: #003D7A;
+  box-shadow: 0 4px 12px rgba(0, 44, 95, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Admin Success Button - Green */
+.admin-btn-success {
+  background: var(--color-green);
+  color: white;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.admin-btn-success:hover:not(:disabled) {
+  background: #16A34A;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Admin Warning Button - Yellow with dark text */
+.admin-btn-warning {
+  background: var(--color-yellow);
+  color: #1A1A1A;
+  box-shadow: 0 2px 8px rgba(250, 204, 21, 0.3);
+}
+
+.admin-btn-warning:hover:not(:disabled) {
+  background: #EAB308;
+  box-shadow: 0 4px 12px rgba(250, 204, 21, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Admin Danger Button - Dark Red */
+.admin-btn-danger {
+  background: var(--color-darkred);
+  color: white;
+  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.3);
+}
+
+.admin-btn-danger:hover:not(:disabled) {
+  background: #991B1B;
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Admin Info Button - Sky Blue */
+.admin-btn-info {
+  background: var(--color-skyblue);
+  color: #1A1A1A;
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+}
+
+.admin-btn-info:hover:not(:disabled) {
+  background: #0EA5E9;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Admin Purple Button */
+.admin-btn-purple {
+  background: var(--color-purple);
+  color: white;
+  box-shadow: 0 2px 8px rgba(126, 87, 194, 0.3);
+}
+
+.admin-btn-purple:hover:not(:disabled) {
+  background: #6D4AAE;
+  box-shadow: 0 4px 12px rgba(126, 87, 194, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Admin Outline Button */
+.admin-btn-outline {
+  background: transparent;
+  color: var(--color-deepblue);
+  border: 2px solid var(--color-deepblue);
+}
+
+.admin-btn-outline:hover:not(:disabled) {
+  background: var(--color-deepblue);
+  color: white;
+}
+
+/* Admin Gradient Button */
+.admin-btn-gradient {
+  background: var(--gradient-orange-blue);
+  color: white;
+  box-shadow: 0 2px 8px rgba(247, 139, 31, 0.3);
+}
+
+.admin-btn-gradient:hover:not(:disabled) {
+  box-shadow: 0 4px 16px rgba(247, 139, 31, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Admin Small Button */
+.admin-btn-sm {
+  padding: 8px 16px;
+  font-size: 12px;
+}
+
+/* Admin Large Button */
+.admin-btn-lg {
+  padding: 16px 32px;
+  font-size: 16px;
+}
+
+/* Admin Card Styles */
+.admin-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  transition: box-shadow 0.2s ease;
+}
+
+.admin-card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.dark .admin-card {
+  background: #1F2937;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Admin Stat Card with gradient accent */
+.admin-stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gradient-orange-blue);
+}
+
+/* Admin Badge */
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-badge-primary {
+  background: rgba(247, 139, 31, 0.15);
+  color: var(--color-orange);
+}
+
+.admin-badge-success {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--color-green);
+}
+
+.admin-badge-warning {
+  background: rgba(250, 204, 21, 0.15);
+  color: #A16207;
+}
+
+.admin-badge-danger {
+  background: rgba(185, 28, 28, 0.15);
+  color: var(--color-darkred);
+}
+
+.admin-badge-info {
+  background: rgba(56, 189, 248, 0.15);
+  color: #0284C7;
+}
+
+.admin-badge-purple {
+  background: rgba(126, 87, 194, 0.15);
+  color: var(--color-purple);
+}
+
+/* Admin Input Styles */
+.admin-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.admin-input:focus {
+  border-color: var(--color-orange);
+  box-shadow: 0 0 0 3px rgba(247, 139, 31, 0.1);
+}
+
+.dark .admin-input {
+  background: #374151;
+  border-color: #4B5563;
+  color: white;
+}
+
+.dark .admin-input:focus {
+  border-color: var(--color-orange);
+}
+
+/* Admin Table Styles */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th {
+  background: #F9FAFB;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6B7280;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.admin-table td {
+  padding: 16px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.dark .admin-table th {
+  background: #374151;
+  color: #9CA3AF;
+  border-color: #4B5563;
+}
+
+.dark .admin-table td {
+  border-color: #4B5563;
+}
+
+.admin-table tbody tr:hover {
+  background: #F9FAFB;
+}
+
+.dark .admin-table tbody tr:hover {
+  background: #374151;
+}
+
+/* Responsive Admin Utilities */
+@media (max-width: 640px) {
+  .admin-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .admin-card {
+    padding: 16px;
   }
 }

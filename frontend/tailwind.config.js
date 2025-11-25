@@ -7,12 +7,19 @@ module.exports = {
   ],
   theme: {
   	extend: {
-  		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
-  		},
   		colors: {
+  			// Premium Color Palette
+  			'deep-blue': '#002C5F',
+  			'trine-purple': '#7E57C2',
+  			'trine-pink': '#EC4899',
+  			'trine-orange': '#F78B1F',
+  			'trine-green': '#22C55E',
+  			'trine-yellow': '#FACC15',
+  			'trine-skyblue': '#38BDF8',
+  			'trine-darkred': '#B91C1C',
+  			'trine-black': '#0A0A0A',
+  			'trine-white': '#ffffff',
+  			// Shadcn Theme Colors
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -53,6 +60,20 @@ module.exports = {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			}
+  		},
+  		backgroundImage: {
+  			'gradient-orange-blue': 'linear-gradient(135deg, #F78B1F 0%, #002C5F 100%)',
+  			'gradient-deepblue-purple': 'linear-gradient(135deg, #002C5F 0%, #7E57C2 100%)',
+  			'gradient-purple-pink': 'linear-gradient(135deg, #7E57C2 0%, #EC4899 100%)',
+  			'gradient-green-yellow': 'linear-gradient(135deg, #22C55E 0%, #FACC15 100%)',
+  			'gradient-pink-skyblue': 'linear-gradient(135deg, #EC4899 0%, #38BDF8 100%)',
+  			'gradient-skyblue-purple': 'linear-gradient(135deg, #38BDF8 0%, #7E57C2 100%)',
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)',
+  			xl: '22px',
   		},
   		keyframes: {
   			'accordion-down': {
