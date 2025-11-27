@@ -93,15 +93,6 @@ const industries = [
   }
 ];
 
-const partners = [
-  { name: 'Amazon Web Services', logo: 'AWS', className: 'text-2xl font-bold text-orange-500' },
-  { name: 'Microsoft Azure', logo: 'AZURE', className: 'text-2xl font-bold text-blue-500' },
-  { name: 'Google Cloud', logo: 'GCP', className: 'text-2xl font-bold text-green-500' },
-  { name: 'IBM Cloud', logo: 'IBM', className: 'text-2xl font-bold text-red-500' },
-  { name: 'Oracle Cloud', logo: 'OCI', className: 'text-2xl font-bold text-red-600' },
-  { name: 'Salesforce', logo: 'SF', className: 'text-2xl font-bold text-blue-600' }
-];
-
 // Remove the static partners array as we'll fetch from the backend
 
 const features = [
@@ -178,113 +169,60 @@ const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [dynamicTestimonials, setDynamicTestimonials] = useState(testimonials);
   const [partners, setPartners] = useState([]);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch services, case studies, and blog posts (these should work on Render)
-        const [servicesRes, casesRes, blogRes] = await Promise.all([
-          axios.get(`${API}/services`),
-          axios.get(`${API}/case-studies`),
-          axios.get(`${API}/blog`),
-        ]);
+        console.log('Starting to fetch data...');
         
-        setServices(servicesRes.data.length > 0 ? servicesRes.data : mockServices);
-        setCaseStudies(casesRes.data.slice(0, 3));
-        setBlogPosts(blogRes.data.slice(0, 4));
-        
-        // Try to fetch partners, but handle 404 gracefully
+        // Fetch services
         try {
+          const servicesRes = await axios.get(`${API}/services`);
+          console.log('Services data:', servicesRes.data);
+          setServices(servicesRes.data.length > 0 ? servicesRes.data : mockServices);
+        } catch (error) {
+          console.error('Error fetching services:', error);
+          setServices(mockServices);
+        }
+        
+        // Fetch case studies
+        try {
+          const casesRes = await axios.get(`${API}/case-studies`);
+          console.log('Case studies data:', casesRes.data);
+          setCaseStudies(casesRes.data.slice(0, 3));
+        } catch (error) {
+          console.error('Error fetching case studies:', error);
+        }
+        
+        // Fetch blog posts
+        try {
+          const blogRes = await axios.get(`${API}/blog`);
+          console.log('Blog data:', blogRes.data);
+          setBlogPosts(blogRes.data.slice(0, 4));
+        } catch (error) {
+          console.error('Error fetching blog:', error);
+        }
+        
+        // Fetch partners - only show actual data from API
+        try {
+          console.log('Fetching partners from:', `${API}/partners`);
           const partnersRes = await axios.get(`${API}/partners`);
+          console.log('Partners data received:', partnersRes.data);
+          console.log('Number of partners:', partnersRes.data.length);
           setPartners(partnersRes.data);
-        } catch (partnerError) {
-          // If partners endpoint doesn't exist, use default partners
-          if (partnerError.response?.status === 404) {
-            setPartners([
-              { 
-                id: '1', 
-                name: 'Amazon Web Services', 
-                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/aws-logo.png',
-                website: 'https://aws.amazon.com'
-              },
-              { 
-                id: '2', 
-                name: 'Microsoft Azure', 
-                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/azure-logo.png',
-                website: 'https://azure.microsoft.com'
-              },
-              { 
-                id: '3', 
-                name: 'Google Cloud', 
-                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/gcp-logo.png',
-                website: 'https://cloud.google.com'
-              },
-              { 
-                id: '4', 
-                name: 'IBM Cloud', 
-                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/ibm-cloud-logo.png',
-                website: 'https://www.ibm.com/cloud'
-              },
-              { 
-                id: '5', 
-                name: 'Oracle Cloud', 
-                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/oracle-cloud-logo.png',
-                website: 'https://www.oracle.com/cloud/'
-              },
-              { 
-                id: '6', 
-                name: 'Salesforce', 
-                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/salesforce-logo.png',
-                website: 'https://www.salesforce.com'
-              }
-            ]);
-          } else {
-            // Re-throw other errors
-            throw partnerError;
-          }
+          console.log('Partners state updated with:', partnersRes.data);
+        } catch (error) {
+          console.error('Error fetching partners:', error);
+          console.error('Error details:', error.response?.data);
+          // Even on error, set partners to empty array rather than mock data
+          setPartners([]);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
-        // Use mock data when API fails
+        console.error('General error fetching data:', error);
+        // Even on error, set partners to empty array rather than mock data
+        setPartners([]);
+        // Use mock data only for services when API fails
         setServices(mockServices);
-        setPartners([
-          { 
-            id: '1', 
-            name: 'Amazon Web Services', 
-            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/aws-logo.png',
-            website: 'https://aws.amazon.com'
-          },
-          { 
-            id: '2', 
-            name: 'Microsoft Azure', 
-            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/azure-logo.png',
-            website: 'https://azure.microsoft.com'
-          },
-          { 
-            id: '3', 
-            name: 'Google Cloud', 
-            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/gcp-logo.png',
-            website: 'https://cloud.google.com'
-          },
-          { 
-            id: '4', 
-            name: 'IBM Cloud', 
-            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/ibm-cloud-logo.png',
-            website: 'https://www.ibm.com/cloud'
-          },
-          { 
-            id: '5', 
-            name: 'Oracle Cloud', 
-            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/oracle-cloud-logo.png',
-            website: 'https://www.oracle.com/cloud/'
-          },
-          { 
-            id: '6', 
-            name: 'Salesforce', 
-            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/salesforce-logo.png',
-            website: 'https://www.salesforce.com'
-          }
-        ]);
       }
     };
 

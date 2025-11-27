@@ -1025,102 +1025,12 @@ async def admin_delete_announcement(ann_id: str, current_user: dict = Depends(ge
 async def get_partners():
     try:
         partners = await db.partners.find({}, {"_id": 0}).sort("priority", 1).to_list(100)
-        if not partners:
-            # Return default partners
-            default_partners = [
-                {
-                    "id": "1",
-                    "name": "Amazon Web Services",
-                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/aws-logo.png",
-                    "website": "https://aws.amazon.com",
-                    "priority": 1
-                },
-                {
-                    "id": "2",
-                    "name": "Microsoft Azure",
-                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/azure-logo.png",
-                    "website": "https://azure.microsoft.com",
-                    "priority": 2
-                },
-                {
-                    "id": "3",
-                    "name": "Google Cloud",
-                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/gcp-logo.png",
-                    "website": "https://cloud.google.com",
-                    "priority": 3
-                },
-                {
-                    "id": "4",
-                    "name": "IBM Cloud",
-                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/ibm-cloud-logo.png",
-                    "website": "https://www.ibm.com/cloud",
-                    "priority": 4
-                },
-                {
-                    "id": "5",
-                    "name": "Oracle Cloud",
-                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/oracle-cloud-logo.png",
-                    "website": "https://www.oracle.com/cloud/",
-                    "priority": 5
-                },
-                {
-                    "id": "6",
-                    "name": "Salesforce",
-                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/salesforce-logo.png",
-                    "website": "https://www.salesforce.com",
-                    "priority": 6
-                }
-            ]
-            return default_partners
+        # Always return actual partners from database, even if empty
         return partners
     except Exception as e:
-        # If there's an error accessing the database, return default partners
+        # If there's an error accessing the database, return empty array
         logger.error(f"Error fetching partners: {e}")
-        default_partners = [
-            {
-                "id": "1",
-                "name": "Amazon Web Services",
-                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/aws-logo.png",
-                "website": "https://aws.amazon.com",
-                "priority": 1
-            },
-            {
-                "id": "2",
-                "name": "Microsoft Azure",
-                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/azure-logo.png",
-                "website": "https://azure.microsoft.com",
-                "priority": 2
-            },
-            {
-                "id": "3",
-                "name": "Google Cloud",
-                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/gcp-logo.png",
-                "website": "https://cloud.google.com",
-                "priority": 3
-            },
-            {
-                "id": "4",
-                "name": "IBM Cloud",
-                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/ibm-cloud-logo.png",
-                "website": "https://www.ibm.com/cloud",
-                "priority": 4
-            },
-            {
-                "id": "5",
-                "name": "Oracle Cloud",
-                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/oracle-cloud-logo.png",
-                "website": "https://www.oracle.com/cloud/",
-                "priority": 5
-            },
-            {
-                "id": "6",
-                "name": "Salesforce",
-                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/salesforce-logo.png",
-                "website": "https://www.salesforce.com",
-                "priority": 6
-            }
-        ]
-        return default_partners
+        return []
 
 @admin_router.get("/partners", response_model=List[Partner])
 async def admin_get_partners(current_user: dict = Depends(get_current_user)):
