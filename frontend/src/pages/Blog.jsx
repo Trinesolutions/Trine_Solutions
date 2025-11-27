@@ -10,6 +10,7 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedType, setSelectedType] = useState('all'); // 'all', 'blog', 'company-update'
 
   useEffect(() => {
     fetchBlogPosts();
@@ -32,7 +33,8 @@ const Blog = () => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+    const matchesType = selectedType === 'all' || post.post_type === selectedType;
+    return matchesSearch && matchesCategory && matchesType;
   });
 
   const formatDate = (dateString) => {
@@ -100,6 +102,43 @@ const Blog = () => {
       {/* Category Filter */}
       <section className="py-8 bg-white/50 backdrop-blur-sm border-y border-gray-200">
         <div className="container">
+          {/* Type Filter */}
+          <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200">
+            <Sparkles className="w-5 h-5 text-orange-600 flex-shrink-0" />
+            <span className="text-sm font-semibold text-gray-700 flex-shrink-0">Type:</span>
+            <button
+              onClick={() => setSelectedType('all')}
+              className={`px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300 ${
+                selectedType === 'all'
+                  ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg scale-105'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+              }`}
+            >
+              All Posts
+            </button>
+            <button
+              onClick={() => setSelectedType('blog')}
+              className={`px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300 ${
+                selectedType === 'blog'
+                  ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg scale-105'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+              }`}
+            >
+              Blog Articles
+            </button>
+            <button
+              onClick={() => setSelectedType('company-update')}
+              className={`px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300 ${
+                selectedType === 'company-update'
+                  ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg scale-105'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+              }`}
+            >
+              Company Updates
+            </button>
+          </div>
+
+          {/* Category Filter */}
           <div className="flex items-center gap-3 overflow-x-auto pb-2">
             <Tag className="w-5 h-5 text-orange-600 flex-shrink-0" />
             <span className="text-sm font-semibold text-gray-700 flex-shrink-0">Categories:</span>
@@ -156,12 +195,28 @@ const Blog = () => {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                       
-                      {/* Category Badge */}
-                      <div className="absolute top-4 left-4">
-                        <span className="px-4 py-2 bg-orange-600 text-white text-xs font-bold rounded-full shadow-lg">
-                          {post.category}
+                      {/* Post Type & Category Badge */}
+                      <div className="absolute top-4 left-4 flex items-center gap-2">
+                        <span className={`px-4 py-2 text-white text-xs font-bold rounded-full shadow-lg ${
+                          post.post_type === 'company-update' 
+                            ? 'bg-gradient-to-r from-green-600 to-green-500' 
+                            : 'bg-gradient-to-r from-orange-600 to-orange-500'
+                        }`}>
+                          {post.post_type === 'company-update' ? '📢 Company Update' : post.category}
                         </span>
                       </div>
+
+                      {/* Gallery Images Indicator */}
+                      {post.gallery_images && post.gallery_images.length > 0 && (
+                        <div className="absolute bottom-4 right-4">
+                          <div className="px-3 py-1 bg-black/60 backdrop-blur-sm text-white text-xs font-semibold rounded-full flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>+{post.gallery_images.length} images</span>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -203,11 +258,28 @@ const Blog = () => {
                       </div>
                     )}
 
+                    {/* Gallery Preview */}
+                    {post.gallery_images && post.gallery_images.length > 0 && (
+                      <div className="mb-4">
+                        <div className="grid grid-cols-3 gap-2">
+                          {post.gallery_images.slice(0, 3).map((img, idx) => (
+                            <div key={idx} className="relative h-20 rounded-lg overflow-hidden">
+                              <img
+                                src={img}
+                                alt={`Gallery ${idx + 1}`}
+                                className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Read More Link */}
                     <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                       <div className="flex items-center gap-2 text-sm text-gray-500">
                         <Clock className="w-4 h-4" />
-                        <span>5 min read</span>
+                        <span>{post.readTime || '5 min read'}</span>
                       </div>
                       <button className="group/btn flex items-center gap-2 text-orange-600 font-semibold hover:gap-3 transition-all duration-300">
                         Read More

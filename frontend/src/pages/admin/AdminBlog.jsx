@@ -19,6 +19,8 @@ const AdminBlog = () => {
     excerpt: '',
     content: '',
     featured_image: '',
+    gallery_images: '',
+    post_type: 'blog',
     author: '',
     category: '',
     readTime: '',
@@ -68,6 +70,8 @@ const AdminBlog = () => {
         excerpt: post.excerpt,
         content: post.content,
         featured_image: post.featured_image || post.image || '',
+        gallery_images: post.gallery_images?.join(', ') || '',
+        post_type: post.post_type || 'blog',
         author: post.author,
         category: post.category,
         readTime: post.readTime,
@@ -81,6 +85,8 @@ const AdminBlog = () => {
         excerpt: '',
         content: '',
         featured_image: '',
+        gallery_images: '',
+        post_type: 'blog',
         author: '',
         category: '',
         readTime: '',
@@ -96,6 +102,7 @@ const AdminBlog = () => {
     const payload = {
       ...formData,
       tags: formData.tags.split(',').map(t => t.trim()).filter(t => t),
+      gallery_images: formData.gallery_images.split(',').map(img => img.trim()).filter(img => img),
     };
 
     try {
@@ -289,6 +296,30 @@ const AdminBlog = () => {
                       required
                       className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
                     />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-2">Gallery Images (comma-separated URLs)</label>
+                    <textarea
+                      name="gallery_images"
+                      value={formData.gallery_images}
+                      onChange={handleChange}
+                      rows={2}
+                      placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500 resize-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Post Type *</label>
+                    <select
+                      name="post_type"
+                      value={formData.post_type}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                    >
+                      <option value="blog">Blog Post</option>
+                      <option value="company-update">Company Update</option>
+                    </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Category *</label>

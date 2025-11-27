@@ -126,6 +126,8 @@ class BlogPost(BaseModel):
     excerpt: str
     content: str
     featured_image: str
+    gallery_images: List[str] = []  # Additional images for the blog post
+    post_type: str = "blog"  # "blog" or "company-update"
     published_date: str = Field(default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%d"))
     author: str
     category: str
@@ -138,6 +140,8 @@ class BlogPostCreate(BaseModel):
     excerpt: str
     content: str
     featured_image: str
+    gallery_images: List[str] = []
+    post_type: str = "blog"
     author: str
     category: str
     readTime: str
