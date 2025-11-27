@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
-  LayoutDashboard, FileText, Briefcase, Users, 
+  LayoutDashboard, FileText, 
   LogOut, Menu, X, Megaphone, Mail, Wrench, Quote, Handshake, UserCheck
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -36,9 +36,7 @@ const AdminLayout = ({ children }) => {
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin/dashboard' },
     { icon: FileText, label: 'Blog Posts', path: '/admin/blog' },
-    { icon: Briefcase, label: 'Case Studies', path: '/admin/case-studies' },
     { icon: Wrench, label: 'Services', path: '/admin/services' },
-    { icon: Users, label: 'Team', path: '/admin/team' },
     { icon: Quote, label: 'Testimonials', path: '/admin/testimonials' },
     { icon: Handshake, label: 'Partners', path: '/admin/partners' },
     { icon: UserCheck, label: 'Careers', path: '/admin/jobs' },

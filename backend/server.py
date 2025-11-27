@@ -46,9 +46,11 @@ except Exception as e:
     print(f"Cloudinary configuration error: {e}")
 
 # MongoDB connection
-mongo_url = os.environ['MONGO_URL']
+mongo_url = os.environ.get('MONGO_URL', os.environ.get('MONGODB_URI', ''))
+if not mongo_url:
+    raise ValueError("MONGO_URL or MONGODB_URI environment variable must be set")
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+db = client[os.environ.get('DB_NAME', 'trine_solutions')]
 
 # JWT Configuration
 # NOTE: In production, JWT_SECRET_KEY should be set as an environment variable
@@ -219,10 +221,11 @@ class BlogPost(BaseModel):
     title: str
     excerpt: str
     content: str
-    featured_image: str
+    image: str  # Main blog post image
+    date: Optional[str] = Field(default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%d"))  # Matches default data
     gallery_images: List[str] = []  # Additional images for the blog post
     post_type: str = "blog"  # "blog" or "company-update"
-    published_date: str = Field(default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%d"))
+    published_date: Optional[str] = None  # For backward compatibility
     author: str
     category: str
     readTime: str
@@ -233,7 +236,8 @@ class BlogPostCreate(BaseModel):
     title: str
     excerpt: str
     content: str
-    featured_image: str
+    image: str  # Main blog post image
+    date: Optional[str] = None
     gallery_images: List[str] = []
     post_type: str = "blog"
     author: str
@@ -1305,6 +1309,31 @@ async def upload_image_to_cloudinary(file: UploadFile = File(...), folder: str =
 # Include the routers in the main app
 app.include_router(api_router)
 app.include_router(admin_router)
+
+# Root health check endpoint
+@app.get("/")
+async def root():
+    return {
+        "status": "healthy",
+        "message": "Trine Solutions API",
+        "version": "1.0.0"
+    }
+
+@app.get("/health")
+async def health_check():
+    try:
+        # Test database connection
+        await db.command('ping')
+        return {
+            "status": "healthy",
+            "database": "connected",
+            "cloudinary": "enabled" if CLOUDINARY_ENABLED else "disabled"
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "error": str(e)
+        }
 
 app.add_middleware(
     CORSMiddleware,

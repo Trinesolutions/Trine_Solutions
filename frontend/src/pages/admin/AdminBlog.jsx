@@ -18,7 +18,7 @@ const AdminBlog = () => {
     title: '',
     excerpt: '',
     content: '',
-    featured_image: '',
+    image: '',
     gallery_images: '',
     post_type: 'blog',
     author: '',
@@ -100,7 +100,7 @@ const AdminBlog = () => {
       const imageUrl = response.data.url;
 
       if (type === 'featured') {
-        setFormData({ ...formData, featured_image: imageUrl });
+        setFormData({ ...formData, image: imageUrl });
         toast.success('Featured image uploaded successfully!');
       } else {
         // Add to gallery images
@@ -128,7 +128,7 @@ const AdminBlog = () => {
         title: post.title,
         excerpt: post.excerpt,
         content: post.content,
-        featured_image: post.featured_image || post.image || '',
+        image: post.image || '',
         gallery_images: post.gallery_images?.join(', ') || '',
         post_type: post.post_type || 'blog',
         author: post.author,
@@ -143,7 +143,7 @@ const AdminBlog = () => {
         title: '',
         excerpt: '',
         content: '',
-        featured_image: '',
+        image: '',
         gallery_images: '',
         post_type: 'blog',
         author: '',
@@ -245,7 +245,7 @@ const AdminBlog = () => {
               >
                 <div className="h-40 overflow-hidden">
                   <img
-                    src={post.featured_image || post.image || 'https://via.placeholder.com/400x300'}
+                    src={post.image || 'https://via.placeholder.com/400x300'}
                     alt={post.title}
                     className="w-full h-full object-cover"
                   />
@@ -340,8 +340,8 @@ const AdminBlog = () => {
                       <div className="flex gap-2">
                         <input
                           type="url"
-                          name="featured_image"
-                          value={formData.featured_image}
+                          name="image"
+                          value={formData.image}
                           onChange={handleChange}
                           placeholder="Image URL or upload below"
                           required
@@ -368,9 +368,9 @@ const AdminBlog = () => {
                           />
                         </label>
                       </div>
-                      {formData.featured_image && (
+                      {formData.image && (
                         <img
-                          src={formData.featured_image}
+                          src={formData.image}
                           alt="Featured preview"
                           className="w-full h-32 object-cover rounded-xl border border-gray-300"
                         />

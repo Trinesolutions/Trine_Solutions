@@ -14,9 +14,7 @@ import Blog from "@/pages/Blog";
 import AdminLogin from "@/pages/admin/AdminLogin";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminBlog from "@/pages/admin/AdminBlog";
-import AdminCaseStudies from "@/pages/admin/AdminCaseStudies";
 import AdminServices from "@/pages/admin/AdminServices";
-import AdminTeam from "@/pages/admin/AdminTeam";
 import AdminJobs from "@/pages/admin/AdminJobs";
 import AdminAnnouncements from "@/pages/admin/AdminAnnouncements";
 import AdminContacts from "@/pages/admin/AdminContacts";
@@ -78,9 +76,7 @@ function App() {
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/blog" element={<AdminBlog />} />
-            <Route path="/admin/case-studies" element={<AdminCaseStudies />} />
             <Route path="/admin/services" element={<AdminServices />} />
-            <Route path="/admin/team" element={<AdminTeam />} />
             <Route path="/admin/jobs" element={<AdminJobs />} />
             <Route path="/admin/testimonials" element={<AdminTestimonials />} />
             <Route path="/admin/partners" element={<AdminPartners />} />
