@@ -7,11 +7,9 @@ import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Services from "@/pages/Services";
 import Industries from "@/pages/Industries";
-import CaseStudies from "@/pages/CaseStudies";
 import Insights from "@/pages/Insights";
 import Careers from "@/pages/Careers";
 import Contact from "@/pages/Contact";
-import Portfolio from "@/pages/Portfolio";
 import AdminLogin from "@/pages/admin/AdminLogin";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminBlog from "@/pages/admin/AdminBlog";
@@ -20,6 +18,7 @@ import AdminServices from "@/pages/admin/AdminServices";
 import AdminTeam from "@/pages/admin/AdminTeam";
 import AdminAnnouncements from "@/pages/admin/AdminAnnouncements";
 import AdminContacts from "@/pages/admin/AdminContacts";
+import AdminTestimonials from "@/pages/admin/AdminTestimonials";
 import { Toaster } from "@/components/ui/sonner";
 
 // Layout wrapper to conditionally show navbar/footer
@@ -62,10 +61,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/industries" element={<Industries />} />
-            <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/careers" element={<Careers />} />
-            <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/contact" element={<Contact />} />
             
             {/* Admin Routes */}
@@ -75,6 +72,7 @@ function App() {
             <Route path="/admin/case-studies" element={<AdminCaseStudies />} />
             <Route path="/admin/services" element={<AdminServices />} />
             <Route path="/admin/team" element={<AdminTeam />} />
+            <Route path="/admin/testimonials" element={<AdminTestimonials />} />
             <Route path="/admin/announcements" element={<AdminAnnouncements />} />
             <Route path="/admin/contacts" element={<AdminContacts />} />
           </Routes>

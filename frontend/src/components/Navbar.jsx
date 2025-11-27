@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Moon, Sun, Globe, Menu, X } from 'lucide-react';
+import { Search, Moon, Sun, Globe, Menu, X, Linkedin } from 'lucide-react';
 
 const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -33,8 +33,7 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
     { name: 'About Us', path: '/about' },
     { name: 'Services', path: '/services' },
     { name: 'Industries', path: '/industries' },
-    { name: 'Portfolio', path: '/portfolio' },
-    { name: 'Case Studies', path: '/case-studies' },
+    { name: 'Careers', path: '/careers' },
     { name: 'Insights', path: '/insights' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -87,6 +86,18 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
 
               {/* Right Side Actions */}
               <div className="flex items-center space-x-3" role="group" aria-label="Site controls">
+                {/* LinkedIn */}
+                <a
+                  href="https://www.linkedin.com/company/trine-solutions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid="linkedin-link"
+                  className="p-2 rounded-full hover:bg-trine-orange/10 hover:text-trine-orange transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-trine-orange"
+                  aria-label="Visit our LinkedIn page"
+                >
+                  <Linkedin className="w-5 h-5" aria-hidden="true" />
+                </a>
+
                 {/* Search */}
                 <button
                   onClick={() => setSearchOpen(!searchOpen)}

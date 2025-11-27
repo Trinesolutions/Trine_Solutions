@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import TestimonialSlider from '@/components/TestimonialSlider';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 const API = `${BACKEND_URL}/api`;
 
 const iconMap = {
@@ -174,6 +174,7 @@ const Home = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [dynamicTestimonials, setDynamicTestimonials] = useState(testimonials);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -193,7 +194,20 @@ const Home = () => {
       }
     };
 
+    const fetchTestimonials = async () => {
+      try {
+        const response = await axios.get(`${API}/testimonials`);
+        if (response.data && response.data.length > 0) {
+          setDynamicTestimonials(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching testimonials:', error);
+        // Keep using mock testimonials
+      }
+    };
+
     fetchData();
+    fetchTestimonials();
     
     const handleScroll = () => {
       const elements = document.querySelectorAll('.animate-on-scroll');
@@ -222,9 +236,22 @@ const Home = () => {
   };
 
   return (
-    <main className="min-h-screen bg-white" data-testid="home-page" role="main">
+    <main className="min-h-screen bg-white dark:bg-trine-black" data-testid="home-page" role="main">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-sky-50 to-green-50 pt-20" aria-labelledby="hero-title">
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-sky-50 to-green-50 dark:from-trine-black dark:via-trine-black dark:to-trine-black pt-20" aria-labelledby="hero-title">
+        {/* Animated Grid Background */}
+        <div className="animated-grid-bg" aria-hidden="true"></div>
+        
+        {/* Floating Glow Boxes */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div className="glow-box glow-box-orange w-20 h-20 top-[15%] left-[10%]" style={{ animationDelay: '0s' }}></div>
+          <div className="glow-box glow-box-blue w-16 h-16 top-[25%] right-[15%]" style={{ animationDelay: '1s' }}></div>
+          <div className="glow-box glow-box-green w-24 h-24 bottom-[20%] left-[20%]" style={{ animationDelay: '2s' }}></div>
+          <div className="glow-box glow-box-orange w-14 h-14 bottom-[30%] right-[10%]" style={{ animationDelay: '0.5s' }}></div>
+          <div className="glow-box glow-box-blue w-18 h-18 top-[40%] left-[5%]" style={{ animationDelay: '1.5s' }}></div>
+          <div className="glow-box glow-box-green w-12 h-12 top-[60%] right-[25%]" style={{ animationDelay: '2.5s' }}></div>
+        </div>
+        
         {/* Decorative Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
           <div className="absolute top-20 left-10 w-72 h-72 bg-trine-orange/10 rounded-full blur-3xl animate-float"></div>
@@ -250,8 +277,8 @@ const Home = () => {
               </span>
             </h1>
             
-            <p className="text-xl mb-12 max-w-3xl mx-auto leading-relaxed text-gray-600" data-testid="hero-subtitle">
-              Enterprise solutions in <span className="font-semibold text-trine-black">consulting, cybersecurity,</span> and <span className="font-semibold text-trine-orange">digital transformation</span> that drive measurable business growth.
+            <p className="text-xl mb-12 max-w-3xl mx-auto leading-relaxed text-gray-600 dark:text-gray-300" data-testid="hero-subtitle">
+              Enterprise solutions in <span className="font-semibold text-trine-black dark:text-white">consulting, cybersecurity,</span> and <span className="font-semibold text-trine-orange">digital transformation</span> that drive measurable business growth.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
@@ -265,7 +292,7 @@ const Home = () => {
               </Link>
               
               <Link to="/contact" data-testid="get-consultation-btn" className="group">
-                <button className="px-8 py-4 rounded-lg bg-white border-2 border-trine-lightblue text-trine-lightblue font-semibold text-lg hover:bg-trine-lightblue hover:text-white transition-all duration-300 flex items-center gap-2">
+                <button className="px-8 py-4 rounded-lg bg-white dark:bg-trine-black border-2 border-trine-lightblue text-trine-lightblue font-semibold text-lg hover:bg-trine-lightblue hover:text-white transition-all duration-300 flex items-center gap-2">
                   Get Started
                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
@@ -276,13 +303,13 @@ const Home = () => {
       </section>
 
       {/* Partners */}
-      <section className="py-16 bg-white" aria-labelledby="partners-title">
+      <section className="py-16 bg-white dark:bg-trine-black" aria-labelledby="partners-title">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 id="partners-title" className="text-3xl font-bold text-trine-black mb-4">
+            <h2 id="partners-title" className="text-3xl font-bold text-trine-black dark:text-white mb-4">
               Trusted Partners
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Collaborating with industry leaders to deliver exceptional results
             </p>
           </div>
@@ -303,7 +330,7 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section className="py-20 bg-gradient-to-br from-sky-50 to-green-50" aria-labelledby="about-title">
+      <section className="py-20 bg-gradient-to-br from-sky-50 to-green-50 dark:from-gray-900 dark:to-gray-900" aria-labelledby="about-title">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-on-scroll opacity-0">
@@ -327,7 +354,7 @@ const Home = () => {
               </div>
               
               <h2 className="text-4xl font-bold mb-6" data-testid="about-title">
-                <span className="text-trine-black">
+                <span className="text-trine-black dark:text-white">
                   Transforming
                 </span>
                 <br />
@@ -336,8 +363,8 @@ const Home = () => {
                 </span>
               </h2>
               
-              <p className="text-lg mb-8 text-gray-600 leading-relaxed">
-                Trine Solutions is a <span className="font-semibold text-trine-black">global leader</span> in enterprise technology consulting, delivering innovative solutions that transform businesses and drive <span className="font-semibold text-trine-orange">measurable results</span>.
+              <p className="text-lg mb-8 text-gray-600 dark:text-gray-300 leading-relaxed">
+                Trine Solutions is a <span className="font-semibold text-trine-black dark:text-white">global leader</span> in enterprise technology consulting, delivering innovative solutions that transform businesses and drive <span className="font-semibold text-trine-orange">measurable results</span>.
               </p>
               
               <div className="grid grid-cols-2 gap-4 mb-8">
@@ -346,12 +373,12 @@ const Home = () => {
                   return (
                     <div
                       key={index}
-                      className="group relative overflow-hidden rounded-xl p-4 bg-white border border-gray-200 hover:border-trine-orange/30 transition-all duration-300 hover:shadow-lg hover:shadow-trine-orange/10"
+                      className="group relative overflow-hidden rounded-xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-trine-orange/30 transition-all duration-300 hover:shadow-lg hover:shadow-trine-orange/10"
                     >
                       <div className="relative z-10">
                         <IconComponent className="w-8 h-8 text-trine-orange mb-3" />
-                        <h3 className="font-semibold text-trine-black mb-2">{feature.title}</h3>
-                        <p className="text-sm text-gray-600 leading-relaxed">{feature.desc}</p>
+                        <h3 className="font-semibold text-trine-black dark:text-white mb-2">{feature.title}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{feature.desc}</p>
                       </div>
                     </div>
                   );
@@ -372,7 +399,7 @@ const Home = () => {
       </section>
 
       {/* Services */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-trine-black">
         <div className="container">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-trine-lightblue/10 to-trine-green/10 border border-trine-lightblue/20 mb-6">
@@ -381,12 +408,12 @@ const Home = () => {
             </div>
             
             <h2 className="text-4xl font-bold mb-6" data-testid="services-title">
-              <span className="text-trine-black">Solutions That</span>
+              <span className="text-trine-black dark:text-white">Solutions That</span>
               <br />
               <span className="bg-gradient-to-r from-trine-lightblue to-trine-green bg-clip-text text-transparent">Drive Growth</span>
             </h2>
             
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Comprehensive solutions designed to accelerate your digital transformation journey and unlock new possibilities.
             </p>
           </div>
@@ -397,7 +424,7 @@ const Home = () => {
               return (
                 <div
                   key={service.id}
-                  className="group animate-on-scroll opacity-0 relative overflow-hidden rounded-xl p-6 bg-white border border-gray-200 hover:border-trine-lightblue/30 transition-all duration-300 hover:shadow-xl hover:shadow-trine-lightblue/10"
+                  className="group animate-on-scroll opacity-0 relative overflow-hidden rounded-xl p-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-trine-lightblue/30 transition-all duration-300 hover:shadow-xl hover:shadow-trine-lightblue/10"
                   data-testid={`service-card-${index}`}
                 >
                   <div className="relative z-10">
@@ -405,11 +432,11 @@ const Home = () => {
                       <Icon className="w-8 h-8 text-trine-lightblue" />
                     </div>
                     
-                    <h3 className="text-xl font-semibold mb-4 text-trine-black group-hover:text-trine-lightblue transition-colors duration-300">
+                    <h3 className="text-xl font-semibold mb-4 text-trine-black dark:text-white group-hover:text-trine-lightblue transition-colors duration-300">
                       {service.title}
                     </h3>
                     
-                    <p className="text-gray-600 mb-6 leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                       {service.description}
                     </p>
                     
@@ -428,7 +455,7 @@ const Home = () => {
       </section>
 
       {/* Industries */}
-      <section className="py-20 bg-gradient-to-br from-green-50 to-sky-50">
+      <section className="py-20 bg-gradient-to-br from-green-50 to-sky-50 dark:from-gray-900 dark:to-gray-900">
         <div className="container">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-trine-green/10 to-trine-lightblue/10 border border-trine-green/20 mb-6">
@@ -437,12 +464,12 @@ const Home = () => {
             </div>
             
             <h2 className="text-4xl font-bold mb-6" data-testid="industries-title">
-              <span className="text-trine-black">Expertise Across</span>
+              <span className="text-trine-black dark:text-white">Expertise Across</span>
               <br />
               <span className="bg-gradient-to-r from-trine-green to-trine-lightblue bg-clip-text text-transparent">Every Sector</span>
             </h2>
             
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Delivering specialized solutions tailored to your industry's unique challenges and opportunities.
             </p>
           </div>
@@ -451,7 +478,7 @@ const Home = () => {
             {industries.map((industry, index) => (
               <div
                 key={index}
-                className="group animate-on-scroll opacity-0 relative overflow-hidden rounded-xl bg-white border border-gray-200 hover:border-trine-green/30 transition-all duration-300 hover:shadow-lg cursor-pointer"
+                className="group animate-on-scroll opacity-0 relative overflow-hidden rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-trine-green/30 transition-all duration-300 hover:shadow-lg cursor-pointer"
                 data-testid={`industry-card-${index}`}
               >
                 <div className="aspect-square overflow-hidden relative">
@@ -530,7 +557,7 @@ const Home = () => {
       </section>
 
       {/* Portfolio Showcase */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-trine-black">
         <div className="container">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-green/10 border border-trine-orange/20 mb-6">
@@ -539,11 +566,11 @@ const Home = () => {
             </div>
             
             <h2 className="text-4xl font-bold mb-6">
-              <span className="text-trine-black">Our Latest</span>
+              <span className="text-trine-black dark:text-white">Our Latest</span>
               <br />
               <span className="bg-gradient-to-r from-trine-orange to-trine-green bg-clip-text text-transparent">Success Stories</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Explore our portfolio of transformative digital solutions that have helped businesses achieve remarkable results.
             </p>
           </div>
@@ -570,12 +597,12 @@ const Home = () => {
               }
             ].map((project, index) => (
               <Link 
-                to="/portfolio" 
+                to="/services" 
                 key={index}
                 className="group animate-on-scroll opacity-0"
                 data-testid={`portfolio-preview-${index}`}
               >
-                <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 shadow-lg hover:shadow-2xl transition-all duration-500">
                   <div className="aspect-video overflow-hidden">
                     <img
                       src={project.image}
@@ -601,7 +628,7 @@ const Home = () => {
                   </div>
                   
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-trine-black group-hover:text-trine-orange transition-colors mb-2">
+                    <h3 className="text-xl font-bold text-trine-black dark:text-white group-hover:text-trine-orange transition-colors mb-2">
                       {project.title}
                     </h3>
                     <div className="flex items-center gap-2 text-trine-green font-medium text-sm">
@@ -615,10 +642,10 @@ const Home = () => {
           </div>
           
           <div className="text-center mt-12">
-            <Link to="/portfolio" className="group inline-block">
+            <Link to="/services" className="group inline-block">
               <button className="px-8 py-4 rounded-xl bg-gradient-to-r from-trine-orange to-trine-green text-white font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-trine-orange/30 hover:scale-105">
                 <span className="flex items-center gap-2">
-                  View All Projects
+                  View All Services
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </span>
               </button>
@@ -628,7 +655,7 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30 dark:from-gray-900 dark:to-gray-900">
         <div className="container">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-green/10 border border-trine-orange/20 mb-6">
@@ -637,16 +664,16 @@ const Home = () => {
             </div>
             
             <h2 className="text-4xl font-bold mb-6">
-              <span className="text-trine-black">Trusted by</span>
+              <span className="text-trine-black dark:text-white">Trusted by</span>
               <br />
               <span className="bg-gradient-to-r from-trine-orange to-trine-green bg-clip-text text-transparent">Industry Leaders</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Hear what our clients have to say about their transformative experience working with Trine Solutions.
             </p>
           </div>
           
-          <TestimonialSlider testimonials={testimonials} autoPlay={true} interval={6000} />
+          <TestimonialSlider testimonials={dynamicTestimonials} autoPlay={true} interval={6000} />
         </div>
       </section>
 

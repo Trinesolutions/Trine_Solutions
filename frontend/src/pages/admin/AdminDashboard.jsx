@@ -4,7 +4,7 @@ import axios from 'axios';
 import { 
   LayoutDashboard, FileText, Briefcase, Users, Settings, 
   LogOut, Menu, X, Bell, ChevronRight, TrendingUp, 
-  Mail, Megaphone, Wrench, BarChart3
+  Mail, Megaphone, Wrench, BarChart3, Quote
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -65,6 +65,7 @@ const AdminDashboard = () => {
     { icon: Briefcase, label: 'Case Studies', path: '/admin/case-studies' },
     { icon: Wrench, label: 'Services', path: '/admin/services' },
     { icon: Users, label: 'Team', path: '/admin/team' },
+    { icon: Quote, label: 'Testimonials', path: '/admin/testimonials' },
     { icon: Megaphone, label: 'Announcements', path: '/admin/announcements' },
     { icon: Mail, label: 'Contacts', path: '/admin/contacts' },
   ];

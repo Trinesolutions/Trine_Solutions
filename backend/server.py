@@ -176,6 +176,27 @@ class TeamMemberCreate(BaseModel):
     bio: str
     image: str
 
+class Testimonial(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    role: str
+    company: str
+    content: str
+    avatar: str
+    image: Optional[str] = None
+    rating: int = 5
+
+class TestimonialCreate(BaseModel):
+    name: str
+    role: str
+    company: str
+    content: str
+    avatar: str
+    image: Optional[str] = None
+    rating: int = 5
+
 class Announcement(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
@@ -508,6 +529,55 @@ async def get_announcements():
             active_announcements.append(ann)
     return active_announcements
 
+@api_router.get("/testimonials", response_model=List[Testimonial])
+async def get_testimonials():
+    testimonials = await db.testimonials.find({}, {"_id": 0}).to_list(100)
+    if not testimonials:
+        default_testimonials = [
+            {
+                "id": "1",
+                "name": "Sarah Chen",
+                "role": "CTO",
+                "company": "Global Finance Corp",
+                "content": "Trine Solutions transformed our digital infrastructure, resulting in 40% cost savings and unprecedented scalability. Their team understood our complex requirements from day one.",
+                "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150",
+                "image": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800",
+                "rating": 5
+            },
+            {
+                "id": "2",
+                "name": "Marcus Johnson",
+                "role": "CEO",
+                "company": "TechInnovate Inc",
+                "content": "Their cybersecurity implementation protected us from a major breach. The ROI was immediate and substantial. I cannot recommend Trine Solutions highly enough.",
+                "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150",
+                "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800",
+                "rating": 5
+            },
+            {
+                "id": "3",
+                "name": "Elena Rodriguez",
+                "role": "Digital Director",
+                "company": "Retail Giant Ltd",
+                "content": "The e-commerce platform they built increased our conversion rate by 65%. Exceptional work from start to finish. Their attention to detail is unmatched.",
+                "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150",
+                "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800",
+                "rating": 5
+            },
+            {
+                "id": "4",
+                "name": "David Park",
+                "role": "VP Engineering",
+                "company": "HealthTech Solutions",
+                "content": "Working with Trine Solutions on our healthcare platform was transformative. They delivered a HIPAA-compliant solution that exceeded all our expectations.",
+                "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+                "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800",
+                "rating": 5
+            }
+        ]
+        return default_testimonials
+    return testimonials
+
 
 # ===================== ADMIN AUTH ROUTES =====================
 
@@ -602,6 +672,7 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
     team_count = await db.team_members.count_documents({})
     service_count = await db.services.count_documents({})
     announcement_count = await db.announcements.count_documents({"active": True})
+    testimonial_count = await db.testimonials.count_documents({})
     
     return {
         "blog_posts": blog_count,
@@ -610,7 +681,8 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
         "unread_contacts": unread_contacts,
         "team_members": team_count,
         "services": service_count,
-        "active_announcements": announcement_count
+        "active_announcements": announcement_count,
+        "testimonials": testimonial_count
     }
 
 # Blog Posts CRUD
@@ -740,6 +812,38 @@ async def admin_delete_team_member(member_id: str, current_user: dict = Depends(
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Team member not found")
     return {"message": "Team member deleted successfully"}
+
+# Testimonials CRUD
+@admin_router.get("/testimonials", response_model=List[Testimonial])
+async def admin_get_testimonials(current_user: dict = Depends(get_current_user)):
+    testimonials = await db.testimonials.find({}, {"_id": 0}).to_list(100)
+    return testimonials
+
+@admin_router.post("/testimonials", response_model=Testimonial)
+async def admin_create_testimonial(testimonial_data: TestimonialCreate, current_user: dict = Depends(get_current_user)):
+    testimonial = Testimonial(**testimonial_data.model_dump())
+    doc = testimonial.model_dump()
+    await db.testimonials.insert_one(doc)
+    return testimonial
+
+@admin_router.put("/testimonials/{testimonial_id}", response_model=Testimonial)
+async def admin_update_testimonial(testimonial_id: str, testimonial_data: TestimonialCreate, current_user: dict = Depends(get_current_user)):
+    existing = await db.testimonials.find_one({"id": testimonial_id})
+    if not existing:
+        raise HTTPException(status_code=404, detail="Testimonial not found")
+    
+    update_data = testimonial_data.model_dump()
+    await db.testimonials.update_one({"id": testimonial_id}, {"$set": update_data})
+    
+    updated = await db.testimonials.find_one({"id": testimonial_id}, {"_id": 0})
+    return Testimonial(**updated)
+
+@admin_router.delete("/testimonials/{testimonial_id}")
+async def admin_delete_testimonial(testimonial_id: str, current_user: dict = Depends(get_current_user)):
+    result = await db.testimonials.delete_one({"id": testimonial_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Testimonial not found")
+    return {"message": "Testimonial deleted successfully"}
 
 # Contacts Management
 @admin_router.get("/contacts", response_model=List[ContactForm])
