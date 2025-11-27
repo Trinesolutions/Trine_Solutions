@@ -19,6 +19,7 @@ import AdminTeam from "@/pages/admin/AdminTeam";
 import AdminAnnouncements from "@/pages/admin/AdminAnnouncements";
 import AdminContacts from "@/pages/admin/AdminContacts";
 import AdminTestimonials from "@/pages/admin/AdminTestimonials";
+import AdminPartners from "@/pages/admin/AdminPartners";
 import { Toaster } from "@/components/ui/sonner";
 
 // Layout wrapper to conditionally show navbar/footer
@@ -73,6 +74,7 @@ function App() {
             <Route path="/admin/services" element={<AdminServices />} />
             <Route path="/admin/team" element={<AdminTeam />} />
             <Route path="/admin/testimonials" element={<AdminTestimonials />} />
+            <Route path="/admin/partners" element={<AdminPartners />} />
             <Route path="/admin/announcements" element={<AdminAnnouncements />} />
             <Route path="/admin/contacts" element={<AdminContacts />} />
           </Routes>

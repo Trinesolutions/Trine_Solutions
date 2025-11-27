@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter, HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import File, UploadFile
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -13,10 +14,36 @@ from datetime import datetime, timezone, timedelta
 import bcrypt
 from jose import JWTError, jwt
 import secrets
+import cloudinary
+import cloudinary.uploader
 
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
+
+# Cloudinary configuration
+CLOUDINARY_ENABLED = False
+try:
+    cloudinary_config = {
+        'cloud_name': os.getenv('CLOUDINARY_CLOUD_NAME'),
+        'api_key': os.getenv('CLOUDINARY_API_KEY'),
+        'api_secret': os.getenv('CLOUDINARY_API_SECRET'),
+    }
+    
+    # Check if all required config values are present
+    if all(cloudinary_config.values()):
+        cloudinary.config(
+            cloud_name=cloudinary_config['cloud_name'],
+            api_key=cloudinary_config['api_key'],
+            api_secret=cloudinary_config['api_secret'],
+            secure=True
+        )
+        CLOUDINARY_ENABLED = True
+        print("Cloudinary configured successfully")
+    else:
+        print("Cloudinary not configured: missing environment variables")
+except Exception as e:
+    print(f"Cloudinary configuration error: {e}")
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -215,6 +242,28 @@ class AnnouncementCreate(BaseModel):
     active: bool = True
     expires_at: Optional[str] = None
 
+
+# Partner Models
+class Partner(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    logo_url: str
+    website: Optional[str] = None
+    priority: int = 0  # For ordering partners
+
+class PartnerCreate(BaseModel):
+    name: str
+    logo_url: str
+    website: Optional[str] = None
+    priority: int = 0
+
+class PartnerUpdate(BaseModel):
+    name: Optional[str] = None
+    logo_url: Optional[str] = None
+    website: Optional[str] = None
+    priority: Optional[int] = None
 
 # ===================== AUTH HELPERS =====================
 
@@ -505,7 +554,7 @@ async def get_team():
                 "name": "Emily Watson",
                 "position": "Director of Cloud Solutions",
                 "bio": "Cloud architect with deep expertise in AWS, Azure, and GCP implementations.",
-                "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400"
+                "image": "https://images.unsplash.com/photo-1580489944761-15a19d4ea984?w=400"
             }
         ]
         return default_team
@@ -912,6 +961,187 @@ async def admin_delete_announcement(ann_id: str, current_user: dict = Depends(ge
         raise HTTPException(status_code=404, detail="Announcement not found")
     return {"message": "Announcement deleted successfully"}
 
+# Partners CRUD
+@api_router.get("/partners", response_model=List[Partner])
+async def get_partners():
+    try:
+        partners = await db.partners.find({}, {"_id": 0}).sort("priority", 1).to_list(100)
+        if not partners:
+            # Return default partners
+            default_partners = [
+                {
+                    "id": "1",
+                    "name": "Amazon Web Services",
+                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/aws-logo.png",
+                    "website": "https://aws.amazon.com",
+                    "priority": 1
+                },
+                {
+                    "id": "2",
+                    "name": "Microsoft Azure",
+                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/azure-logo.png",
+                    "website": "https://azure.microsoft.com",
+                    "priority": 2
+                },
+                {
+                    "id": "3",
+                    "name": "Google Cloud",
+                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/gcp-logo.png",
+                    "website": "https://cloud.google.com",
+                    "priority": 3
+                },
+                {
+                    "id": "4",
+                    "name": "IBM Cloud",
+                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/ibm-cloud-logo.png",
+                    "website": "https://www.ibm.com/cloud",
+                    "priority": 4
+                },
+                {
+                    "id": "5",
+                    "name": "Oracle Cloud",
+                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/oracle-cloud-logo.png",
+                    "website": "https://www.oracle.com/cloud/",
+                    "priority": 5
+                },
+                {
+                    "id": "6",
+                    "name": "Salesforce",
+                    "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/salesforce-logo.png",
+                    "website": "https://www.salesforce.com",
+                    "priority": 6
+                }
+            ]
+            return default_partners
+        return partners
+    except Exception as e:
+        # If there's an error accessing the database, return default partners
+        logger.error(f"Error fetching partners: {e}")
+        default_partners = [
+            {
+                "id": "1",
+                "name": "Amazon Web Services",
+                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/aws-logo.png",
+                "website": "https://aws.amazon.com",
+                "priority": 1
+            },
+            {
+                "id": "2",
+                "name": "Microsoft Azure",
+                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/azure-logo.png",
+                "website": "https://azure.microsoft.com",
+                "priority": 2
+            },
+            {
+                "id": "3",
+                "name": "Google Cloud",
+                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/gcp-logo.png",
+                "website": "https://cloud.google.com",
+                "priority": 3
+            },
+            {
+                "id": "4",
+                "name": "IBM Cloud",
+                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/ibm-cloud-logo.png",
+                "website": "https://www.ibm.com/cloud",
+                "priority": 4
+            },
+            {
+                "id": "5",
+                "name": "Oracle Cloud",
+                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/oracle-cloud-logo.png",
+                "website": "https://www.oracle.com/cloud/",
+                "priority": 5
+            },
+            {
+                "id": "6",
+                "name": "Salesforce",
+                "logo_url": "https://res.cloudinary.com/demo/image/upload/v1621234567/salesforce-logo.png",
+                "website": "https://www.salesforce.com",
+                "priority": 6
+            }
+        ]
+        return default_partners
+
+@admin_router.get("/partners", response_model=List[Partner])
+async def admin_get_partners(current_user: dict = Depends(get_current_user)):
+    try:
+        partners = await db.partners.find({}, {"_id": 0}).sort("priority", 1).to_list(100)
+        return partners
+    except Exception as e:
+        logger.error(f"Error fetching partners for admin: {e}")
+        return []
+
+@admin_router.post("/partners", response_model=Partner)
+async def admin_create_partner(partner_data: PartnerCreate, current_user: dict = Depends(get_current_user)):
+    # Check if partners collection exists, if not it will be created automatically
+    try:
+        partner = Partner(**partner_data.model_dump())
+        doc = partner.model_dump()
+        await db.partners.insert_one(doc)
+        return partner
+    except Exception as e:
+        logger.error(f"Error creating partner: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to create partner: {str(e)}")
+
+@admin_router.put("/partners/{partner_id}", response_model=Partner)
+async def admin_update_partner(partner_id: str, partner_data: PartnerUpdate, current_user: dict = Depends(get_current_user)):
+    try:
+        existing = await db.partners.find_one({"id": partner_id})
+        if not existing:
+            raise HTTPException(status_code=404, detail="Partner not found")
+        
+        update_data = {k: v for k, v in partner_data.model_dump().items() if v is not None}
+        await db.partners.update_one({"id": partner_id}, {"$set": update_data})
+        
+        updated = await db.partners.find_one({"id": partner_id}, {"_id": 0})
+        return Partner(**updated)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating partner: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to update partner: {str(e)}")
+
+@admin_router.delete("/partners/{partner_id}")
+async def admin_delete_partner(partner_id: str, current_user: dict = Depends(get_current_user)):
+    try:
+        result = await db.partners.delete_one({"id": partner_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Partner not found")
+        return {"message": "Partner deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting partner: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete partner: {str(e)}")
+
+# Cloudinary Upload Endpoint
+@admin_router.post("/upload-image")
+async def upload_image_to_cloudinary(file: UploadFile = File(...), folder: str = "partners", current_user: dict = Depends(get_current_user)):
+    # Check if Cloudinary is enabled
+    if not CLOUDINARY_ENABLED:
+        raise HTTPException(status_code=404, detail="Cloudinary upload not configured")
+    
+    try:
+        # Read the file content
+        contents = await file.read()
+        
+        # Upload to Cloudinary
+        result = cloudinary.uploader.upload(
+            contents,
+            folder=folder,
+            resource_type="image"
+        )
+        
+        return {
+            "url": result["secure_url"],
+            "public_id": result["public_id"],
+            "format": result["format"],
+            "width": result["width"],
+            "height": result["height"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
 # Include the routers in the main app
 app.include_router(api_router)

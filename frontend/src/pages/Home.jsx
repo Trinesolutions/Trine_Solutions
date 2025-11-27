@@ -94,13 +94,15 @@ const industries = [
 ];
 
 const partners = [
-  { name: 'AWS', logo: '🅰' },
-  { name: 'Microsoft', logo: 'Ⓜ' },
-  { name: 'Google Cloud', logo: 'Ⓖ' },
-  { name: 'IBM', logo: 'Ⓘ' },
-  { name: 'Oracle', logo: 'Ⓞ' },
-  { name: 'Salesforce', logo: 'Ⓢ' }
+  { name: 'Amazon Web Services', logo: 'AWS', className: 'text-2xl font-bold text-orange-500' },
+  { name: 'Microsoft Azure', logo: 'AZURE', className: 'text-2xl font-bold text-blue-500' },
+  { name: 'Google Cloud', logo: 'GCP', className: 'text-2xl font-bold text-green-500' },
+  { name: 'IBM Cloud', logo: 'IBM', className: 'text-2xl font-bold text-red-500' },
+  { name: 'Oracle Cloud', logo: 'OCI', className: 'text-2xl font-bold text-red-600' },
+  { name: 'Salesforce', logo: 'SF', className: 'text-2xl font-bold text-blue-600' }
 ];
+
+// Remove the static partners array as we'll fetch from the backend
 
 const features = [
   {
@@ -175,22 +177,114 @@ const Home = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [dynamicTestimonials, setDynamicTestimonials] = useState(testimonials);
+  const [partners, setPartners] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch services, case studies, and blog posts (these should work on Render)
         const [servicesRes, casesRes, blogRes] = await Promise.all([
           axios.get(`${API}/services`),
           axios.get(`${API}/case-studies`),
           axios.get(`${API}/blog`),
         ]);
+        
         setServices(servicesRes.data.length > 0 ? servicesRes.data : mockServices);
         setCaseStudies(casesRes.data.slice(0, 3));
         setBlogPosts(blogRes.data.slice(0, 4));
+        
+        // Try to fetch partners, but handle 404 gracefully
+        try {
+          const partnersRes = await axios.get(`${API}/partners`);
+          setPartners(partnersRes.data);
+        } catch (partnerError) {
+          // If partners endpoint doesn't exist, use default partners
+          if (partnerError.response?.status === 404) {
+            setPartners([
+              { 
+                id: '1', 
+                name: 'Amazon Web Services', 
+                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/aws-logo.png',
+                website: 'https://aws.amazon.com'
+              },
+              { 
+                id: '2', 
+                name: 'Microsoft Azure', 
+                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/azure-logo.png',
+                website: 'https://azure.microsoft.com'
+              },
+              { 
+                id: '3', 
+                name: 'Google Cloud', 
+                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/gcp-logo.png',
+                website: 'https://cloud.google.com'
+              },
+              { 
+                id: '4', 
+                name: 'IBM Cloud', 
+                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/ibm-cloud-logo.png',
+                website: 'https://www.ibm.com/cloud'
+              },
+              { 
+                id: '5', 
+                name: 'Oracle Cloud', 
+                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/oracle-cloud-logo.png',
+                website: 'https://www.oracle.com/cloud/'
+              },
+              { 
+                id: '6', 
+                name: 'Salesforce', 
+                logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/salesforce-logo.png',
+                website: 'https://www.salesforce.com'
+              }
+            ]);
+          } else {
+            // Re-throw other errors
+            throw partnerError;
+          }
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
         // Use mock data when API fails
         setServices(mockServices);
+        setPartners([
+          { 
+            id: '1', 
+            name: 'Amazon Web Services', 
+            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/aws-logo.png',
+            website: 'https://aws.amazon.com'
+          },
+          { 
+            id: '2', 
+            name: 'Microsoft Azure', 
+            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/azure-logo.png',
+            website: 'https://azure.microsoft.com'
+          },
+          { 
+            id: '3', 
+            name: 'Google Cloud', 
+            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/gcp-logo.png',
+            website: 'https://cloud.google.com'
+          },
+          { 
+            id: '4', 
+            name: 'IBM Cloud', 
+            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/ibm-cloud-logo.png',
+            website: 'https://www.ibm.com/cloud'
+          },
+          { 
+            id: '5', 
+            name: 'Oracle Cloud', 
+            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/oracle-cloud-logo.png',
+            website: 'https://www.oracle.com/cloud/'
+          },
+          { 
+            id: '6', 
+            name: 'Salesforce', 
+            logo_url: 'https://res.cloudinary.com/demo/image/upload/v1621234567/salesforce-logo.png',
+            website: 'https://www.salesforce.com'
+          }
+        ]);
       }
     };
 
@@ -303,10 +397,10 @@ const Home = () => {
       </section>
 
       {/* Partners */}
-      <section className="py-16 bg-white dark:bg-trine-black" aria-labelledby="partners-title">
+      <section className="py-16 bg-gray-50 dark:bg-gray-900" aria-labelledby="partners-title">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 id="partners-title" className="text-3xl font-bold text-trine-black dark:text-white mb-4">
+            <h2 id="partners-title" className="text-3xl font-bold text-trine-orange dark:text-trine-orange mb-4">
               Trusted Partners
             </h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -314,17 +408,67 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="flex flex-wrap items-center justify-center gap-8">
-            {partners.map((partner, index) => (
-              <div
-                key={index}
-                className="group animate-on-scroll opacity-0"
-              >
-                <div className="text-3xl font-bold text-gray-400 group-hover:text-trine-orange transition-colors duration-300">
-                  {partner.logo}
+          {/* Continuous sliding animation container */}
+          <div className="overflow-hidden">
+            <div className="flex animate-slide">
+              {/* First set of partners */}
+              {partners.map((partner) => (
+                <div key={partner.id} className="flex-shrink-0 mx-8 flex flex-col items-center">
+                  <a
+                    href={partner.website || '#'}
+                    target={partner.website ? "_blank" : "_self"}
+                    rel={partner.website ? "noopener noreferrer" : ""}
+                    className="flex flex-col items-center group"
+                  >
+                    <div className="mb-2 transition-all duration-300 group-hover:scale-110">
+                      {partner.logo_url ? (
+                        <img 
+                          src={partner.logo_url} 
+                          alt={partner.name} 
+                          className="h-12 object-contain transition-all duration-300"
+                        />
+                      ) : (
+                        <div className="text-2xl font-bold text-gray-400 group-hover:text-trine-orange transition-colors duration-300">
+                          {partner.name.substring(0, 3).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-trine-orange transition-colors duration-300">
+                      {partner.name}
+                    </div>
+                  </a>
                 </div>
-              </div>
-            ))}
+              ))}
+              
+              {/* Duplicate set of partners for seamless looping */}
+              {partners.map((partner) => (
+                <div key={`${partner.id}-duplicate`} className="flex-shrink-0 mx-8 flex flex-col items-center">
+                  <a
+                    href={partner.website || '#'}
+                    target={partner.website ? "_blank" : "_self"}
+                    rel={partner.website ? "noopener noreferrer" : ""}
+                    className="flex flex-col items-center group"
+                  >
+                    <div className="mb-2 transition-all duration-300 group-hover:scale-110">
+                      {partner.logo_url ? (
+                        <img 
+                          src={partner.logo_url} 
+                          alt={partner.name} 
+                          className="h-12 object-contain transition-all duration-300"
+                        />
+                      ) : (
+                        <div className="text-2xl font-bold text-gray-400 group-hover:text-trine-orange transition-colors duration-300">
+                          {partner.name.substring(0, 3).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-trine-orange transition-colors duration-300">
+                      {partner.name}
+                    </div>
+                  </a>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
