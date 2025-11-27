@@ -215,8 +215,8 @@ const AdminBlog = () => {
   // Stats
   const stats = {
     totalPosts: posts.length,
-    publishedPosts: posts.filter(p => p.published !== false).length,
-    draftPosts: posts.filter(p => p.published === false).length,
+    publishedPosts: posts.filter(p => p.published === true).length,
+    draftPosts: posts.filter(p => p.published === false || p.published === undefined).length,
   };
 
   return (

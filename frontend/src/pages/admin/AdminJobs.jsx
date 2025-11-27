@@ -183,9 +183,9 @@ const AdminJobs = () => {
     const colors = {
       new: 'bg-trine-lightblue/20 text-trine-lightblue border border-trine-lightblue/30',
       reviewing: 'bg-trine-orange/20 text-trine-orange border border-trine-orange/30',
-      interview: 'bg-purple-500/20 text-purple-400 border border-purple-500/30',
+      interview: 'bg-trine-black/10 text-trine-black border border-trine-black/30 dark:bg-white/10 dark:text-white dark:border-white/30',
       accepted: 'bg-trine-green/20 text-trine-green border border-trine-green/30',
-      rejected: 'bg-red-500/20 text-red-400 border border-red-500/30',
+      rejected: 'bg-trine-orange/30 text-trine-black border border-trine-orange/50 dark:text-white',
     };
     return colors[status] || 'bg-gray-100 text-gray-800';
   };

@@ -54,8 +54,8 @@ except Exception as e:
 # MongoDB connection
 mongo_url = os.environ.get('MONGO_URL')
 if not mongo_url:
-    logger.error("Required database connection environment variable is not set")
-    raise ValueError("Database connection configuration is missing")
+    logger.error("MONGO_URL environment variable is not set. Please configure your database connection.")
+    raise ValueError("MONGO_URL environment variable is required but not set")
 
 db_name = os.environ.get('DB_NAME', 'trine_solutions')
 client = AsyncIOMotorClient(mongo_url)
