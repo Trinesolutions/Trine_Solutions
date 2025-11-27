@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Plus, Edit2, Trash2, X, Save, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Save, Eye, EyeOff, Upload, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import AdminLayout from './AdminLayout';
 
@@ -27,6 +27,8 @@ const AdminBlog = () => {
     tags: '',
     published: true,
   });
+  const [uploadingFeatured, setUploadingFeatured] = useState(false);
+  const [uploadingGallery, setUploadingGallery] = useState(false);
 
   const token = localStorage.getItem('adminToken');
 
@@ -60,6 +62,63 @@ const AdminBlog = () => {
       ...formData,
       [name]: type === 'checkbox' ? checked : value,
     });
+  };
+
+  const handleImageUpload = async (file, type = 'featured') => {
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image size must be less than 5MB');
+      return;
+    }
+
+    const formDataUpload = new FormData();
+    formDataUpload.append('file', file);
+    formDataUpload.append('folder', 'blog');
+
+    try {
+      if (type === 'featured') {
+        setUploadingFeatured(true);
+      } else {
+        setUploadingGallery(true);
+      }
+
+      const response = await axios.post(`${API}/upload-image`, formDataUpload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const imageUrl = response.data.url;
+
+      if (type === 'featured') {
+        setFormData({ ...formData, featured_image: imageUrl });
+        toast.success('Featured image uploaded successfully!');
+      } else {
+        // Add to gallery images
+        const currentGallery = formData.gallery_images ? formData.gallery_images.split(',').map(img => img.trim()) : [];
+        currentGallery.push(imageUrl);
+        setFormData({ ...formData, gallery_images: currentGallery.join(', ') });
+        toast.success('Gallery image uploaded successfully!');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error(error.response?.data?.detail || 'Failed to upload image');
+    } finally {
+      if (type === 'featured') {
+        setUploadingFeatured(false);
+      } else {
+        setUploadingGallery(false);
+      }
+    }
   };
 
   const openModal = (post = null) => {
@@ -276,15 +335,47 @@ const AdminBlog = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Featured Image URL *</label>
-                    <input
-                      type="url"
-                      name="featured_image"
-                      value={formData.featured_image}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
-                    />
+                    <label className="block text-sm font-medium mb-2">Featured Image *</label>
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <input
+                          type="url"
+                          name="featured_image"
+                          value={formData.featured_image}
+                          onChange={handleChange}
+                          placeholder="Image URL or upload below"
+                          required
+                          className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                        />
+                        <label className="px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl cursor-pointer hover:from-orange-600 hover:to-orange-700 transition-all flex items-center gap-2 whitespace-nowrap">
+                          {uploadingFeatured ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              Uploading...
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-4 h-4" />
+                              Upload
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleImageUpload(e.target.files[0], 'featured')}
+                            className="hidden"
+                            disabled={uploadingFeatured}
+                          />
+                        </label>
+                      </div>
+                      {formData.featured_image && (
+                        <img
+                          src={formData.featured_image}
+                          alt="Featured preview"
+                          className="w-full h-32 object-cover rounded-xl border border-gray-300"
+                        />
+                      )}
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Author *</label>
@@ -298,15 +389,64 @@ const AdminBlog = () => {
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Gallery Images (comma-separated URLs)</label>
-                    <textarea
-                      name="gallery_images"
-                      value={formData.gallery_images}
-                      onChange={handleChange}
-                      rows={2}
-                      placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500 resize-none"
-                    />
+                    <label className="block text-sm font-medium mb-2">Gallery Images</label>
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <textarea
+                          name="gallery_images"
+                          value={formData.gallery_images}
+                          onChange={handleChange}
+                          rows={2}
+                          placeholder="Comma-separated URLs or upload images below"
+                          className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500 resize-none"
+                        />
+                        <label className="px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl cursor-pointer hover:from-green-600 hover:to-green-700 transition-all flex items-center gap-2 whitespace-nowrap h-fit">
+                          {uploadingGallery ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              Uploading...
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-4 h-4" />
+                              Add Image
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleImageUpload(e.target.files[0], 'gallery')}
+                            className="hidden"
+                            disabled={uploadingGallery}
+                          />
+                        </label>
+                      </div>
+                      {formData.gallery_images && formData.gallery_images.split(',').filter(img => img.trim()).length > 0 && (
+                        <div className="grid grid-cols-4 gap-2">
+                          {formData.gallery_images.split(',').map((img, idx) => (
+                            img.trim() && (
+                              <div key={idx} className="relative group">
+                                <img
+                                  src={img.trim()}
+                                  alt={`Gallery ${idx + 1}`}
+                                  className="w-full h-20 object-cover rounded-lg border border-gray-300"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const images = formData.gallery_images.split(',').map(i => i.trim()).filter((_, i) => i !== idx);
+                                    setFormData({ ...formData, gallery_images: images.join(', ') });
+                                  }}
+                                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <X className="w-3 h-3" />
+                                </button>
+                              </div>
+                            )
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Post Type *</label>
