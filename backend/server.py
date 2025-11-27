@@ -260,13 +260,13 @@ class CaseStudyCreate(BaseModel):
     technologies: List[str] = []
 
 class BlogPost(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
     excerpt: str
     content: str
-    featured_image: str
+    featured_image: str = Field(alias="image")
     gallery_images: List[str] = []  # Additional images for the blog post
     post_type: str = "blog"  # "blog" or "company-update"
     published_date: str = Field(default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%d"))
