@@ -1277,13 +1277,27 @@ async def upload_image_to_cloudinary(file: UploadFile = File(...), folder: str =
 app.include_router(api_router)
 app.include_router(admin_router)
 
+# Parse CORS origins from environment variable
+cors_origins_raw = os.environ.get('CORS_ORIGINS', '*')
+if cors_origins_raw == '*':
+    cors_origins = ["*"]
+else:
+    cors_origins = [origin.strip() for origin in cors_origins_raw.split(',')]
+
+print(f"CORS Origins: {cors_origins}")  # Debug log
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_origins=cors_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Handle preflight OPTIONS requests explicitly
+@app.options("/{rest_of_path:path}")
+async def preflight_handler(rest_of_path: str):
+    return {}
 
 # Configure logging
 logging.basicConfig(
