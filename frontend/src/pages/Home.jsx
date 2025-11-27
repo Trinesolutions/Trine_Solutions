@@ -20,7 +20,7 @@ const iconMap = {
   Wrench,
 };
 
-// Mock data for services when API is not available
+// Mock data for services when API not available
 const mockServices = [
   {
     id: 1,
