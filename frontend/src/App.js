@@ -7,6 +7,7 @@ import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Services from "@/pages/Services";
 import Industries from "@/pages/Industries";
+import IndustryDetail from "@/pages/IndustryDetail";
 import Careers from "@/pages/Careers";
 import Contact from "@/pages/Contact";
 import Blog from "@/pages/Blog";
@@ -16,6 +17,7 @@ import AdminBlog from "@/pages/admin/AdminBlog";
 import AdminCaseStudies from "@/pages/admin/AdminCaseStudies";
 import AdminServices from "@/pages/admin/AdminServices";
 import AdminTeam from "@/pages/admin/AdminTeam";
+import AdminJobs from "@/pages/admin/AdminJobs";
 import AdminAnnouncements from "@/pages/admin/AdminAnnouncements";
 import AdminContacts from "@/pages/admin/AdminContacts";
 import AdminTestimonials from "@/pages/admin/AdminTestimonials";
@@ -67,6 +69,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/industries" element={<Industries />} />
+            <Route path="/industries/:slug" element={<IndustryDetail />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/blog" element={<Blog />} />
@@ -78,6 +81,7 @@ function App() {
             <Route path="/admin/case-studies" element={<AdminCaseStudies />} />
             <Route path="/admin/services" element={<AdminServices />} />
             <Route path="/admin/team" element={<AdminTeam />} />
+            <Route path="/admin/jobs" element={<AdminJobs />} />
             <Route path="/admin/testimonials" element={<AdminTestimonials />} />
             <Route path="/admin/partners" element={<AdminPartners />} />
             <Route path="/admin/announcements" element={<AdminAnnouncements />} />

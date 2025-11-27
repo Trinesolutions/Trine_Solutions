@@ -269,6 +269,61 @@ class PartnerUpdate(BaseModel):
     website: Optional[str] = None
     priority: Optional[int] = None
 
+# Career/Job Models
+class Job(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    department: str
+    location: str
+    type: str  # Full-time, Part-time, Contract, etc.
+    salary: str
+    description: str
+    requirements: List[str] = []
+    responsibilities: List[str] = []
+    benefits: List[str] = []
+    active: bool = True
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class JobCreate(BaseModel):
+    title: str
+    department: str
+    location: str
+    type: str
+    salary: str
+    description: str
+    requirements: List[str] = []
+    responsibilities: List[str] = []
+    benefits: List[str] = []
+    active: bool = True
+
+class JobApplication(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    job_id: str
+    job_title: str
+    name: str
+    email: str
+    phone: str
+    resume_url: str
+    cover_letter: Optional[str] = None
+    linkedin_url: Optional[str] = None
+    portfolio_url: Optional[str] = None
+    applied_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    status: str = "new"  # new, reviewing, interview, rejected, accepted
+
+class JobApplicationCreate(BaseModel):
+    job_id: str
+    job_title: str
+    name: str
+    email: EmailStr
+    phone: str
+    cover_letter: Optional[str] = None
+    linkedin_url: Optional[str] = None
+    portfolio_url: Optional[str] = None
+
 # ===================== AUTH HELPERS =====================
 
 def hash_password(password: str) -> str:
@@ -1118,6 +1173,167 @@ async def admin_delete_partner(partner_id: str, current_user: dict = Depends(get
     except Exception as e:
         logger.error(f"Error deleting partner: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to delete partner: {str(e)}")
+
+# ===================== JOBS/CAREERS ENDPOINTS =====================
+
+# Public endpoints
+@api_router.get("/jobs", response_model=List[Job])
+async def get_active_jobs():
+    try:
+        jobs = await db.jobs.find({"active": True}, {"_id": 0}).sort("created_at", -1).to_list(100)
+        return jobs
+    except Exception as e:
+        logger.error(f"Error fetching jobs: {e}")
+        return []
+
+@api_router.post("/jobs/apply")
+async def submit_job_application(
+    job_id: str,
+    job_title: str,
+    name: str,
+    email: str,
+    phone: str,
+    cover_letter: str = None,
+    linkedin_url: str = None,
+    portfolio_url: str = None,
+    resume: UploadFile = File(...)
+):
+    """Submit job application with resume upload to Cloudinary"""
+    try:
+        # Validate file type
+        if not resume.content_type.startswith('application/'):
+            raise HTTPException(status_code=400, detail="Only PDF, DOC, or DOCX files are allowed")
+        
+        # Validate file size (max 5MB)
+        contents = await resume.read()
+        if len(contents) > 5 * 1024 * 1024:
+            raise HTTPException(status_code=400, detail="File size must be less than 5MB")
+        
+        # Upload resume to Cloudinary
+        if CLOUDINARY_ENABLED:
+            try:
+                result = cloudinary.uploader.upload(
+                    contents,
+                    folder="resumes",
+                    resource_type="raw",
+                    public_id=f"{name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                )
+                resume_url = result["secure_url"]
+            except Exception as e:
+                logger.error(f"Cloudinary upload error: {e}")
+                raise HTTPException(status_code=500, detail="Failed to upload resume")
+        else:
+            raise HTTPException(status_code=503, detail="Resume upload service not configured")
+        
+        # Create application record
+        application = JobApplication(
+            job_id=job_id,
+            job_title=job_title,
+            name=name,
+            email=email,
+            phone=phone,
+            resume_url=resume_url,
+            cover_letter=cover_letter,
+            linkedin_url=linkedin_url,
+            portfolio_url=portfolio_url
+        )
+        
+        doc = application.model_dump()
+        await db.job_applications.insert_one(doc)
+        
+        return {"message": "Application submitted successfully", "application_id": application.id}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error submitting job application: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to submit application: {str(e)}")
+
+# Admin endpoints
+@admin_router.get("/jobs", response_model=List[Job])
+async def admin_get_all_jobs(current_user: dict = Depends(get_current_user)):
+    try:
+        jobs = await db.jobs.find({}, {"_id": 0}).sort("created_at", -1).to_list(100)
+        return jobs
+    except Exception as e:
+        logger.error(f"Error fetching jobs for admin: {e}")
+        return []
+
+@admin_router.post("/jobs", response_model=Job)
+async def admin_create_job(job_data: JobCreate, current_user: dict = Depends(get_current_user)):
+    try:
+        job = Job(**job_data.model_dump())
+        doc = job.model_dump()
+        await db.jobs.insert_one(doc)
+        return job
+    except Exception as e:
+        logger.error(f"Error creating job: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to create job: {str(e)}")
+
+@admin_router.put("/jobs/{job_id}", response_model=Job)
+async def admin_update_job(job_id: str, job_data: JobCreate, current_user: dict = Depends(get_current_user)):
+    try:
+        existing = await db.jobs.find_one({"id": job_id})
+        if not existing:
+            raise HTTPException(status_code=404, detail="Job not found")
+        
+        update_data = job_data.model_dump()
+        await db.jobs.update_one({"id": job_id}, {"$set": update_data})
+        
+        updated = await db.jobs.find_one({"id": job_id}, {"_id": 0})
+        return Job(**updated)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating job: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to update job: {str(e)}")
+
+@admin_router.delete("/jobs/{job_id}")
+async def admin_delete_job(job_id: str, current_user: dict = Depends(get_current_user)):
+    try:
+        result = await db.jobs.delete_one({"id": job_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Job not found")
+        return {"message": "Job deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting job: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete job: {str(e)}")
+
+@admin_router.get("/job-applications", response_model=List[JobApplication])
+async def admin_get_job_applications(current_user: dict = Depends(get_current_user)):
+    try:
+        applications = await db.job_applications.find({}, {"_id": 0}).sort("applied_at", -1).to_list(500)
+        return applications
+    except Exception as e:
+        logger.error(f"Error fetching job applications: {e}")
+        return []
+
+@admin_router.put("/job-applications/{application_id}/status")
+async def admin_update_application_status(
+    application_id: str,
+    status: str,
+    current_user: dict = Depends(get_current_user)
+):
+    try:
+        valid_statuses = ["new", "reviewing", "interview", "rejected", "accepted"]
+        if status not in valid_statuses:
+            raise HTTPException(status_code=400, detail=f"Invalid status. Must be one of: {', '.join(valid_statuses)}")
+        
+        result = await db.job_applications.update_one(
+            {"id": application_id},
+            {"$set": {"status": status}}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Application not found")
+        
+        return {"message": "Application status updated successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating application status: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to update status: {str(e)}")
 
 # Cloudinary Upload Endpoint
 @admin_router.post("/upload-image")

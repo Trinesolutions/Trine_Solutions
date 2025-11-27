@@ -6,6 +6,7 @@ const Industries = () => {
     {
       icon: Building2,
       name: 'Banking & Finance',
+      slug: 'banking-finance',
       description: 'Digital banking solutions, risk management, regulatory compliance, and fraud detection systems.',
       image: 'https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?w=800',
       solutions: ['Core Banking Modernization', 'Payment Processing', 'Wealth Management', 'Compliance Automation'],
@@ -16,6 +17,7 @@ const Industries = () => {
     {
       icon: Heart,
       name: 'Healthcare',
+      slug: 'healthcare',
       description: 'Patient care optimization, electronic health records, telemedicine platforms, and medical IoT solutions.',
       image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800',
       solutions: ['EHR Integration', 'Telemedicine Platforms', 'Medical Imaging AI', 'Patient Data Security'],
@@ -26,6 +28,7 @@ const Industries = () => {
     {
       icon: Wifi,
       name: 'Telecommunications',
+      slug: 'telecommunications',
       description: '5G network optimization, IoT connectivity, cloud communications, and next-generation infrastructure solutions.',
       image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800',
       solutions: ['5G Network Deployment', 'IoT Connectivity', 'Cloud Communications', 'Network Security'],
@@ -36,6 +39,7 @@ const Industries = () => {
     {
       icon: Factory,
       name: 'Manufacturing',
+      slug: 'manufacturing',
       description: 'Smart factory solutions, predictive maintenance, supply chain optimization, and quality control systems.',
       image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800',
       solutions: ['Industrial IoT', 'Predictive Maintenance', 'Supply Chain Visibility', 'Quality Automation'],
@@ -46,6 +50,7 @@ const Industries = () => {
     {
       icon: ShoppingBag,
       name: 'Retail & E-Commerce',
+      slug: 'retail-ecommerce',
       description: 'Omnichannel commerce, inventory management, customer analytics, and personalized shopping experiences.',
       image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800',
       solutions: ['E-commerce Platforms', 'Inventory Optimization', 'Customer Analytics', 'Personalization AI'],
@@ -56,6 +61,7 @@ const Industries = () => {
     {
       icon: GraduationCap,
       name: 'Education',
+      slug: 'education',
       description: 'Learning management systems, virtual classrooms, student analytics, and educational content platforms.',
       image: 'https://img.freepik.com/free-vector/modern-hand-drawn-education-concept_23-2147906438.jpg?semt=ais_hybrid&w=740&q=80',
       solutions: ['LMS Implementation', 'Virtual Learning', 'Student Performance Analytics', 'Administrative Automation'],
@@ -66,6 +72,7 @@ const Industries = () => {
     {
       icon: Truck,
       name: 'Logistics & Transportation',
+      slug: 'logistics-transportation',
       description: 'Fleet management, route optimization, real-time tracking, and warehouse automation solutions.',
       image: 'https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=800',
       solutions: ['Fleet Management', 'Route Optimization', 'Warehouse Automation', 'Real-time Tracking'],
@@ -76,6 +83,7 @@ const Industries = () => {
     {
       icon: Satellite,
       name: 'Media & Broadcasting',
+      slug: 'media-broadcasting',
       description: 'Content delivery networks, streaming platforms, digital rights management, and audience analytics.',
       image: 'https://images.unsplash.com/photo-1563089145-599997674d42?w=800',
       solutions: ['CDN Optimization', 'Streaming Platforms', 'Content Protection', 'Audience Analytics'],
@@ -286,11 +294,15 @@ const Industries = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {industries.map((industry, index) => (
-              <div
+              <Link
                 key={index}
-                className="group relative overflow-hidden rounded-3xl bg-white backdrop-blur-sm border border-gray-200/50 hover:shadow-2xl hover:shadow-orange-500/20 transform hover:scale-105 transition-all duration-500"
-                data-testid={`industry-card-${index}`}
+                to={`/industries/${industry.slug}`}
+                className="block"
               >
+                <div
+                  className="group relative overflow-hidden rounded-3xl bg-white backdrop-blur-sm border border-gray-200/50 hover:shadow-2xl hover:shadow-orange-500/20 transform hover:scale-105 transition-all duration-500 cursor-pointer"
+                  data-testid={`industry-card-${index}`}
+                >
                 {/* Background Gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${industry.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
                 
@@ -340,6 +352,7 @@ const Industries = () => {
                 {/* Hover Border Glow */}
                 <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-orange-400/50 transition-all duration-500"></div>
               </div>
+              </Link>
             ))}
           </div>
         </div>

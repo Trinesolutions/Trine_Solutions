@@ -66,13 +66,13 @@ const Footer = () => {
             {/* Brand Section */}
             <div className="lg:col-span-2">
               <div className="mb-6">
-                <h2 className="text-3xl font-bold mb-2">
-                  <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
-                    Trine
-                  </span>
-                  {' '}
-                  <span className="text-white">Solutions</span>
-                </h2>
+                <Link to="/" className="inline-block">
+                  <img 
+                    src="/trine_logo.png" 
+                    alt="Trine Solutions Logo" 
+                    className="h-16 w-auto mb-3"
+                  />
+                </Link>
                 <p className="text-sm text-green-400 font-medium">Digital Innovation Partner</p>
               </div>
               
@@ -132,33 +132,6 @@ const Footer = () => {
               </div>
             ))}
           </div>
-
-          {/* Newsletter Section */}
-          <div className="mt-16 pt-12 border-t border-gray-800">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h3 className="text-2xl font-bold mb-3">
-                  <span className="bg-gradient-to-r from-orange-500 to-green-500 bg-clip-text text-transparent">
-                    Stay Updated
-                  </span>
-                </h3>
-                <p className="text-gray-400">
-                  Subscribe to our newsletter for the latest insights on digital transformation and technology trends.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <input 
-                  type="email" 
-                  placeholder="Enter your email"
-                  className="flex-1 px-6 py-3 rounded-lg bg-white/5 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-colors"
-                />
-                <button className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/30">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-          </div>
-
           {/* Social Links */}
           <div className="mt-12 pt-8 border-t border-gray-800">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">

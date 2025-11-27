@@ -57,12 +57,11 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
                 data-testid="logo-link"
                 aria-label="Trine Solutions - Home"
               >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-trine-orange via-trine-lightblue to-trine-green flex items-center justify-center text-white font-bold text-xl" aria-hidden="true">
-                  T
-                </div>
-                <span className="text-xl font-bold hidden sm:block" style={{ color: darkMode ? '#F5F5F5' : '#0A0A0A' }}>
-                  Trine Solutions
-                </span>
+                <img 
+                  src="/trine_logo.png" 
+                  alt="Trine Solutions Logo" 
+                  className="h-14 w-auto"
+                />
               </Link>
 
               {/* Desktop Navigation */}
