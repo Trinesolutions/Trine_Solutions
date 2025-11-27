@@ -60,6 +60,47 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 # Security
 security = HTTPBearer()
 
+# ===================== AUTH HELPERS =====================
+
+def hash_password(password: str) -> str:
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+def verify_password(password: str, hashed: str) -> bool:
+    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        token = credentials.credentials
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    
+    user = await db.admin_users.find_one({"id": user_id}, {"_id": 0})
+    if user is None:
+        raise credentials_exception
+    if not user.get("is_active", True):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User account is disabled")
+    
+    return AdminUserResponse(**user)
+
 # Create the main app without a prefix
 app = FastAPI()
 
@@ -69,6 +110,32 @@ api_router = APIRouter(prefix="/api")
 # Create admin router
 admin_router = APIRouter(prefix="/api/admin")
 
+# ===================== STARTUP EVENT =====================
+
+@app.on_event("startup")
+async def startup_event():
+    """Create default admin user if none exists"""
+    try:
+        admin_count = await db.admin_users.count_documents({})
+        if admin_count == 0:
+            default_admin = AdminUser(
+                email="admin@trinesolutions.com",
+                password_hash=hash_password("Admin@123"),
+                name="System Administrator",
+                role="admin",
+                is_active=True
+            )
+            doc = default_admin.model_dump()
+            doc['created_at'] = doc['created_at'].isoformat()
+            await db.admin_users.insert_one(doc)
+            print("✅ Default admin user created:")
+            print("   Email: admin@trinesolutions.com")
+            print("   Password: Admin@123")
+            print("   Please change this password after first login!")
+        else:
+            print(f"✅ Found {admin_count} admin user(s) in database")
+    except Exception as e:
+        print(f"⚠️  Error during startup: {e}")
 
 # ===================== MODELS =====================
 
@@ -324,47 +391,9 @@ class JobApplicationCreate(BaseModel):
     linkedin_url: Optional[str] = None
     portfolio_url: Optional[str] = None
 
-# ===================== AUTH HELPERS =====================
 
-def hash_password(password: str) -> str:
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+# ===================== PUBLIC API ROUTES =====================
 
-def verify_password(password: str, hashed: str) -> bool:
-    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
-
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
-    else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        token = credentials.credentials
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id: str = payload.get("sub")
-        if user_id is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
-    
-    user = await db.admin_users.find_one({"id": user_id}, {"_id": 0})
-    if user is None:
-        raise credentials_exception
-    if not user.get("is_active", True):
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User account is disabled")
-    return user
-
-# Routes
 @api_router.get("/")
 async def root():
     return {"message": "Trine Solutions API"}
