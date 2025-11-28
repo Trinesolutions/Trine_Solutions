@@ -16,6 +16,13 @@ const sanitizeHTML = (html) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
   
+  // Handle case where body is null (can happen in certain environments)
+  if (!doc.body) {
+    // Fallback: return HTML-escaped content (tempDiv.innerHTML contains escaped version
+    // since we set tempDiv.textContent above, which safely escapes any HTML)
+    return tempDiv.innerHTML;
+  }
+  
   const sanitize = (node) => {
     if (node.nodeType === Node.TEXT_NODE) return;
     if (node.nodeType === Node.ELEMENT_NODE) {
