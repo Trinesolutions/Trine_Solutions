@@ -45,13 +45,28 @@ const Services = () => {
           <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl animate-float"></div>
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-trine-green rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
         </div>
-        <div className="container relative z-10 text-center text-white">
-          <h1 className="text-5xl lg:text-6xl font-bold mb-6 animate-fade-in-up" data-testid="services-hero-title">
-            Enterprise Solutions That Drive Results
-          </h1>
-          <p className="text-lg lg:text-xl max-w-3xl mx-auto opacity-95 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            Comprehensive services designed to accelerate your digital transformation and achieve sustainable growth.
-          </p>
+        <div className="container relative z-10 text-white">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <h1 className="text-5xl lg:text-6xl font-bold mb-6 animate-fade-in-up" data-testid="services-hero-title">
+                Enterprise Solutions That Drive Results
+              </h1>
+              <p className="text-lg lg:text-xl max-w-3xl mx-auto lg:mx-0 opacity-95 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                Comprehensive services designed to accelerate your digital transformation and achieve sustainable growth.
+              </p>
+            </div>
+            
+            {/* Right Side - Image */}
+            <div className="hidden lg:block relative animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+               <div className="relative w-full h-[500px] flex items-center justify-center">
+                 <img 
+                   src="/service-banner-graphic-new.svg" 
+                   alt="Enterprise Services" 
+                   className="w-full h-full object-contain drop-shadow-2xl transform scale-125"
+                 />
+               </div>
+            </div>
+          </div>
         </div>
       </section>
 

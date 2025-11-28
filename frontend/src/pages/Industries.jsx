@@ -156,43 +156,50 @@ const Industries = () => {
           }}></div>
         </div>
 
-        <div className="container relative z-10 text-center text-white px-6">
+        <div className="container relative z-10 px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left text-white">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 leading-tight" data-testid="industries-hero-title">
+                <span className="block text-white drop-shadow-2xl animate-fade-in-up">Industry-Specific</span>
+                <span className="block bg-gradient-to-r from-green-300 via-green-200 to-green-100 bg-clip-text text-transparent animate-fade-in-up drop-shadow-lg" style={{ animationDelay: '0.1s' }}>
+                  Digital Solutions
+                </span>
+              </h1>
+              
+              <p className="text-xl sm:text-2xl lg:text-2xl mb-12 text-white/95 leading-relaxed font-light animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                Transforming businesses across sectors with cutting-edge technology and deep domain expertise
+              </p>
 
-          
-          <h1 className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-black mb-8 leading-tight" data-testid="industries-hero-title">
-            <span className="block text-white drop-shadow-2xl animate-fade-in-up">Industry-Specific</span>
-            <span className="block bg-gradient-to-r from-green-300 via-green-200 to-green-100 bg-clip-text text-transparent animate-fade-in-up drop-shadow-lg" style={{ animationDelay: '0.1s' }}>
-              Digital Solutions
-            </span>
-          </h1>
-          
-          <p className="text-xl sm:text-2xl lg:text-3xl max-w-5xl mx-auto mb-12 text-white/95 leading-relaxed font-light animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            Transforming businesses across sectors with cutting-edge technology and deep domain expertise
-          </p>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                <Link to="/contact">
+                  <button className="group px-10 py-5 bg-white text-orange-600 rounded-2xl font-bold text-lg hover:bg-green-50 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-2xl hover:shadow-green-500/50 flex items-center gap-3">
+                    <span>Explore Solutions</span>
+                    <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
+                  </button>
+                </Link>
+                <Link to="/case-studies">
+                  <button className="px-10 py-5 border-2 border-white/40 text-white rounded-2xl font-bold text-lg backdrop-blur-md hover:bg-white/20 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-xl">
+                    View Success Stories
+                  </button>
+                </Link>
+              </div>
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <Link to="/contact">
-              <button className="group px-10 py-5 bg-white text-orange-600 rounded-2xl font-bold text-lg hover:bg-green-50 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-2xl hover:shadow-green-500/50 flex items-center gap-3">
-                <span>Explore Solutions</span>
-                <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-              </button>
-            </Link>
-            <Link to="/case-studies">
-              <button className="px-10 py-5 border-2 border-white/40 text-white rounded-2xl font-bold text-lg backdrop-blur-md hover:bg-white/20 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-xl">
-                View Success Stories
-              </button>
-            </Link>
+            {/* Right Side Image */}
+            <div className="hidden lg:block relative animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+               <img src="/content-writing-services-provider.svg" alt="Industry Solutions" className="w-full h-auto object-contain drop-shadow-2xl animate-float" />
+            </div>
           </div>
 
           {/* Quick Stats */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto lg:mx-0 lg:max-w-none">
             {[
               { value: '8+', label: 'Industries' },
               { value: '200+', label: 'Projects' },
               { value: '99%', label: 'Success Rate' },
               { value: '24/7', label: 'Support' }
             ].map((stat, index) => (
-              <div key={index} className="text-center animate-fade-in-up" style={{ animationDelay: `${0.4 + index * 0.1}s` }}>
+              <div key={index} className="text-center lg:text-left animate-fade-in-up" style={{ animationDelay: `${0.4 + index * 0.1}s` }}>
                 <div className="text-4xl lg:text-5xl font-black text-white mb-2 drop-shadow-lg">{stat.value}</div>
                 <div className="text-sm lg:text-base text-white/90 font-medium">{stat.label}</div>
               </div>

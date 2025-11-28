@@ -66,34 +66,50 @@ const Blog = () => {
           }}></div>
         </div>
 
-        <div className="container relative z-10 text-center text-white px-6">
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/20 backdrop-blur-md border border-white/30 mb-8 shadow-xl">
-            <BookOpen className="w-5 h-5 text-white animate-pulse" />
-            <span className="text-sm font-semibold tracking-wide">Latest Articles & Updates</span>
-          </div>
-          
-          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black mb-8 leading-tight">
-            <span className="block text-white drop-shadow-2xl">Our Blog &</span>
-            <span className="block bg-gradient-to-r from-green-300 via-green-200 to-green-100 bg-clip-text text-transparent drop-shadow-lg">
-              Insights
-            </span>
-          </h1>
-          
-          <p className="text-xl sm:text-2xl max-w-4xl mx-auto mb-12 text-white/95 leading-relaxed font-light">
-            Stay updated with the latest trends, insights, and innovations in technology and digital transformation
-          </p>
+        <div className="container relative z-10 px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Content */}
+            <div className="text-center lg:text-left text-white">
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/20 backdrop-blur-md border border-white/30 mb-8 shadow-xl">
+                <BookOpen className="w-5 h-5 text-white animate-pulse" />
+                <span className="text-sm font-semibold tracking-wide">Latest Articles & Updates</span>
+              </div>
+              
+              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black mb-8 leading-tight">
+                <span className="block text-white drop-shadow-2xl">Our Blog &</span>
+                <span className="block bg-gradient-to-r from-green-300 via-green-200 to-green-100 bg-clip-text text-transparent drop-shadow-lg">
+                  Insights
+                </span>
+              </h1>
+              
+              <p className="text-xl sm:text-2xl max-w-4xl mx-auto lg:mx-0 mb-12 text-white/95 leading-relaxed font-light">
+                Stay updated with the latest trends, insights, and innovations in technology and digital transformation
+              </p>
 
-          {/* Search Bar */}
-          <div className="max-w-2xl mx-auto">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search articles..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-6 py-5 pr-14 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-300 text-lg"
-              />
-              <Search className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-6 text-white/70" />
+              {/* Search Bar */}
+              <div className="max-w-2xl mx-auto lg:mx-0">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search articles..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-6 py-5 pr-14 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-300 text-lg"
+                  />
+                  <Search className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-6 text-white/70" />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Image */}
+            <div className="hidden lg:block relative">
+               <div className="relative w-full h-[600px] flex items-center justify-center">
+                 <img 
+                   src="/blog-banner.svg" 
+                   alt="Blog Insights" 
+                   className="w-full h-full object-contain drop-shadow-2xl transform scale-125"
+                 />
+               </div>
             </div>
           </div>
         </div>

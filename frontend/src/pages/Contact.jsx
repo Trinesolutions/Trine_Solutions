@@ -85,37 +85,44 @@ const Contact = () => {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
         </div>
 
-        <div className="container relative z-10 text-center text-white">
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-          
-          <h1 className="text-6xl lg:text-8xl font-black mb-8 animate-fade-in-up bg-gradient-to-r from-white via-cyan-100 to-blue-200 bg-clip-text text-transparent" data-testid="contact-hero-title">
-            Let's Build
-            <span className="block bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Something Great</span>
-          </h1>
-          
-          <p className="text-xl lg:text-2xl max-w-4xl mx-auto mb-12 opacity-90 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            Ready to transform your business? Let's discuss how our expertise can drive your digital transformation journey.
-          </p>
+        <div className="container relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left text-white">
+              <h1 className="text-6xl lg:text-8xl font-black mb-8 animate-fade-in-up bg-gradient-to-r from-white via-cyan-100 to-blue-200 bg-clip-text text-transparent" data-testid="contact-hero-title">
+                Let's Build
+                <span className="block bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Something Great</span>
+              </h1>
+              
+              <p className="text-xl lg:text-2xl max-w-4xl mx-auto lg:mx-0 mb-12 opacity-90 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                Ready to transform your business? Let's discuss how our expertise can drive your digital transformation journey.
+              </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <button 
-              onClick={() => document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' })}
-              className="px-8 py-4 bg-white text-blue-600 rounded-2xl font-bold hover:bg-cyan-50 transform hover:scale-105 transition-all duration-300 shadow-2xl"
-            >
-              Send Message
-            </button>
-            <a 
-              href="tel:+14252025165"
-              className="px-8 py-4 border-2 border-white/30 text-white rounded-2xl font-bold backdrop-blur-sm hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
-            >
-              Call Now
-            </a>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                <button 
+                  onClick={() => document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' })}
+                  className="px-8 py-4 bg-white text-blue-600 rounded-2xl font-bold hover:bg-cyan-50 transform hover:scale-105 transition-all duration-300 shadow-2xl"
+                >
+                  Send Message
+                </button>
+                <a 
+                  href="tel:+14252025165"
+                  className="px-8 py-4 border-2 border-white/30 text-white rounded-2xl font-bold backdrop-blur-sm hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
+                >
+                  Call Now
+                </a>
+              </div>
+            </div>
+
+            {/* Right Side - Image */}
+            <div className="hidden lg:block relative animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+               <div className="relative w-full h-[600px] flex items-center justify-center">
+                 <img 
+                   src="/contact-img.svg" 
+                   alt="Contact Us" 
+                   className="w-full h-full object-contain drop-shadow-2xl transform scale-125"
+                 />
+               </div>
+            </div>
           </div>
         </div>
 

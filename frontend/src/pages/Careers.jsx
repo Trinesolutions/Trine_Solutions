@@ -208,23 +208,37 @@ const Careers = () => {
       <section className="relative py-24 md:py-32 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="container relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 mb-8">
-              <Sparkles className="w-5 h-5 text-cyan-400" />
-              <span className="text-white font-semibold text-sm">We're Hiring Exceptional Talent</span>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Content */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 mb-8">
+                <Sparkles className="w-5 h-5 text-cyan-400" />
+                <span className="text-white font-semibold text-sm">We're Hiring Exceptional Talent</span>
+              </div>
+              
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 text-white">
+                Build Your
+                <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mt-4">
+                  Career Legacy
+                </span>
+              </h1>
+              
+              <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                Join a team of innovators shaping the future of digital transformation. 
+                Your next career milestone starts here at Trine Solutions.
+              </p>
             </div>
-            
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 text-white">
-              Build Your
-              <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mt-4">
-                Career Legacy
-              </span>
-            </h1>
-            
-            <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Join a team of innovators shaping the future of digital transformation. 
-              Your next career milestone starts here at Trine Solutions.
-            </p>
+
+            {/* Right Side - Image */}
+            <div className="hidden lg:block relative">
+               <div className="relative w-full h-[600px] flex items-center justify-center">
+                 <img 
+                   src="/bar-chart.svg" 
+                   alt="Careers at Trine Solutions" 
+                   className="w-full h-full object-contain drop-shadow-2xl transform scale-125"
+                 />
+               </div>
+            </div>
           </div>
         </div>
       </section>
