@@ -19,33 +19,39 @@ const mockServices = getSimplifiedServices(defaultServices);
 const industries = [
   {
     name: 'Banking & Finance',
-    image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400',
-    description: 'Digital banking solutions and fintech innovation'
+    slug: 'banking-finance',
+    image: 'https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?w=800',
+    description: 'Digital banking solutions, risk management, regulatory compliance, and fraud detection systems. We help financial institutions modernize their infrastructure with cutting-edge technology.'
   },
   {
     name: 'Healthcare',
-    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400',
-    description: 'Healthcare technology and patient care systems'
+    slug: 'healthcare',
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800',
+    description: 'Patient care optimization, electronic health records, telemedicine platforms, and medical IoT solutions. Transform healthcare delivery with our innovative digital health solutions.'
+  },
+  {
+    name: 'Telecommunications',
+    slug: 'telecommunications',
+    image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800',
+    description: '5G network optimization, IoT connectivity, cloud communications, and next-generation infrastructure solutions. Power the future of connectivity with our telecom expertise.'
   },
   {
     name: 'Manufacturing',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400',
-    description: 'Industry 4.0 and smart factory solutions'
+    slug: 'manufacturing',
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800',
+    description: 'Smart factory solutions, predictive maintenance, supply chain optimization, and quality control systems. Embrace Industry 4.0 with our manufacturing technology solutions.'
   },
   {
-    name: 'Retail & E-commerce',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400',
-    description: 'Omnichannel retail and customer experience'
+    name: 'Retail & E-Commerce',
+    slug: 'retail-ecommerce',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800',
+    description: 'Omnichannel commerce, inventory management, customer analytics, and personalized shopping experiences. Revolutionize retail with our comprehensive e-commerce solutions.'
   },
   {
     name: 'Education',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400',
-    description: 'EdTech and digital learning platforms'
-  },
-  {
-    name: 'Logistics',
-    image: 'https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=400',
-    description: 'Supply chain optimization and logistics tech'
+    slug: 'education',
+    image: 'https://img.freepik.com/free-vector/modern-hand-drawn-education-concept_23-2147906438.jpg?semt=ais_hybrid&w=740&q=80',
+    description: 'Learning management systems, virtual classrooms, student analytics, and educational content platforms. Transform education with our innovative EdTech solutions.'
   }
 ];
 
@@ -521,29 +527,58 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {/* Alternating Industry Cards */}
+          <div className="space-y-16">
             {industries.map((industry, index) => (
               <div
                 key={index}
-                className="group animate-on-scroll opacity-0 relative overflow-hidden rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-trine-green/30 transition-all duration-300 hover:shadow-lg cursor-pointer"
+                className={`group animate-on-scroll opacity-0 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
+                  index % 2 === 1 ? 'lg:grid-flow-dense' : ''
+                }`}
                 data-testid={`industry-card-${index}`}
               >
-                <div className="aspect-square overflow-hidden relative">
-                  <img
-                    src={industry.image}
-                    alt={`${industry.name} industry solutions`}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-trine-black/70 via-trine-black/30 to-transparent"></div>
+                {/* Image Section */}
+                <div className={`relative overflow-hidden rounded-2xl shadow-xl ${
+                  index % 2 === 1 ? 'lg:col-start-2' : ''
+                }`}>
+                  <div className="relative group">
+                    <div className="absolute -inset-4 bg-gradient-to-r from-trine-orange/20 via-trine-lightblue/20 to-trine-green/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+                    <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
+                      <img
+                        src={industry.image}
+                        alt={`${industry.name} industry solutions`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-trine-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
+                  </div>
                 </div>
                 
-                <div className="absolute inset-0 flex items-end p-4">
-                  <div className="w-full">
-                    <h3 className="text-sm font-semibold text-white mb-2">
-                      {industry.name}
+                {/* Content Section */}
+                <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
+                  <div className="space-y-6">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-green/10 border border-trine-orange/20">
+                      <span className="text-xs font-semibold text-trine-orange uppercase tracking-wider">
+                        {String(index + 1).padStart(2, '0')} / {String(industries.length).padStart(2, '0')}
+                      </span>
+                    </div>
+                    
+                    <h3 className="text-3xl lg:text-4xl font-bold">
+                      <span className="text-trine-black dark:text-white">{industry.name}</span>
                     </h3>
-                    <div className="h-1 w-0 bg-gradient-to-r from-trine-orange to-trine-green group-hover:w-full transition-all duration-500"></div>
+                    
+                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                      {industry.description}
+                    </p>
+                    
+                    <Link 
+                      to={`/industries/${industry.slug}`}
+                      className="group/btn inline-flex items-center gap-3 px-6 py-3 rounded-lg bg-gradient-to-r from-trine-orange to-trine-lightblue text-white font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-trine-orange/30 hover:scale-105"
+                    >
+                      Read More
+                      <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                    </Link>
                   </div>
                 </div>
               </div>
