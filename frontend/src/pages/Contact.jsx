@@ -173,7 +173,6 @@ const Contact = () => {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Enhanced Form */}
             <div className="relative group">
-              <div className="absolute -inset-4 bg-gradient-to-r from-orange-500 to-green-500 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500"></div>
               <div className="relative bg-white rounded-2xl p-10 shadow-2xl border border-gray-200/50" data-testid="contact-form">
                 <div className="text-center mb-8">
                   <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-orange-500 to-green-500 bg-clip-text text-transparent">
@@ -264,7 +263,6 @@ const Contact = () => {
             <div className="space-y-8">
               {/* Single Location Card */}
               <div className="relative group">
-                <div className="absolute -inset-4 bg-gradient-to-r from-green-500 to-orange-500 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500"></div>
                 <div className="relative bg-white rounded-2xl p-10 shadow-2xl border border-gray-200/50">
                   <h2 className="text-4xl font-black mb-8 bg-gradient-to-r from-green-500 to-orange-500 bg-clip-text text-transparent">
                     Our Office

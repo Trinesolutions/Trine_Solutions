@@ -214,7 +214,7 @@ const ServiceDetail = () => {
       </section>
 
       {/* Consulting Form Section */}
-      <section className="py-20 bg-gradient-to-br from-trine-black via-gray-900 to-trine-black relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-gray-900 via-trine-orange/10 to-gray-900 relative overflow-hidden">
         {/* Background Decorations */}
         <div className="absolute inset-0 opacity-20" aria-hidden="true">
           <div className="absolute top-10 right-10 w-64 h-64 bg-trine-orange rounded-full blur-3xl animate-float"></div>
