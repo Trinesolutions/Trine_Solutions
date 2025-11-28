@@ -501,62 +501,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Services */}
-      <section className="py-20 bg-white dark:bg-trine-black">
-        <div className="container">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-trine-lightblue/10 to-trine-green/10 border border-trine-lightblue/20 mb-6">
-              <Zap className="w-4 h-4 text-trine-lightblue" />
-              <span className="text-sm font-semibold text-trine-lightblue">OUR SERVICES</span>
-            </div>
-            
-            <h2 className="text-4xl font-bold mb-6" data-testid="services-title">
-              <span className="text-trine-black dark:text-white">Solutions That</span>
-              <br />
-              <span className="bg-gradient-to-r from-trine-lightblue to-trine-green bg-clip-text text-transparent">Drive Growth</span>
-            </h2>
-            
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Comprehensive solutions designed to accelerate your digital transformation journey and unlock new possibilities.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, index) => {
-              const Icon = getIconByName(service.icon);
-              return (
-                <div
-                  key={service.id}
-                  className="group animate-on-scroll opacity-0 relative overflow-hidden rounded-xl p-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-trine-lightblue/30 transition-all duration-300 hover:shadow-xl hover:shadow-trine-lightblue/10"
-                  data-testid={`service-card-${index}`}
-                >
-                  <div className="relative z-10">
-                    <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-trine-lightblue/10 to-trine-green/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="w-8 h-8 text-trine-lightblue" />
-                    </div>
-                    
-                    <h3 className="text-xl font-semibold mb-4 text-trine-black dark:text-white group-hover:text-trine-lightblue transition-colors duration-300">
-                      {service.title}
-                    </h3>
-                    
-                    <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                      {service.description}
-                    </p>
-                    
-                    <Link to={`/services/${service.id}`} data-testid={`service-learn-more-${index}`} className="inline-block">
-                      <button className="group/btn flex items-center gap-2 text-trine-orange font-semibold hover:gap-3 transition-all duration-300">
-                        <span>Learn More</span>
-                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* Industries */}
       <section className="py-20 bg-gradient-to-br from-green-50 to-sky-50 dark:from-gray-900 dark:to-gray-900">
         <div className="container">
