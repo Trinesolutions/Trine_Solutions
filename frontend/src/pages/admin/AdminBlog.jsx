@@ -132,7 +132,7 @@ const AdminBlog = () => {
         title: post.title,
         excerpt: post.excerpt,
         content: post.content,
-        image: post.image || '',
+        image: post.featured_image || post.image || '', // Backend stores as 'featured_image'
         gallery_images: post.gallery_images?.join(', ') || '',
         post_type: post.post_type || 'blog',
         author: post.author,
@@ -163,9 +163,17 @@ const AdminBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
-      ...formData,
-      tags: formData.tags.split(',').map(t => t.trim()).filter(t => t),
+      title: formData.title,
+      excerpt: formData.excerpt,
+      content: formData.content,
+      featured_image: formData.image, // Backend expects 'featured_image' field
       gallery_images: formData.gallery_images.split(',').map(img => img.trim()).filter(img => img),
+      post_type: formData.post_type,
+      author: formData.author,
+      category: formData.category,
+      readTime: formData.readTime,
+      tags: formData.tags.split(',').map(t => t.trim()).filter(t => t),
+      published: formData.published,
     };
 
     try {

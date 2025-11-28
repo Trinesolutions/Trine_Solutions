@@ -1321,7 +1321,11 @@ async def submit_job_application(
                 logger.error(f"Cloudinary upload error: {e}")
                 raise HTTPException(status_code=500, detail="Failed to upload resume")
         else:
-            raise HTTPException(status_code=503, detail="Resume upload service not configured")
+            # Fallback: Store application with placeholder resume URL when Cloudinary is not configured
+            # The application is still saved so recruiters can contact the applicant
+            resume_filename = resume.filename or "resume.pdf"
+            resume_url = f"pending_upload:{resume_filename}"
+            logger.warning(f"Cloudinary not configured. Application saved with placeholder resume URL for {name}")
         
         # Create application record
         application = JobApplication(
