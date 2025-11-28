@@ -86,6 +86,7 @@ const Careers = () => {
     try {
       const submitData = new FormData();
       submitData.append('job_id', selectedJob.id);
+      submitData.append('job_title', selectedJob.title);
       submitData.append('name', formData.name);
       submitData.append('email', formData.email);
       submitData.append('phone', formData.phone);
