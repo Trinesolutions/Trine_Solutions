@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Depends, status, Request, Response
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, status, Request, Response, Form
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -1318,14 +1318,14 @@ async def get_active_jobs():
 
 @api_router.post("/jobs/apply")
 async def submit_job_application(
-    job_id: str,
-    job_title: str,
-    name: str,
-    email: str,
-    phone: str,
-    cover_letter: str = None,
-    linkedin_url: str = None,
-    portfolio_url: str = None,
+    job_id: str = Form(...),
+    job_title: str = Form(...),
+    name: str = Form(...),
+    email: str = Form(...),
+    phone: str = Form(...),
+    cover_letter: Optional[str] = Form(None),
+    linkedin_url: Optional[str] = Form(None),
+    portfolio_url: Optional[str] = Form(None),
     resume: UploadFile = File(...)
 ):
     """Submit job application with resume upload to Cloudinary"""
