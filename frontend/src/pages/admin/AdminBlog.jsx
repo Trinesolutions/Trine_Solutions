@@ -16,11 +16,12 @@ const AdminBlog = () => {
   const [editingPost, setEditingPost] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  // Note: 'image' field in formData is mapped to 'featured_image' when submitting to the backend
   const [formData, setFormData] = useState({
     title: '',
     excerpt: '',
     content: '',
-    image: '',
+    image: '', // Maps to 'featured_image' for backend API
     gallery_images: '',
     post_type: 'blog',
     author: '',
