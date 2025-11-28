@@ -1,70 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ArrowRight, Zap, Shield, Cloud, BarChart3, FileCheck, Wrench, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Zap, AlertCircle } from 'lucide-react';
+import { iconMap, getIconByName } from '@/utils/serviceIcons';
+import { defaultServices } from '@/constants/defaultServices';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
-
-const iconMap = {
-  Zap,
-  Shield,
-  Cloud,
-  BarChart3,
-  FileCheck,
-  Wrench,
-};
-
-// Default services to show if API fails
-const defaultServices = [
-  {
-    id: "1",
-    title: "Digital Transformation",
-    description: "Transform your business with cutting-edge digital solutions that drive innovation and efficiency.",
-    icon: "Zap",
-    capabilities: ["Enterprise Architecture", "Process Automation", "Digital Strategy", "Change Management"],
-    tools: ["Cloud Platforms", "AI/ML", "IoT", "Blockchain"]
-  },
-  {
-    id: "2",
-    title: "Cybersecurity",
-    description: "Protect your enterprise with comprehensive security solutions and risk management strategies.",
-    icon: "Shield",
-    capabilities: ["Security Assessment", "Threat Intelligence", "Incident Response", "Compliance Management"],
-    tools: ["SIEM", "Penetration Testing", "Security Operations Center", "Identity Management"]
-  },
-  {
-    id: "3",
-    title: "Cloud & DevOps",
-    description: "Accelerate delivery with modern cloud infrastructure and DevOps best practices.",
-    icon: "Cloud",
-    capabilities: ["Cloud Migration", "Infrastructure as Code", "CI/CD Pipelines", "Container Orchestration"],
-    tools: ["AWS", "Azure", "GCP", "Kubernetes", "Terraform"]
-  },
-  {
-    id: "4",
-    title: "Data Analytics & AI",
-    description: "Unlock insights from your data with advanced analytics and artificial intelligence solutions.",
-    icon: "BarChart3",
-    capabilities: ["Data Warehousing", "Machine Learning", "Predictive Analytics", "Business Intelligence"],
-    tools: ["Python", "TensorFlow", "Tableau", "Power BI", "Snowflake"]
-  },
-  {
-    id: "5",
-    title: "Risk & Compliance",
-    description: "Navigate regulatory landscapes with expert risk management and compliance solutions.",
-    icon: "FileCheck",
-    capabilities: ["Regulatory Compliance", "Risk Assessment", "Audit Support", "Policy Development"],
-    tools: ["GRC Platforms", "Audit Tools", "Compliance Management Systems"]
-  },
-  {
-    id: "6",
-    title: "Managed IT Services",
-    description: "Focus on your business while we manage your IT infrastructure and support needs.",
-    icon: "Wrench",
-    capabilities: ["24/7 Support", "Infrastructure Management", "Service Desk", "Performance Monitoring"],
-    tools: ["Monitoring Tools", "Service Management", "Remote Support", "Asset Management"]
-  }
-];
 
 const Services = () => {
   const [services, setServices] = useState([]);

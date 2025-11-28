@@ -2,63 +2,19 @@ import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-  ArrowRight, Zap, Shield, Cloud, BarChart3, FileCheck, Wrench,
+  ArrowRight, Zap, Shield,
   Sparkles, TrendingUp, Award, Users, Globe, Rocket, ChevronRight,
   Target, Lightbulb, Star, Heart
 } from 'lucide-react';
 import TestimonialSlider from '@/components/TestimonialSlider';
+import { iconMap } from '@/utils/serviceIcons';
+import { defaultServices, getSimplifiedServices } from '@/constants/defaultServices';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 const API = `${BACKEND_URL}/api`;
 
-const iconMap = {
-  Zap,
-  Shield,
-  Cloud,
-  BarChart3,
-  FileCheck,
-  Wrench,
-};
-
-// Mock data for services when API not available
-const mockServices = [
-  {
-    id: 1,
-    title: 'Digital Transformation',
-    description: 'Modernize your business with cutting-edge digital solutions that drive efficiency and growth.',
-    icon: 'Zap'
-  },
-  {
-    id: 2,
-    title: 'Cybersecurity',
-    description: 'Protect your digital assets with enterprise-grade security solutions and threat prevention.',
-    icon: 'Shield'
-  },
-  {
-    id: 3,
-    title: 'Cloud Solutions',
-    description: 'Scale your infrastructure with flexible, secure cloud computing and migration services.',
-    icon: 'Cloud'
-  },
-  {
-    id: 4,
-    title: 'Data Analytics',
-    description: 'Transform raw data into actionable insights with advanced analytics and AI-powered tools.',
-    icon: 'BarChart3'
-  },
-  {
-    id: 5,
-    title: 'Compliance & Risk',
-    description: 'Navigate regulatory requirements with comprehensive compliance and risk management solutions.',
-    icon: 'FileCheck'
-  },
-  {
-    id: 6,
-    title: 'IT Advisory',
-    description: 'Strategic technology consulting to align your IT infrastructure with business objectives.',
-    icon: 'Wrench'
-  }
-];
+// Simplified services for Home page (from shared constants)
+const mockServices = getSimplifiedServices(defaultServices);
 
 const industries = [
   {

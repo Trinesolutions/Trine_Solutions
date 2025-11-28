@@ -1,21 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Plus, Edit2, Trash2, X, Save, Zap, Shield, Cloud, BarChart3, FileCheck, Wrench } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Save, Zap, Search, ChevronDown } from 'lucide-react';
 import { toast } from 'sonner';
 import AdminLayout from './AdminLayout';
+import { iconOptions, getIconByName, getIconCategories, getIconsByCategory } from '@/utils/serviceIcons';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api/admin`;
-
-const iconOptions = [
-  { name: 'Zap', icon: Zap },
-  { name: 'Shield', icon: Shield },
-  { name: 'Cloud', icon: Cloud },
-  { name: 'BarChart3', icon: BarChart3 },
-  { name: 'FileCheck', icon: FileCheck },
-  { name: 'Wrench', icon: Wrench },
-];
 
 const AdminServices = () => {
   const navigate = useNavigate();
@@ -23,6 +15,8 @@ const AdminServices = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingService, setEditingService] = useState(null);
+  const [iconCategory, setIconCategory] = useState('All');
+  const [iconSearch, setIconSearch] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -32,6 +26,12 @@ const AdminServices = () => {
   });
 
   const token = localStorage.getItem('adminToken');
+
+  // Memoize filtered icons to avoid recalculating on every render
+  const filteredIcons = useMemo(() => {
+    return getIconsByCategory(iconCategory)
+      .filter(opt => opt.name.toLowerCase().includes(iconSearch.toLowerCase()));
+  }, [iconCategory, iconSearch]);
 
   useEffect(() => {
     if (!token) {
@@ -131,8 +131,7 @@ const AdminServices = () => {
   };
 
   const getIcon = (iconName) => {
-    const found = iconOptions.find(i => i.name === iconName);
-    return found ? found.icon : Zap;
+    return getIconByName(iconName);
   };
 
   return (
@@ -253,21 +252,84 @@ const AdminServices = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Icon *</label>
-                  <div className="flex flex-wrap gap-3">
-                    {iconOptions.map((opt) => (
+                  
+                  {/* Selected Icon Preview */}
+                  <div className="flex items-center gap-4 mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-orange-blue flex items-center justify-center">
+                      {(() => {
+                        const SelectedIcon = getIconByName(formData.icon);
+                        return <SelectedIcon className="w-7 h-7 text-white" />;
+                      })()}
+                    </div>
+                    <div>
+                      <p className="font-medium text-trine-black dark:text-white">{formData.icon}</p>
+                      <p className="text-xs text-gray-500">Selected icon</p>
+                    </div>
+                  </div>
+
+                  {/* Icon Category Filter */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <button
+                      type="button"
+                      onClick={() => setIconCategory('All')}
+                      className={`px-3 py-1.5 text-sm rounded-lg transition-all ${
+                        iconCategory === 'All'
+                          ? 'bg-trine-orange text-white'
+                          : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      }`}
+                    >
+                      All
+                    </button>
+                    {getIconCategories().map((cat) => (
                       <button
                         type="button"
-                        key={opt.name}
-                        onClick={() => setFormData({ ...formData, icon: opt.name })}
-                        className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
-                          formData.icon === opt.name
-                            ? 'bg-gradient-orange-blue text-white'
+                        key={cat}
+                        onClick={() => setIconCategory(cat)}
+                        className={`px-3 py-1.5 text-sm rounded-lg transition-all ${
+                          iconCategory === cat
+                            ? 'bg-trine-orange text-white'
                             : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
                         }`}
                       >
-                        <opt.icon className="w-6 h-6" />
+                        {cat}
                       </button>
                     ))}
+                  </div>
+
+                  {/* Icon Search */}
+                  <div className="relative mb-4">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      type="text"
+                      value={iconSearch}
+                      onChange={(e) => setIconSearch(e.target.value)}
+                      placeholder="Search icons..."
+                      className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm outline-none focus:border-trine-orange"
+                    />
+                  </div>
+
+                  {/* Icon Grid */}
+                  <div className="max-h-48 overflow-y-auto rounded-xl border border-gray-200 dark:border-gray-700 p-3">
+                    <div className="grid grid-cols-8 gap-2">
+                      {filteredIcons.map((opt) => (
+                        <button
+                          type="button"
+                          key={opt.name}
+                          onClick={() => setFormData({ ...formData, icon: opt.name })}
+                          title={opt.name}
+                          className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
+                            formData.icon === opt.name
+                              ? 'bg-gradient-orange-blue text-white ring-2 ring-trine-orange ring-offset-2 dark:ring-offset-gray-800'
+                              : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                          }`}
+                        >
+                          <opt.icon className="w-5 h-5" />
+                        </button>
+                      ))}
+                    </div>
+                    {filteredIcons.length === 0 && (
+                      <p className="text-center text-gray-500 py-4 text-sm">No icons found</p>
+                    )}
                   </div>
                 </div>
                 <div>
