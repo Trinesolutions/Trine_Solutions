@@ -187,8 +187,11 @@ async def startup_event():
             print("   Please change this password after first login!")
         else:
             print(f"✅ Found {admin_count} admin user(s) in database")
+
+        await seed_mock_content()
     except Exception as e:
         print(f"⚠️  Error during startup: {e}")
+        logger.error(f"Startup error: {e}")
 
 # ===================== MODELS =====================
 
@@ -856,21 +859,31 @@ async def get_current_admin(current_user: dict = Depends(get_current_user)):
 @admin_router.get("/dashboard/stats")
 async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
     blog_count = await db.blog_posts.count_documents({})
-    case_study_count = await db.case_studies.count_documents({})
+    service_count = await db.services.count_documents({})
+    partner_count = await db.partners.count_documents({})
+
+    total_jobs = await db.jobs.count_documents({})
+    active_jobs = await db.jobs.count_documents({"active": True})
+
+    total_applications = await db.job_applications.count_documents({})
+    new_applications = await db.job_applications.count_documents({"status": "new"})
+
     contact_count = await db.contacts.count_documents({})
     unread_contacts = await db.contacts.count_documents({"read": False})
-    team_count = await db.team_members.count_documents({})
-    service_count = await db.services.count_documents({})
+
     announcement_count = await db.announcements.count_documents({"active": True})
     testimonial_count = await db.testimonials.count_documents({})
     
     return {
         "blog_posts": blog_count,
-        "case_studies": case_study_count,
+        "services": service_count,
+        "partners": partner_count,
+        "total_jobs": total_jobs,
+        "active_jobs": active_jobs,
+        "total_applications": total_applications,
+        "new_applications": new_applications,
         "total_contacts": contact_count,
         "unread_contacts": unread_contacts,
-        "team_members": team_count,
-        "services": service_count,
         "active_announcements": announcement_count,
         "testimonials": testimonial_count
     }
@@ -1354,6 +1367,250 @@ async def upload_image_to_cloudinary(file: UploadFile = File(...), folder: str =
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
+
+
+async def seed_mock_content():
+    """Populate the database with mock data for admin CRUD interfaces."""
+    try:
+        seeded_collections: List[str] = []
+
+        if await db.blog_posts.count_documents({}) == 0:
+            sample_blog_posts = [
+                BlogPost(
+                    title="Transforming Finance with AI-Driven Insights",
+                    excerpt="How intelligent automation delivers real-time visibility for enterprise finance teams.",
+                    content=(
+                        "Discover how Trine Solutions partnered with a global financial institution to modernize "
+                        "their finance operations with AI-driven forecasting, anomaly detection, and intelligent "
+                        "automation. The engagement delivered a 60% reduction in manual reconciliations and a 3x "
+                        "improvement in forecasting accuracy across regions."
+                    ),
+                    featured_image="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1200&q=80",
+                    gallery_images=[
+                        "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80",
+                        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=80"
+                    ],
+                    post_type="blog",
+                    author="Priya Natarajan",
+                    category="Digital Transformation",
+                    readTime="7 min read",
+                    tags=["AI", "Automation", "Finance"],
+                    published=True
+                ),
+                BlogPost(
+                    title="Zero Trust Security for Distributed Workforces",
+                    excerpt="A practical roadmap to securing hybrid workplaces without slowing productivity.",
+                    content=(
+                        "We break down the five foundational pillars for implementing Zero Trust at scale, lessons learned "
+                        "from enterprise rollouts, and the tooling ecosystem we recommend for rapid deployment."
+                    ),
+                    featured_image="https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1200&q=80",
+                    post_type="blog",
+                    author="Luis Hernandez",
+                    category="Cybersecurity",
+                    readTime="5 min read",
+                    tags=["Security", "Zero Trust", "Policy"],
+                    published=True
+                )
+            ]
+            await db.blog_posts.insert_many([post.model_dump() for post in sample_blog_posts])
+            seeded_collections.append("blog_posts")
+
+        if await db.services.count_documents({}) == 0:
+            sample_services = [
+                Service(
+                    title="Cloud Native Engineering",
+                    description="Design, build, and operate resilient cloud-native applications with modern DevOps tooling.",
+                    icon="Cloud",
+                    capabilities=["Cloud Architecture", "Container Platforms", "DevSecOps"],
+                    tools=["AWS", "Azure", "Kubernetes", "Terraform"]
+                ),
+                Service(
+                    title="Enterprise AI Acceleration",
+                    description="Bring AI from experimentation to production with governed MLOps and responsible AI frameworks.",
+                    icon="Cpu",
+                    capabilities=["Model Strategy", "MLOps", "Responsible AI"],
+                    tools=["Azure ML", "Vertex AI", "Databricks"]
+                )
+            ]
+            await db.services.insert_many([service.model_dump() for service in sample_services])
+            seeded_collections.append("services")
+
+        if await db.partners.count_documents({}) == 0:
+            sample_partners = [
+                Partner(
+                    name="Microsoft",
+                    logo_url="https://logos-world.net/wp-content/uploads/2020/04/Microsoft-Logo-700x394.png",
+                    website="https://www.microsoft.com",
+                    priority=1
+                ),
+                Partner(
+                    name="Google Cloud",
+                    logo_url="https://logos-world.net/wp-content/uploads/2020/09/Google-Cloud-Logo.png",
+                    website="https://cloud.google.com",
+                    priority=2
+                )
+            ]
+            await db.partners.insert_many([partner.model_dump() for partner in sample_partners])
+            seeded_collections.append("partners")
+
+        jobs_seeded = False
+        if await db.jobs.count_documents({}) == 0:
+            sample_jobs = [
+                Job(
+                    title="Lead Cloud Architect",
+                    department="Cloud & DevOps",
+                    location="Remote - North America",
+                    type="Full-time",
+                    salary="$150k - $180k USD",
+                    description="Own the architecture for large-scale cloud transformations across AWS and Azure.",
+                    requirements=[
+                        "10+ years in enterprise architecture",
+                        "Hands-on with AWS and Azure landing zones",
+                        "Strong understanding of security and compliance"
+                    ],
+                    responsibilities=[
+                        "Design target cloud architectures",
+                        "Coach client engineering teams",
+                        "Drive roadmap and migration execution"
+                    ],
+                    benefits=["401k match", "Unlimited PTO", "Wellness stipend"],
+                    active=True
+                ),
+                Job(
+                    title="Senior Data Scientist",
+                    department="Data & AI",
+                    location="Toronto, Canada",
+                    type="Hybrid",
+                    salary="$130k - $160k CAD",
+                    description="Build production-grade ML models that power intelligent insights for Fortune 500 clients.",
+                    requirements=[
+                        "7+ years in applied data science",
+                        "Experience with time-series forecasting",
+                        "Comfortable with Python, SQL, and ML Ops"
+                    ],
+                    responsibilities=[
+                        "Collaborate with product and domain experts",
+                        "Ship models into production using best practices",
+                        "Monitor drift and continually improve accuracy"
+                    ],
+                    benefits=["Equity program", "Learning budget", "Comprehensive healthcare"],
+                    active=True
+                )
+            ]
+            job_docs = [job.model_dump() for job in sample_jobs]
+            await db.jobs.insert_many(job_docs)
+            seeded_collections.append("jobs")
+            jobs_seeded = True
+
+        if await db.job_applications.count_documents({}) == 0:
+            jobs_cursor = await db.jobs.find({}, {"_id": 0}).to_list(2)
+            reference_jobs = jobs_cursor[:2]
+
+            if len(reference_jobs) < 2 and jobs_seeded:
+                reference_jobs = [job.model_dump() for job in sample_jobs]
+
+            if reference_jobs:
+                sample_applications = []
+                applicants = [
+                    {
+                        "name": "Aisha Khan",
+                        "email": "aisha.khan@example.com",
+                        "phone": "+1-555-0188",
+                        "resume_url": "https://res.cloudinary.com/demo/resume/aisha-khan.pdf",
+                        "cover_letter": "Excited about scaling enterprise cloud practices with Trine Solutions.",
+                        "linkedin_url": "https://www.linkedin.com/in/aishakhan-cloud",
+                        "portfolio_url": "https://aishakhan.dev"
+                    },
+                    {
+                        "name": "Mateo Silva",
+                        "email": "mateo.silva@example.com",
+                        "phone": "+1-555-0274",
+                        "resume_url": "https://res.cloudinary.com/demo/resume/mateo-silva.pdf",
+                        "cover_letter": "Data storytelling and production ML are my core strengths.",
+                        "linkedin_url": "https://www.linkedin.com/in/mateosilva",
+                        "portfolio_url": "https://mateo.ai"
+                    }
+                ]
+
+                for applicant, job in zip(applicants, reference_jobs):
+                    application = JobApplication(
+                        job_id=job["id"],
+                        job_title=job["title"],
+                        name=applicant["name"],
+                        email=applicant["email"],
+                        phone=applicant["phone"],
+                        resume_url=applicant["resume_url"],
+                        cover_letter=applicant["cover_letter"],
+                        linkedin_url=applicant["linkedin_url"],
+                        portfolio_url=applicant["portfolio_url"]
+                    )
+                    doc = application.model_dump()
+                    doc["applied_at"] = doc["applied_at"].isoformat()
+                    sample_applications.append(doc)
+
+                if sample_applications:
+                    await db.job_applications.insert_many(sample_applications)
+                    seeded_collections.append("job_applications")
+
+        if await db.testimonials.count_documents({}) == 0:
+            sample_testimonials = [
+                Testimonial(
+                    name="Samantha Lee",
+                    role="VP Technology",
+                    company="GlobalFin",
+                    content="Trine Solutions transformed our data operations. Their partnership mentality and execution excellence are unmatched.",
+                    avatar="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80",
+                    rating=5
+                ),
+                Testimonial(
+                    name="David Chen",
+                    role="Head of Infrastructure",
+                    company="InnovateX",
+                    content="From strategy to delivery, the Trine team helped us launch a secure multi-cloud platform in record time.",
+                    avatar="https://images.unsplash.com/photo-1502764613149-7f1d229e230f?auto=format&fit=crop&w=200&q=80",
+                    rating=5
+                )
+            ]
+            await db.testimonials.insert_many([testimonial.model_dump() for testimonial in sample_testimonials])
+            seeded_collections.append("testimonials")
+
+        if await db.announcements.count_documents({}) == 0:
+            sample_announcements = [
+                Announcement(
+                    title="Trine Solutions named Azure Advanced Specialization Partner",
+                    content="Proud to be recognized for our cloud modernization expertise across regulated industries.",
+                    type="success",
+                    active=True
+                ),
+                Announcement(
+                    title="Join us at the CloudNative Summit 2025",
+                    content="Our CTO is speaking on secure platform engineering. Visit booth #218 for live demos.",
+                    type="info",
+                    active=True
+                )
+            ]
+            await db.announcements.insert_many([announcement.model_dump() for announcement in sample_announcements])
+            seeded_collections.append("announcements")
+
+        if await db.contacts.count_documents({}) == 0:
+            sample_contact = ContactForm(
+                name="Evelyn Baker",
+                email="evelyn.baker@enterpriseco.com",
+                company="Enterprise Co",
+                message="Interested in a discovery workshop focused on modernizing our compliance reporting workflows."
+            )
+            contact_doc = sample_contact.model_dump()
+            contact_doc["timestamp"] = contact_doc["timestamp"].isoformat()
+            await db.contacts.insert_one(contact_doc)
+            seeded_collections.append("contacts")
+
+        if seeded_collections:
+            logger.info(f"Seeded mock data for collections: {', '.join(seeded_collections)}")
+        else:
+            logger.info("Mock data already present; skipping seeding.")
+    except Exception as exc:
+        logger.error(f"Error seeding mock content: {exc}")
 
 # Include the routers in the main app
 app.include_router(api_router)

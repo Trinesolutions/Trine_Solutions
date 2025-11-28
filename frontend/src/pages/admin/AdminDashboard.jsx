@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { 
-  LayoutDashboard, FileText, Briefcase, Users, Settings, 
-  LogOut, Menu, X, Bell, ChevronRight, TrendingUp, 
-  Mail, Megaphone, Wrench, BarChart3, Quote
+  LayoutDashboard, FileText, Briefcase,
+  LogOut, Menu, X, ChevronRight, TrendingUp,
+  Mail, Megaphone, Wrench, UserCheck, Handshake
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -62,21 +62,20 @@ const AdminDashboard = () => {
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin/dashboard' },
     { icon: FileText, label: 'Blog Posts', path: '/admin/blog' },
-    { icon: Briefcase, label: 'Case Studies', path: '/admin/case-studies' },
     { icon: Wrench, label: 'Services', path: '/admin/services' },
-    { icon: Users, label: 'Team', path: '/admin/team' },
-    { icon: Quote, label: 'Testimonials', path: '/admin/testimonials' },
+    { icon: Handshake, label: 'Partners', path: '/admin/partners' },
+    { icon: UserCheck, label: 'Careers', path: '/admin/jobs' },
     { icon: Megaphone, label: 'Announcements', path: '/admin/announcements' },
     { icon: Mail, label: 'Contacts', path: '/admin/contacts' },
   ];
 
   const statCards = stats ? [
-    { label: 'Blog Posts', value: stats.blog_posts, icon: FileText, color: 'from-blue-500 to-blue-600' },
-    { label: 'Case Studies', value: stats.case_studies, icon: Briefcase, color: 'from-purple-500 to-purple-600' },
-    { label: 'Team Members', value: stats.team_members, icon: Users, color: 'from-green-500 to-green-600' },
-    { label: 'Services', value: stats.services, icon: Wrench, color: 'from-orange-500 to-orange-600' },
-    { label: 'Unread Messages', value: stats.unread_contacts, icon: Mail, color: 'from-red-500 to-red-600' },
-    { label: 'Announcements', value: stats.active_announcements, icon: Megaphone, color: 'from-teal-500 to-teal-600' },
+    { label: 'Blog Posts', value: stats.blog_posts ?? 0, icon: FileText, color: 'from-blue-500 to-blue-600' },
+    { label: 'Active Jobs', value: stats.active_jobs ?? 0, icon: Briefcase, color: 'from-emerald-500 to-emerald-600' },
+    { label: 'New Applications', value: stats.new_applications ?? 0, icon: UserCheck, color: 'from-purple-500 to-purple-600' },
+    { label: 'Services', value: stats.services ?? 0, icon: Wrench, color: 'from-orange-500 to-orange-600' },
+    { label: 'Unread Messages', value: stats.unread_contacts ?? 0, icon: Mail, color: 'from-red-500 to-red-600' },
+    { label: 'Active Announcements', value: stats.active_announcements ?? 0, icon: Megaphone, color: 'from-teal-500 to-teal-600' },
   ] : [];
 
   return (
@@ -192,27 +191,27 @@ const AdminDashboard = () => {
                   >
                     <div className="flex items-center space-x-3">
                       <FileText className="w-5 h-5 text-blue-500" />
-                      <span className="font-medium">New Blog Post</span>
+                      <span className="font-medium">Manage Blog</span>
                     </div>
                     <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors" />
                   </Link>
                   <Link
-                    to="/admin/case-studies"
+                    to="/admin/jobs"
                     className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors group"
                   >
                     <div className="flex items-center space-x-3">
-                      <Briefcase className="w-5 h-5 text-purple-500" />
-                      <span className="font-medium">New Case Study</span>
+                      <Briefcase className="w-5 h-5 text-emerald-500" />
+                      <span className="font-medium">Manage Careers</span>
                     </div>
                     <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors" />
                   </Link>
                   <Link
-                    to="/admin/team"
+                    to="/admin/jobs"
                     className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors group"
                   >
                     <div className="flex items-center space-x-3">
-                      <Users className="w-5 h-5 text-green-500" />
-                      <span className="font-medium">Add Team Member</span>
+                      <UserCheck className="w-5 h-5 text-purple-500" />
+                      <span className="font-medium">Review Applications</span>
                     </div>
                     <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors" />
                   </Link>
