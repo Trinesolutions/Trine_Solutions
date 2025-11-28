@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Plus, Edit2, Trash2, X, Save, Zap, Search, ChevronDown } from 'lucide-react';
@@ -44,9 +44,9 @@ const AdminServices = () => {
       return;
     }
     fetchServices();
-  }, [navigate]);
+  }, [navigate, fetchServices]);
 
-  const fetchServices = async () => {
+  const fetchServices = useCallback(async () => {
     const token = getToken();
     try {
       const response = await axios.get(`${API}/services`, {
@@ -62,7 +62,7 @@ const AdminServices = () => {
       }
       setLoading(false);
     }
-  };
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
