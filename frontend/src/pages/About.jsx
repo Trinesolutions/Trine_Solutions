@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Target, Eye, Award, Users, Globe2, TrendingUp, Star, Zap, Heart, Shield, Clock, Code2, Cloud, Database, Cpu, Network } from 'lucide-react';
+import { Target, Eye, Award, Users, Globe2, TrendingUp, Star, Zap, Heart, Shield, Clock, Code2, Cloud, Database, Cpu, Network, ArrowRight } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 const API = `${BACKEND_URL}/api`;
@@ -94,81 +94,114 @@ const About = () => {
     }
   ];
 
- const timeline = [
-  { 
-    year: '2015', 
-    event: 'Our Journey Begins', 
-    description: 'Started with a mission to deliver impactful digital transformation solutions.',
-    milestone: 'Secured our first enterprise technology engagement'
-  },
-  { 
-    year: '2017', 
-    event: 'Presence', 
-    description: 'Expanded delivery capabilities across North America',
-    milestone: 'Built a high-performance technology consulting team'
-  },
-  { 
-    year: '2019', 
-    event: 'Cloud-First Acceleration', 
-    description: 'Scaled cloud modernization and DevOps practices for enterprise clients.',
-    milestone: 'Completed 10+ cloud transformation and modernization projects'
-  },
-  { 
-    year: '2021', 
-    event: 'Data & AI Excellence', 
-    description: 'Introduced advanced analytics, automation, and AI-driven engineering services.',
-    milestone: 'Launched enterprise-ready AI and data intelligence frameworks'
-  },
-  { 
-    year: '2023', 
-    event: 'Secure & Sustainable Tech', 
-    description: 'Strengthened cybersecurity offerings and adopted sustainable IT practices.',
-    milestone: 'Achieved recognition for secure, scalable, and energy-efficient solutions'
-  },
-  { 
-    year: '2025', 
-    event: 'Next-Gen Innovation', 
-    description: 'Pioneering solutions in Quantum Computing, Edge AI, and Intelligent Platforms.',
-    milestone: 'Established a dedicated innovation lab for emerging technologies'
-  },
-];
+  const timeline = [
+    { 
+      year: '2015', 
+      event: 'Our Journey Begins', 
+      description: 'Started with a mission to deliver impactful digital transformation solutions.',
+      milestone: 'Secured our first enterprise technology engagement'
+    },
+    { 
+      year: '2017', 
+      event: 'Presence', 
+      description: 'Expanded delivery capabilities across North America',
+      milestone: 'Built a high-performance technology consulting team'
+    },
+    { 
+      year: '2019', 
+      event: 'Cloud-First Acceleration', 
+      description: 'Scaled cloud modernization and DevOps practices for enterprise clients.',
+      milestone: 'Completed 10+ cloud transformation and modernization projects'
+    },
+    { 
+      year: '2021', 
+      event: 'Data & AI Excellence', 
+      description: 'Introduced advanced analytics, automation, and AI-driven engineering services.',
+      milestone: 'Launched enterprise-ready AI and data intelligence frameworks'
+    },
+    { 
+      year: '2023', 
+      event: 'Secure & Sustainable Tech', 
+      description: 'Strengthened cybersecurity offerings and adopted sustainable IT practices.',
+      milestone: 'Achieved recognition for secure, scalable, and energy-efficient solutions'
+    },
+    { 
+      year: '2025', 
+      event: 'Next-Gen Innovation', 
+      description: 'Pioneering solutions in Quantum Computing, Edge AI, and Intelligent Platforms.',
+      milestone: 'Established a dedicated innovation lab for emerging technologies'
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-cyan-50/20 dark:from-gray-900 dark:via-blue-950/30 dark:to-cyan-950/20" data-testid="about-page">
-      {/* ...other sections... */}
-
-      {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden">
+      
+      {/* Hero Section with Right Side Transparent Image */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-600">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-black/20"></div>
         </div>
         
         {/* Floating Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl"></div>
+        </div>
 
         {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
         </div>
 
-        <div className="container relative z-10 text-center text-white">
+        <div className="container relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Content */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
+                <Star className="w-4 h-4 text-cyan-300" />
+                <span className="text-sm font-medium text-white">Trusted by Fortune 500 Companies</span>
+              </div>
+              
+              <h1 className="text-6xl lg:text-8xl font-black mb-8 bg-gradient-to-r from-white via-cyan-100 to-blue-200 bg-clip-text text-transparent" data-testid="about-hero-title">
+                Digital
+                <span className="block bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Transformation</span>
+              </h1>
+              
+              <p className="text-xl lg:text-2xl mb-12 opacity-90 leading-relaxed text-white">
+                We architect the future of enterprise technology through innovative solutions, 
+                cutting-edge expertise, and a passion for digital excellence.
+              </p>
 
-          
-          <h1 className="text-6xl lg:text-8xl font-black mb-8 animate-fade-in-up bg-gradient-to-r from-white via-cyan-100 to-blue-200 bg-clip-text text-transparent" data-testid="about-hero-title">
-            Digital
-            <span className="block bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Transformation</span>
-          </h1>
-          
-          <p className="text-xl lg:text-2xl max-w-4xl mx-auto mb-12 opacity-90 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            We architect the future of enterprise technology through innovative solutions, 
-            cutting-edge expertise, and a passion for digital excellence.
-          </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
+                <Link to="/contact">
+                  <button className="px-8 py-4 bg-white text-blue-600 rounded-2xl font-bold hover:bg-cyan-50 transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                    Start Your Project
+                  </button>
+                </Link>
+                <Link to="/services">
+                  <button className="px-8 py-4 border-2 border-white/30 text-white rounded-2xl font-bold backdrop-blur-sm hover:bg-white/10 transform hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                    Explore Services
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </Link>
+              </div>
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            {/* Right Side - Image */}
+            <div className="relative hidden lg:block">
+              <div className="relative w-full h-[600px] flex items-center justify-center">
+                 <img 
+                   src="./career.svg" 
+                   alt="About Us Hero" 
+                   className="w-full h-full object-contain drop-shadow-2xl"
+                 />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-white/70 rounded-full mt-2"></div>
           </div>
@@ -377,7 +410,6 @@ const About = () => {
         </div>
       </section>
 
-
       {/* Enhanced Culture Section */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-50 via-blue-50/50 to-purple-50/30 dark:from-cyan-950/20 dark:via-blue-950/10 dark:to-purple-950/20"></div>
@@ -451,8 +483,8 @@ const About = () => {
         
         {/* Floating Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl"></div>
         </div>
 
         <div className="container relative z-10 text-center text-white">
