@@ -57,7 +57,7 @@ const Services = () => {
       {/* Services Detail */}
       {services.length > 0 ? (
         services.map((service, index) => {
-          const Icon = iconMap[service.icon] || Zap;
+          const Icon = getIconByName(service.icon);
           const isEven = index % 2 === 0;
           const gradientColors = [
             'from-trine-orange to-trine-lightblue',

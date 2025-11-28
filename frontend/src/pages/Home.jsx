@@ -7,7 +7,7 @@ import {
   Target, Lightbulb, Star, Heart
 } from 'lucide-react';
 import TestimonialSlider from '@/components/TestimonialSlider';
-import { iconMap } from '@/utils/serviceIcons';
+import { iconMap, getIconByName } from '@/utils/serviceIcons';
 import { defaultServices, getSimplifiedServices } from '@/constants/defaultServices';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
@@ -523,7 +523,7 @@ const Home = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => {
-              const Icon = iconMap[service.icon] || Zap;
+              const Icon = getIconByName(service.icon);
               return (
                 <div
                   key={service.id}
