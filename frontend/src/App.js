@@ -25,6 +25,13 @@ import AdminAnnouncements from "@/pages/admin/AdminAnnouncements";
 import AdminContacts from "@/pages/admin/AdminContacts";
 import AdminTestimonials from "@/pages/admin/AdminTestimonials";
 import AdminPartners from "@/pages/admin/AdminPartners";
+import DigitalTransformation from "@/pages/DigitalTransformation";
+import CloudSolutions from "@/pages/CloudSolutions";
+import AiMl from "@/pages/AiMl";
+import Cybersecurity from "@/pages/Cybersecurity";
+import Portfolio from "@/pages/Portfolio";
+import Insights from "@/pages/Insights";
+import CaseStudies from "@/pages/CaseStudies";
 import { Toaster } from "@/components/ui/sonner";
 
 // Layout wrapper to conditionally show navbar/footer
@@ -81,6 +88,15 @@ function App() {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/faq" element={<FAQ />} />
+            
+            {/* Service Detail Routes */}
+            <Route path="/services/digital-transformation" element={<DigitalTransformation />} />
+            <Route path="/services/cloud-solutions" element={<CloudSolutions />} />
+            <Route path="/services/ai-ml" element={<AiMl />} />
+            <Route path="/services/cybersecurity" element={<Cybersecurity />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/case-studies" element={<CaseStudies />} />
+            <Route path="/insights" element={<Insights />} />
             
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />

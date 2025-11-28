@@ -7,6 +7,7 @@ const Footer = () => {
       title: 'Company',
       links: [
         { name: 'About Us', path: '/about' },
+        { name: 'Portfolio', path: '/portfolio' },
         { name: 'Careers', path: '/careers' },
         { name: 'Blog', path: '/blog' },
       ],
@@ -33,6 +34,8 @@ const Footer = () => {
       title: 'Support',
       links: [
         { name: 'Contact Us', path: '/contact' },
+        { name: 'Case Studies', path: '/case-studies' },
+        { name: 'Insights', path: '/insights' },
         { name: 'Privacy Policy', path: '/privacy' },
         { name: 'Terms of Service', path: '/terms' },
         { name: 'FAQ', path: '/faq' },

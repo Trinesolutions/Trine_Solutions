@@ -295,12 +295,14 @@ const Blog = () => {
             </div>
           )}
 
-          {/* Load More Button */}
+          {/* More Articles Link */}
           {filteredPosts.length > 0 && (
             <div className="text-center mt-12">
-              <button className="px-10 py-4 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold text-lg rounded-2xl hover:shadow-2xl hover:shadow-orange-500/50 transform hover:scale-105 transition-all duration-300">
-                Load More Articles
-              </button>
+              <Link to="/insights" className="inline-block">
+                <button className="px-10 py-4 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold text-lg rounded-2xl hover:shadow-2xl hover:shadow-orange-500/50 transform hover:scale-105 transition-all duration-300">
+                  Explore More Insights
+                </button>
+              </Link>
             </div>
           )}
         </div>
@@ -336,10 +338,12 @@ const Blog = () => {
                 placeholder="Enter your email address"
                 className="flex-1 px-6 py-4 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-300"
               />
-              <button className="px-8 py-4 bg-white text-orange-600 rounded-2xl font-bold hover:bg-green-50 transform hover:scale-105 transition-all duration-300 shadow-2xl flex items-center gap-2">
-                Subscribe
-                <ArrowRight className="w-5 h-5" />
-              </button>
+              <Link to="/contact" className="inline-block">
+                <button className="px-8 py-4 bg-white text-orange-600 rounded-2xl font-bold hover:bg-green-50 transform hover:scale-105 transition-all duration-300 shadow-2xl flex items-center gap-2">
+                  Contact Us
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>

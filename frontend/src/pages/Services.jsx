@@ -179,10 +179,12 @@ const Services = () => {
           <p className="text-lg text-white/90 mb-10 max-w-2xl mx-auto">
             Let's discuss how our services can help you achieve your goals.
           </p>
-          <button className="btn-primary flex items-center space-x-2 mx-auto bg-white text-trine-lightblue hover:bg-gray-100" data-testid="services-cta-btn">
-            <span>Schedule a Consultation</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
+          <Link to="/contact" className="inline-block">
+            <button className="btn-primary flex items-center space-x-2 mx-auto bg-white text-trine-lightblue hover:bg-gray-100" data-testid="services-cta-btn">
+              <span>Schedule a Consultation</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </Link>
         </div>
       </section>
     </div>
