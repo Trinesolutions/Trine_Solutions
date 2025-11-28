@@ -396,7 +396,7 @@ const ServiceDetail = () => {
                 {/* Privacy Notice */}
                 <p className="text-center text-white/40 text-sm pt-2">
                   By submitting this form, you agree to our{' '}
-                  <span className="text-trine-orange hover:text-trine-green cursor-pointer transition-colors duration-300">Privacy Policy</span>
+                  <Link to="/privacy" className="text-trine-orange hover:text-trine-green transition-colors duration-300">Privacy Policy</Link>
                 </p>
               </form>
             </div>
