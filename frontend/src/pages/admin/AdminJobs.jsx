@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Plus, Edit2, Trash2, X, Save, Eye, Briefcase, MapPin, Clock, DollarSign, Users, Search, Filter, CheckCircle, XCircle, FileText } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Save, Eye, Briefcase, MapPin, Clock, DollarSign, Users, Search, Filter, CheckCircle, XCircle, FileText, Mail, Phone, ExternalLink, Download, Inbox, Target } from 'lucide-react';
 import { toast } from 'sonner';
 import AdminLayout from './AdminLayout';
 
@@ -14,6 +14,8 @@ const AdminJobs = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showApplicationDetailModal, setShowApplicationDetailModal] = useState(false);
+  const [selectedApplication, setSelectedApplication] = useState(null);
   const [editingJob, setEditingJob] = useState(null);
   const [activeTab, setActiveTab] = useState('jobs');
   const [searchTerm, setSearchTerm] = useState('');
@@ -182,6 +184,30 @@ const AdminJobs = () => {
       console.error('Error updating status:', error);
       toast.error('Failed to update status');
     }
+  };
+
+  const deleteApplication = async (applicationId, closeModal = false) => {
+    if (!window.confirm('Are you sure you want to delete this job application? This action cannot be undone.')) return;
+    
+    try {
+      await axios.delete(`${API}/job-applications/${applicationId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      toast.success('Application deleted successfully!');
+      fetchApplications();
+      if (closeModal) {
+        setShowApplicationDetailModal(false);
+        setSelectedApplication(null);
+      }
+    } catch (error) {
+      console.error('Error deleting application:', error);
+      toast.error('Failed to delete application');
+    }
+  };
+
+  const viewApplicationDetails = (application) => {
+    setSelectedApplication(application);
+    setShowApplicationDetailModal(true);
   };
 
   const getStatusColor = (status) => {
@@ -501,8 +527,12 @@ const AdminJobs = () => {
                             Applied for: <span className="font-semibold text-trine-orange">{app.job_title}</span>
                           </p>
                           <div className="flex flex-wrap gap-3 mt-2 text-sm text-gray-600 dark:text-gray-400">
-                            <span className="flex items-center gap-1">📧 {app.email}</span>
-                            <span className="flex items-center gap-1">📱 {app.phone}</span>
+                            <span className="flex items-center gap-1">
+                              <Mail className="w-3 h-3" /> {app.email}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Phone className="w-3 h-3" /> {app.phone}
+                            </span>
                           </div>
                           <p className="text-xs text-gray-400 mt-2">
                             Applied: {new Date(app.applied_at).toLocaleDateString('en-US', { 
@@ -529,13 +559,22 @@ const AdminJobs = () => {
                       </span>
                       
                       <div className="flex flex-wrap gap-2">
+                        {/* View Details Button */}
+                        <button
+                          onClick={() => viewApplicationDetails(app)}
+                          className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm font-medium"
+                        >
+                          <Eye className="w-4 h-4" />
+                          View Details
+                        </button>
+                        
                         <a
                           href={app.resume_url}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-trine-orange to-trine-green text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-trine-orange/25 transition-all text-sm"
                         >
-                          <Eye className="w-4 h-4" />
+                          <Download className="w-4 h-4" />
                           Resume
                         </a>
                         
@@ -544,9 +583,10 @@ const AdminJobs = () => {
                             href={app.linkedin_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm"
+                            className="flex items-center gap-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm"
                           >
                             LinkedIn
+                            <ExternalLink className="w-3 h-3" />
                           </a>
                         )}
 
@@ -555,23 +595,34 @@ const AdminJobs = () => {
                             href={app.portfolio_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm"
+                            className="flex items-center gap-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm"
                           >
                             Portfolio
+                            <ExternalLink className="w-3 h-3" />
                           </a>
                         )}
+                        
+                        {/* Delete Button */}
+                        <button
+                          onClick={() => deleteApplication(app.id)}
+                          className="flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors text-sm font-medium"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Delete
+                        </button>
                       </div>
 
                       <select
                         value={app.status}
                         onChange={(e) => updateApplicationStatus(app.id, e.target.value)}
+                        aria-label={`Update status for ${app.name}'s application`}
                         className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium focus:border-trine-orange outline-none cursor-pointer"
                       >
-                        <option value="new">📩 New</option>
-                        <option value="reviewing">👀 Reviewing</option>
-                        <option value="interview">🎯 Interview</option>
-                        <option value="accepted">✅ Accepted</option>
-                        <option value="rejected">❌ Rejected</option>
+                        <option value="new">New</option>
+                        <option value="reviewing">Reviewing</option>
+                        <option value="interview">Interview</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
                       </select>
                     </div>
                   </div>
@@ -784,6 +835,175 @@ const AdminJobs = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* Application Detail Modal */}
+        {showApplicationDetailModal && selectedApplication && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
+              {/* Modal Header */}
+              <div className="sticky top-0 bg-white dark:bg-gray-800 px-8 py-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center z-10">
+                <div>
+                  <h2 className="text-2xl font-bold text-trine-black dark:text-white">Application Details</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Applied for: <span className="font-semibold text-trine-orange">{selectedApplication.job_title}</span>
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowApplicationDetailModal(false)}
+                  className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="p-8">
+                {/* Applicant Info Card */}
+                <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 mb-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-trine-orange to-trine-green flex items-center justify-center text-white font-bold text-2xl">
+                      {selectedApplication.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-trine-black dark:text-white">{selectedApplication.name}</h3>
+                      <div className="flex flex-col gap-2 mt-3">
+                        <a href={`mailto:${selectedApplication.email}`} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-trine-orange transition-colors">
+                          <Mail className="w-4 h-4" />
+                          {selectedApplication.email}
+                        </a>
+                        <a href={`tel:${selectedApplication.phone}`} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-trine-orange transition-colors">
+                          <Phone className="w-4 h-4" />
+                          {selectedApplication.phone}
+                        </a>
+                      </div>
+                    </div>
+                    <span className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${getStatusColor(selectedApplication.status)}`}>
+                      {getStatusIcon(selectedApplication.status)}
+                      {selectedApplication.status.charAt(0).toUpperCase() + selectedApplication.status.slice(1)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Application Date */}
+                <div className="mb-6">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-semibold">Applied on:</span>{' '}
+                    {new Date(selectedApplication.applied_at).toLocaleDateString('en-US', { 
+                      weekday: 'long',
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </p>
+                </div>
+
+                {/* Links Section */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                  <a
+                    href={selectedApplication.resume_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-trine-orange to-trine-green text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-trine-orange/25 transition-all"
+                  >
+                    <FileText className="w-5 h-5" />
+                    View Resume
+                  </a>
+                  
+                  {selectedApplication.linkedin_url ? (
+                    <a
+                      href={selectedApplication.linkedin_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium"
+                    >
+                      LinkedIn
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  ) : (
+                    <div className="flex items-center justify-center px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-400">
+                      No LinkedIn
+                    </div>
+                  )}
+                  
+                  {selectedApplication.portfolio_url ? (
+                    <a
+                      href={selectedApplication.portfolio_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium"
+                    >
+                      Portfolio
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  ) : (
+                    <div className="flex items-center justify-center px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-400">
+                      No Portfolio
+                    </div>
+                  )}
+                </div>
+
+                {/* Cover Letter */}
+                {selectedApplication.cover_letter && (
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-trine-black dark:text-white mb-3">Cover Letter</h4>
+                    <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-5">
+                      <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
+                        {selectedApplication.cover_letter}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Status Update */}
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+                  <h4 className="font-semibold text-trine-black dark:text-white mb-3">Update Status</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['new', 'reviewing', 'interview', 'accepted', 'rejected'].map((status) => (
+                      <button
+                        key={status}
+                        onClick={() => {
+                          updateApplicationStatus(selectedApplication.id, status);
+                          setSelectedApplication({ ...selectedApplication, status });
+                        }}
+                        aria-label={`Set status to ${status}`}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                          selectedApplication.status === status
+                            ? 'bg-gradient-to-r from-trine-orange to-trine-green text-white shadow-md'
+                            : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                        }`}
+                      >
+                        {status === 'new' && <Inbox className="w-4 h-4" aria-hidden="true" />}
+                        {status === 'reviewing' && <Eye className="w-4 h-4" aria-hidden="true" />}
+                        {status === 'interview' && <Target className="w-4 h-4" aria-hidden="true" />}
+                        {status === 'accepted' && <CheckCircle className="w-4 h-4" aria-hidden="true" />}
+                        {status === 'rejected' && <XCircle className="w-4 h-4" aria-hidden="true" />}
+                        {status.charAt(0).toUpperCase() + status.slice(1)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-4 mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                  <button
+                    onClick={() => deleteApplication(selectedApplication.id, true)}
+                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors font-semibold"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                    Delete Application
+                  </button>
+                  <button
+                    onClick={() => setShowApplicationDetailModal(false)}
+                    className="flex-1 px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-semibold"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}

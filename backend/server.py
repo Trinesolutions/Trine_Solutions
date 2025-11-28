@@ -1440,6 +1440,22 @@ async def admin_update_application_status(
         logger.error(f"Error updating application status: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to update status: {str(e)}")
 
+@admin_router.delete("/job-applications/{application_id}")
+async def admin_delete_job_application(
+    application_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    try:
+        result = await db.job_applications.delete_one({"id": application_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Application not found")
+        return {"message": "Application deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting job application: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete application: {str(e)}")
+
 # Cloudinary Upload Endpoint
 @admin_router.post("/upload-image")
 async def upload_image_to_cloudinary(file: UploadFile = File(...), folder: str = "partners", current_user: dict = Depends(get_current_user)):
