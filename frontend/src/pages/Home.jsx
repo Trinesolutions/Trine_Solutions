@@ -268,7 +268,7 @@ const Home = () => {
   };
 
   return (
-    <main className="min-h-screen bg-white dark:bg-trine-black" data-testid="home-page" role="main">
+    <>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-sky-50 to-green-50 dark:from-trine-black dark:via-trine-black dark:to-trine-black pt-20" aria-labelledby="hero-title">
         {/* Animated Grid Background */}
@@ -430,10 +430,7 @@ const Home = () => {
             </div>
             
             <div className="animate-on-scroll opacity-0">
-              <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-lightblue/10 border border-trine-orange/20 mb-6">
-                <Sparkles className="w-4 h-4 text-trine-orange" />
-                <span className="text-sm font-semibold text-trine-orange">ABOUT US</span>
-              </div>
+              
               
               <h2 className="text-4xl font-bold mb-6" data-testid="about-title">
                 <span className="text-trine-black dark:text-white">
@@ -611,12 +608,11 @@ const Home = () => {
             </h2>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             {[
-              { value: '500+', label: 'Projects Completed', icon: Rocket },
-              { value: '98%', label: 'Client Satisfaction', icon: Heart },
-              { value: '50+', label: 'Countries Served', icon: Globe },
-              { value: '$2B+', label: 'Client Revenue Generated', icon: TrendingUp },
+              { value: '50+', label: 'Projects Completed', icon: Rocket },
+              { value: '92%', label: 'Client Satisfaction', icon: Heart },
+              { value: '$1B+', label: 'Client Revenue Generated', icon: TrendingUp },
             ].map((stat, index) => (
               <div 
                 key={index}
@@ -635,127 +631,6 @@ const Home = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Portfolio Showcase */}
-      <section className="py-20 bg-white dark:bg-trine-black">
-        <div className="container">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-green/10 border border-trine-orange/20 mb-6">
-              <Sparkles className="w-4 h-4 text-trine-orange" />
-              <span className="text-sm font-semibold text-trine-orange">FEATURED WORK</span>
-            </div>
-            
-            <h2 className="text-4xl font-bold mb-6">
-              <span className="text-trine-black dark:text-white">Our Latest</span>
-              <br />
-              <span className="bg-gradient-to-r from-trine-orange to-trine-green bg-clip-text text-transparent">Success Stories</span>
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Explore our portfolio of transformative digital solutions that have helped businesses achieve remarkable results.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                title: 'Enterprise Cloud Migration',
-                category: 'Cloud Solutions',
-                image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600',
-                result: '40% cost reduction'
-              },
-              {
-                title: 'AI Analytics Platform',
-                category: 'Data & AI',
-                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600',
-                result: '65% better insights'
-              },
-              {
-                title: 'Healthcare Security',
-                category: 'Cybersecurity',
-                image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600',
-                result: '100% HIPAA compliant'
-              }
-            ].map((project, index) => (
-              <Link 
-                to="/services" 
-                key={index}
-                className="group animate-on-scroll opacity-0"
-                data-testid={`portfolio-preview-${index}`}
-              >
-                <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 shadow-lg hover:shadow-2xl transition-all duration-500">
-                  <div className="aspect-video overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-trine-black via-trine-black/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-                    
-                    {/* Category Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-trine-orange/90 backdrop-blur-sm text-white text-xs font-semibold">
-                        {project.category}
-                      </span>
-                    </div>
-                    
-                    {/* Result Badge */}
-                    <div className="absolute bottom-4 right-4">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-trine-green/90 backdrop-blur-sm text-white text-xs font-semibold">
-                        {project.result}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-trine-black dark:text-white group-hover:text-trine-orange transition-colors mb-2">
-                      {project.title}
-                    </h3>
-                    <div className="flex items-center gap-2 text-trine-green font-medium text-sm">
-                      <span>View Project</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-          
-          <div className="text-center mt-12">
-            <Link to="/services" className="group inline-block">
-              <button className="px-8 py-4 rounded-xl bg-gradient-to-r from-trine-orange to-trine-green text-white font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-trine-orange/30 hover:scale-105">
-                <span className="flex items-center gap-2">
-                  View All Services
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-green-50/30 dark:from-gray-900 dark:to-gray-900">
-        <div className="container">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-green/10 border border-trine-orange/20 mb-6">
-              <Users className="w-4 h-4 text-trine-orange" />
-              <span className="text-sm font-semibold text-trine-orange">CLIENT TESTIMONIALS</span>
-            </div>
-            
-            <h2 className="text-4xl font-bold mb-6">
-              <span className="text-trine-black dark:text-white">Trusted by</span>
-              <br />
-              <span className="bg-gradient-to-r from-trine-orange to-trine-green bg-clip-text text-transparent">Industry Leaders</span>
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Hear what our clients have to say about their transformative experience working with Trine Solutions.
-            </p>
-          </div>
-          
-          <TestimonialSlider testimonials={dynamicTestimonials} autoPlay={true} interval={6000} />
         </div>
       </section>
 
@@ -816,7 +691,7 @@ const Home = () => {
           transform: translateY(0);
         }
       `}</style>
-    </main>
+    </>
   );
 };
 

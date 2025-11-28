@@ -33,11 +33,11 @@ const Layout = ({ children, darkMode, setDarkMode, language, setLanguage }) => {
   }, [location.pathname]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen m-0 p-0">
       {!isAdminRoute && (
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} language={language} setLanguage={setLanguage} />
       )}
-      <main className="flex-grow">
+      <main className="flex-grow m-0 p-0">
         {children}
       </main>
       {!isAdminRoute && <Footer />}
@@ -83,8 +83,8 @@ function App() {
             <Route path="/admin/announcements" element={<AdminAnnouncements />} />
             <Route path="/admin/contacts" element={<AdminContacts />} />
           </Routes>
+        
         </Layout>
-        <Toaster position="top-right" richColors />
       </BrowserRouter>
     </div>
   );

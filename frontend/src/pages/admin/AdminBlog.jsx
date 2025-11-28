@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Plus, Edit2, Trash2, X, Save, Eye, EyeOff, Upload, Loader2 } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Save, Eye, EyeOff, Upload, Loader2, FileText, Calendar, User, Tag, Search, Filter } from 'lucide-react';
 import { toast } from 'sonner';
 import AdminLayout from './AdminLayout';
 
@@ -14,6 +14,8 @@ const AdminBlog = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingPost, setEditingPost] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [formData, setFormData] = useState({
     title: '',
     excerpt: '',
@@ -201,78 +203,199 @@ const AdminBlog = () => {
 
   const categories = ['AI & Innovation', 'Cybersecurity', 'Cloud Computing', 'Compliance', 'Digital Transformation'];
 
+  // Filter posts
+  const filteredPosts = posts.filter(post => {
+    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          post.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = categoryFilter === 'all' || post.category === categoryFilter;
+    return matchesSearch && matchesCategory;
+  });
+
+  // Stats
+  const stats = {
+    totalPosts: posts.length,
+    publishedPosts: posts.filter(p => p.published === true).length,
+    draftPosts: posts.filter(p => p.published === false || p.published === undefined).length,
+  };
+
   return (
     <AdminLayout>
-      <div data-testid="admin-blog-page">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+      <div data-testid="admin-blog-page" className="space-y-8 animate-fade-in">
+        {/* Page Header */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold">Blog Posts</h2>
-            <p className="text-gray-500">Manage your blog articles and insights</p>
+            <h1 className="text-3xl font-bold text-trine-black dark:text-white">
+              Blog Management
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
+              Create and manage your blog posts and company updates
+            </p>
           </div>
           <button
             onClick={() => openModal()}
-            className="btn-primary flex items-center space-x-2"
+            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-trine-orange to-trine-green text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-trine-orange/25 transition-all duration-300 transform hover:scale-105"
           >
             <Plus className="w-5 h-5" />
-            <span>New Post</span>
+            New Post
           </button>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-orange/50 transition-colors duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-trine-orange/10 flex items-center justify-center">
+                <FileText className="w-6 h-6 text-trine-orange" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-trine-black dark:text-white">{stats.totalPosts}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Total Posts</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-green/50 transition-colors duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-trine-green/10 flex items-center justify-center">
+                <Eye className="w-6 h-6 text-trine-green" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-trine-black dark:text-white">{stats.publishedPosts}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Published</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-lightblue/50 transition-colors duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-trine-lightblue/10 flex items-center justify-center">
+                <EyeOff className="w-6 h-6 text-trine-lightblue" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-trine-black dark:text-white">{stats.draftPosts}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Drafts</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Search and Filter */}
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search posts by title, author, or content..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 outline-none transition-all"
+            />
+          </div>
+          <div className="relative">
+            <Filter className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="pl-12 pr-8 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:border-trine-orange outline-none appearance-none cursor-pointer min-w-[200px]"
+            >
+              <option value="all">All Categories</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Posts Grid */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-64 bg-gray-200 dark:bg-gray-700 rounded-2xl animate-pulse" />
+              <div key={i} className="h-72 bg-gray-200 dark:bg-gray-700 rounded-2xl animate-pulse" />
             ))}
           </div>
+        ) : filteredPosts.length === 0 && posts.length > 0 ? (
+          <div className="text-center py-16 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700">
+            <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-500 dark:text-gray-400">No posts match your search criteria</p>
+          </div>
         ) : posts.length === 0 ? (
-          <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl">
-            <p className="text-gray-500 mb-4">No blog posts yet</p>
+          <div className="text-center py-16 bg-white dark:bg-gray-800 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700">
+            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-trine-orange/10 flex items-center justify-center">
+              <FileText className="w-10 h-10 text-trine-orange" />
+            </div>
+            <h3 className="text-xl font-semibold text-trine-black dark:text-white mb-2">No Blog Posts Yet</h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">Create your first blog post to share insights with your audience</p>
             <button
               onClick={() => openModal()}
-              className="btn-primary"
+              className="px-6 py-3 bg-gradient-to-r from-trine-orange to-trine-green text-white rounded-xl font-semibold hover:shadow-lg transition-all"
             >
-              Create Your First Post
+              Create First Post
             </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post) => (
+            {filteredPosts.map((post, index) => (
               <div
                 key={post.id}
-                className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-trine-orange/50 hover:shadow-xl hover:shadow-trine-orange/5 transition-all duration-300 group"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="h-40 overflow-hidden">
+                <div className="h-44 overflow-hidden relative">
                   <img
                     src={post.image || 'https://via.placeholder.com/400x300'}
                     alt={post.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-orange-500 font-semibold uppercase">{post.category}</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute top-3 right-3">
                     {post.published ? (
-                      <Eye className="w-4 h-4 text-green-500" />
+                      <span className="flex items-center gap-1 px-2 py-1 bg-trine-green/90 text-white text-xs font-semibold rounded-lg">
+                        <Eye className="w-3 h-3" /> Published
+                      </span>
                     ) : (
-                      <EyeOff className="w-4 h-4 text-gray-400" />
+                      <span className="flex items-center gap-1 px-2 py-1 bg-gray-500/90 text-white text-xs font-semibold rounded-lg">
+                        <EyeOff className="w-3 h-3" /> Draft
+                      </span>
                     )}
                   </div>
-                  <h3 className="font-bold text-lg mb-2 line-clamp-2">{post.title}</h3>
-                  <p className="text-sm text-gray-500 mb-4 line-clamp-2">{post.excerpt}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-400">{post.published_date || post.date}</span>
-                    <div className="flex items-center space-x-2">
+                </div>
+                <div className="p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="px-3 py-1 bg-trine-orange/10 text-trine-orange text-xs font-semibold rounded-full">
+                      {post.category}
+                    </span>
+                    {post.post_type === 'company-update' && (
+                      <span className="px-3 py-1 bg-trine-lightblue/10 text-trine-lightblue text-xs font-semibold rounded-full">
+                        Update
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-bold text-lg text-trine-black dark:text-white mb-2 line-clamp-2 group-hover:text-trine-orange transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <div className="flex items-center gap-4 text-xs text-gray-400">
+                      <span className="flex items-center gap-1">
+                        <User className="w-3 h-3" />
+                        {post.author}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {post.published_date || post.date}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
                       <button
                         onClick={() => openModal(post)}
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        className="p-2 rounded-lg hover:bg-trine-orange/10 transition-colors"
                       >
-                        <Edit2 className="w-4 h-4 text-blue-500" />
+                        <Edit2 className="w-4 h-4 text-trine-orange" />
                       </button>
                       <button
                         onClick={() => handleDelete(post.id)}
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        className="p-2 rounded-lg hover:bg-red-500/10 transition-colors"
                       >
                         <Trash2 className="w-4 h-4 text-red-500" />
                       </button>
@@ -286,56 +409,72 @@ const AdminBlog = () => {
 
         {/* Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between sticky top-0 bg-white dark:bg-gray-800">
-                <h3 className="text-xl font-bold">
-                  {editingPost ? 'Edit Post' : 'Create New Post'}
-                </h3>
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl animate-scale-in">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between sticky top-0 bg-white dark:bg-gray-800 z-10">
+                <div>
+                  <h3 className="text-2xl font-bold text-trine-black dark:text-white">
+                    {editingPost ? 'Edit Post' : 'Create New Post'}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    {editingPost ? 'Update your blog post details' : 'Fill in the details for your new blog post'}
+                  </p>
+                </div>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6" />
                 </button>
               </div>
               <form onSubmit={handleSubmit} className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Title *</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Title <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="text"
                       name="title"
                       value={formData.title}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                      placeholder="Enter a compelling title..."
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 outline-none transition-all"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Excerpt *</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Excerpt <span className="text-red-500">*</span>
+                    </label>
                     <textarea
                       name="excerpt"
                       value={formData.excerpt}
                       onChange={handleChange}
                       required
                       rows={2}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500 resize-none"
+                      placeholder="A brief summary of your post..."
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 outline-none resize-none transition-all"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Content *</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Content <span className="text-red-500">*</span>
+                    </label>
                     <textarea
                       name="content"
                       value={formData.content}
                       onChange={handleChange}
                       required
                       rows={6}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500 resize-none"
+                      placeholder="Write your blog post content here..."
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 outline-none resize-none transition-all"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Featured Image *</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Featured Image <span className="text-red-500">*</span>
+                    </label>
                     <div className="space-y-2">
                       <div className="flex gap-2">
                         <input
@@ -345,9 +484,9 @@ const AdminBlog = () => {
                           onChange={handleChange}
                           placeholder="Image URL or upload below"
                           required
-                          className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                          className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 outline-none transition-all"
                         />
-                        <label className="px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl cursor-pointer hover:from-orange-600 hover:to-orange-700 transition-all flex items-center gap-2 whitespace-nowrap">
+                        <label className="px-4 py-3 bg-gradient-to-r from-trine-orange to-trine-green text-white rounded-xl cursor-pointer hover:shadow-lg hover:shadow-trine-orange/25 transition-all flex items-center gap-2 whitespace-nowrap">
                           {uploadingFeatured ? (
                             <>
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -372,24 +511,29 @@ const AdminBlog = () => {
                         <img
                           src={formData.image}
                           alt="Featured preview"
-                          className="w-full h-32 object-cover rounded-xl border border-gray-300"
+                          className="w-full h-32 object-cover rounded-xl border border-gray-300 dark:border-gray-600"
                         />
                       )}
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Author *</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Author <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="text"
                       name="author"
                       value={formData.author}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                      placeholder="Author name"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 outline-none transition-all"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Gallery Images</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Gallery Images <span className="text-gray-400">(optional)</span>
+                    </label>
                     <div className="space-y-2">
                       <div className="flex gap-2">
                         <textarea
@@ -398,9 +542,9 @@ const AdminBlog = () => {
                           onChange={handleChange}
                           rows={2}
                           placeholder="Comma-separated URLs or upload images below"
-                          className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500 resize-none"
+                          className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 outline-none resize-none transition-all"
                         />
-                        <label className="px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl cursor-pointer hover:from-green-600 hover:to-green-700 transition-all flex items-center gap-2 whitespace-nowrap h-fit">
+                        <label className="px-4 py-3 bg-trine-green text-white rounded-xl cursor-pointer hover:bg-trine-green/90 transition-all flex items-center gap-2 whitespace-nowrap h-fit">
                           {uploadingGallery ? (
                             <>
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -429,7 +573,7 @@ const AdminBlog = () => {
                                 <img
                                   src={img.trim()}
                                   alt={`Gallery ${idx + 1}`}
-                                  className="w-full h-20 object-cover rounded-lg border border-gray-300"
+                                  className="w-full h-20 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
                                 />
                                 <button
                                   type="button"
@@ -449,26 +593,30 @@ const AdminBlog = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Post Type *</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Post Type <span className="text-red-500">*</span>
+                    </label>
                     <select
                       name="post_type"
                       value={formData.post_type}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange outline-none cursor-pointer"
                     >
                       <option value="blog">Blog Post</option>
                       <option value="company-update">Company Update</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Category *</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Category <span className="text-red-500">*</span>
+                    </label>
                     <select
                       name="category"
                       value={formData.category}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange outline-none cursor-pointer"
                     >
                       <option value="">Select Category</option>
                       {categories.map((cat) => (
@@ -477,7 +625,9 @@ const AdminBlog = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Read Time *</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Read Time <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="text"
                       name="readTime"
@@ -485,46 +635,58 @@ const AdminBlog = () => {
                       onChange={handleChange}
                       required
                       placeholder="e.g., 8 min read"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 outline-none transition-all"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Tags (comma-separated)</label>
-                    <input
-                      type="text"
-                      name="tags"
-                      value={formData.tags}
-                      onChange={handleChange}
-                      placeholder="AI, Cloud, Security"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
-                    />
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                      Tags <span className="text-gray-400">(comma-separated)</span>
+                    </label>
+                    <div className="relative">
+                      <Tag className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <input
+                        type="text"
+                        name="tags"
+                        value={formData.tags}
+                        onChange={handleChange}
+                        placeholder="AI, Cloud, Security"
+                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 outline-none transition-all"
+                      />
+                    </div>
                   </div>
-                  <div className="md:col-span-2 flex items-center space-x-3">
-                    <input
-                      type="checkbox"
-                      name="published"
-                      checked={formData.published}
-                      onChange={handleChange}
-                      id="published"
-                      className="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
-                    />
-                    <label htmlFor="published" className="text-sm font-medium">Published</label>
+                  <div className="md:col-span-2">
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <div className="relative">
+                        <input
+                          type="checkbox"
+                          name="published"
+                          checked={formData.published}
+                          onChange={handleChange}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-300 dark:bg-gray-600 rounded-full peer peer-checked:bg-trine-green transition-colors"></div>
+                        <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-trine-orange transition-colors">
+                        Published (visible on the website)
+                      </span>
+                    </label>
                   </div>
                 </div>
-                <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
                   <button
                     type="button"
                     onClick={() => setShowModal(false)}
-                    className="px-6 py-3 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    className="px-8 py-3 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-semibold"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="btn-primary flex items-center space-x-2"
+                    className="px-8 py-3 bg-gradient-to-r from-trine-orange to-trine-green text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-trine-orange/25 transition-all flex items-center gap-2"
                   >
                     <Save className="w-5 h-5" />
-                    <span>{editingPost ? 'Update' : 'Create'}</span>
+                    <span>{editingPost ? 'Update Post' : 'Create Post'}</span>
                   </button>
                 </div>
               </form>
