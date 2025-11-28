@@ -17,6 +17,12 @@ import secrets
 import cloudinary
 import cloudinary.uploader
 
+# Configure logging early
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -46,11 +52,14 @@ except Exception as e:
     print(f"Cloudinary configuration error: {e}")
 
 # MongoDB connection
-mongo_url = os.environ.get('MONGO_URL', os.environ.get('MONGODB_URI', ''))
+mongo_url = os.environ.get('MONGO_URL')
 if not mongo_url:
-    raise ValueError("MONGO_URL or MONGODB_URI environment variable must be set")
+    logger.error("Required database connection environment variable is not set")
+    raise ValueError("Database connection configuration is missing")
+
+db_name = os.environ.get('DB_NAME', 'trine_solutions')
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ.get('DB_NAME', 'trine_solutions')]
+db = client[db_name]
 
 # JWT Configuration
 # NOTE: In production, JWT_SECRET_KEY should be set as an environment variable
@@ -103,8 +112,44 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     
     return AdminUserResponse(**user)
 
+# Parse CORS origins from environment variable
+cors_origins_raw = os.environ.get('CORS_ORIGINS', 'http://localhost:3000,https://trine-solutions.vercel.app')
+if cors_origins_raw == '*':
+    cors_origins = ["*"]
+else:
+    cors_origins = [origin.strip() for origin in cors_origins_raw.split(',') if origin.strip()]
+
+# Ensure production URL is always included
+production_origins = [
+    "https://trine-solutions.vercel.app",
+    "https://www.trine-solutions.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+# Merge and deduplicate origins
+for origin in production_origins:
+    if origin not in cors_origins and cors_origins != ["*"]:
+        cors_origins.append(origin)
+
+logger.info(f"CORS Origins configured: {cors_origins}")
+
 # Create the main app without a prefix
-app = FastAPI()
+app = FastAPI(
+    title="Trine Solutions API",
+    description="Backend API for Trine Solutions website",
+    version="1.0.0"
+)
+
+# Add CORS middleware BEFORE including routes
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
+    expose_headers=["Content-Length", "Content-Type"],
+)
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
@@ -221,11 +266,10 @@ class BlogPost(BaseModel):
     title: str
     excerpt: str
     content: str
-    image: str  # Main blog post image
-    date: Optional[str] = Field(default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%d"))  # Matches default data
+    featured_image: str
     gallery_images: List[str] = []  # Additional images for the blog post
     post_type: str = "blog"  # "blog" or "company-update"
-    published_date: Optional[str] = None  # For backward compatibility
+    published_date: str = Field(default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%d"))
     author: str
     category: str
     readTime: str
@@ -236,8 +280,7 @@ class BlogPostCreate(BaseModel):
     title: str
     excerpt: str
     content: str
-    image: str  # Main blog post image
-    date: Optional[str] = None
+    featured_image: str
     gallery_images: List[str] = []
     post_type: str = "blog"
     author: str
@@ -1310,59 +1353,24 @@ async def upload_image_to_cloudinary(file: UploadFile = File(...), folder: str =
 app.include_router(api_router)
 app.include_router(admin_router)
 
-# Parse CORS origins from environment variable
-cors_origins_raw = os.environ.get('CORS_ORIGINS', '*')
-if cors_origins_raw == '*':
-    cors_origins = ["*"]
-else:
-    cors_origins = [origin.strip() for origin in cors_origins_raw.split(',')]
-
-print(f"CORS Origins: {cors_origins}")  # Debug log
-
-# Root health check endpoint
-@app.get("/")
-async def root():
-    return {
-        "status": "healthy",
-        "message": "Trine Solutions API",
-        "version": "1.0.0"
-    }
-
+# Health check endpoint for production monitoring
 @app.get("/health")
 async def health_check():
+    """Health check endpoint for monitoring and deployment verification"""
     try:
-        # Test database connection
-        await db.command('ping')
+        # Verify database connection
+        await db.command("ping")
         return {
             "status": "healthy",
             "database": "connected",
             "cloudinary": "enabled" if CLOUDINARY_ENABLED else "disabled"
         }
     except Exception as e:
+        logger.error(f"Health check failed: {e}")
         return {
             "status": "unhealthy",
-            "error": str(e)
+            "database": "disconnected"
         }
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=cors_origins,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Handle preflight OPTIONS requests explicitly
-@app.options("/{rest_of_path:path}")
-async def preflight_handler(rest_of_path: str):
-    return {}
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
