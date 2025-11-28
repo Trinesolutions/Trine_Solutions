@@ -113,24 +113,30 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     return AdminUserResponse(**user)
 
 # Parse CORS origins from environment variable
-cors_origins_raw = os.environ.get('CORS_ORIGINS', 'http://localhost:3000,https://trine-solutions.vercel.app')
+cors_origins_raw = os.environ.get('CORS_ORIGINS', '*').strip()
+
 if cors_origins_raw == '*':
     cors_origins = ["*"]
+    allow_credentials = False
+    logger.warning(
+        "CORS is configured to allow ALL origins. This is insecure and should only be used "
+        "for testing or unrestricted public APIs."
+    )
 else:
     cors_origins = [origin.strip() for origin in cors_origins_raw.split(',') if origin.strip()]
+    allow_credentials = True
 
-# Ensure production URL is always included
-production_origins = [
-    "https://trine-solutions.vercel.app",
-    "https://www.trine-solutions.vercel.app",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+    # Ensure production URL is always included when not using wildcard
+    production_origins = [
+        "https://trine-solutions.vercel.app",
+        "https://www.trine-solutions.vercel.app",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
 
-# Merge and deduplicate origins
-for origin in production_origins:
-    if origin not in cors_origins and cors_origins != ["*"]:
-        cors_origins.append(origin)
+    for origin in production_origins:
+        if origin not in cors_origins:
+            cors_origins.append(origin)
 
 logger.info(f"CORS Origins configured: {cors_origins}")
 
@@ -145,9 +151,9 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
-    allow_credentials=True,
+    allow_credentials=allow_credentials,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allow_headers=["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
+    allow_headers=["*"] if cors_origins == ["*"] else ["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
     expose_headers=["Content-Length", "Content-Type"],
 )
 
