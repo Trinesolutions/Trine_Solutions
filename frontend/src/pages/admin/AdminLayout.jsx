@@ -56,7 +56,7 @@ const AdminLayout = ({ children }) => {
         <div className="h-20 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-700">
           {sidebarOpen && (
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-orange-blue flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-trine-orange to-trine-green flex items-center justify-center text-white font-bold">
                 T
               </div>
               <span className="font-bold text-lg">Admin</span>
@@ -78,13 +78,13 @@ const AdminLayout = ({ children }) => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors group ${
+                className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 group ${
                   isActive 
-                    ? 'bg-gradient-orange-blue text-white' 
+                    ? 'bg-gradient-to-r from-trine-orange to-trine-green text-white shadow-lg shadow-trine-orange/20' 
                     : 'hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
               >
-                <item.icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-orange-500'}`} />
+                <item.icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-trine-orange'}`} />
                 {sidebarOpen && <span className="font-medium">{item.label}</span>}
               </Link>
             );

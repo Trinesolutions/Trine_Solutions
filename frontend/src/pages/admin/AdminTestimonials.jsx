@@ -195,7 +195,7 @@ const AdminTestimonials = () => {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-trine-orange to-trine-lightblue flex items-center justify-center text-white font-bold text-xl">
+                        <div className="w-full h-full bg-gradient-to-br from-trine-orange to-trine-green flex items-center justify-center text-white font-bold text-xl">
                           {testimonial.name?.charAt(0)?.toUpperCase() || 'T'}
                         </div>
                       )}

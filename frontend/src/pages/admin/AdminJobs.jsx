@@ -53,6 +53,8 @@ const AdminJobs = () => {
       console.error('Error fetching jobs:', error);
       if (error.response?.status === 401) {
         navigate('/admin/login');
+      } else {
+        toast.error('Failed to load jobs. Please try again.');
       }
       setLoading(false);
     }
@@ -66,6 +68,9 @@ const AdminJobs = () => {
       setApplications(response.data);
     } catch (error) {
       console.error('Error fetching applications:', error);
+      if (error.response?.status !== 401) {
+        toast.error('Failed to load applications.');
+      }
     }
   };
 
@@ -181,11 +186,11 @@ const AdminJobs = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      new: 'bg-trine-lightblue/20 text-trine-lightblue border border-trine-lightblue/30',
-      reviewing: 'bg-trine-orange/20 text-trine-orange border border-trine-orange/30',
-      interview: 'bg-trine-black/10 text-trine-black border border-trine-black/30 dark:bg-white/10 dark:text-white dark:border-white/30',
+      new: 'bg-trine-orange/20 text-trine-orange border border-trine-orange/30',
+      reviewing: 'bg-trine-black/10 text-trine-black border border-trine-black/30 dark:bg-white/10 dark:text-white dark:border-white/30',
+      interview: 'bg-gradient-to-r from-trine-orange/20 to-trine-green/20 text-trine-black border border-trine-orange/30 dark:text-white',
       accepted: 'bg-trine-green/20 text-trine-green border border-trine-green/30',
-      rejected: 'bg-trine-orange/30 text-trine-black border border-trine-orange/50 dark:text-white',
+      rejected: 'bg-trine-black/20 text-trine-black border border-trine-black/30 dark:bg-white/20 dark:text-white dark:border-white/30',
     };
     return colors[status] || 'bg-gray-100 text-gray-800';
   };
@@ -252,7 +257,7 @@ const AdminJobs = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-orange/50 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-orange/50 hover:shadow-lg hover:shadow-trine-orange/5 transition-all duration-300 transform hover:-translate-y-1">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-trine-orange/10 flex items-center justify-center">
                 <Briefcase className="w-6 h-6 text-trine-orange" />
@@ -263,7 +268,7 @@ const AdminJobs = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-green/50 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-green/50 hover:shadow-lg hover:shadow-trine-green/5 transition-all duration-300 transform hover:-translate-y-1">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-trine-green/10 flex items-center justify-center">
                 <CheckCircle className="w-6 h-6 text-trine-green" />
@@ -274,10 +279,10 @@ const AdminJobs = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-lightblue/50 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-black/30 dark:hover:border-white/30 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-trine-lightblue/10 flex items-center justify-center">
-                <Users className="w-6 h-6 text-trine-lightblue" />
+              <div className="w-12 h-12 rounded-xl bg-trine-black/10 dark:bg-white/10 flex items-center justify-center">
+                <Users className="w-6 h-6 text-trine-black dark:text-white" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-trine-black dark:text-white">{stats.totalApplications}</p>
@@ -285,7 +290,7 @@ const AdminJobs = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-orange/50 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-orange/50 hover:shadow-lg hover:shadow-trine-orange/5 transition-all duration-300 transform hover:-translate-y-1">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-trine-orange/10 to-trine-green/10 flex items-center justify-center">
                 <FileText className="w-6 h-6 text-trine-orange" />
@@ -368,7 +373,7 @@ const AdminJobs = () => {
                           {job.location}
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-trine-lightblue" />
+                          <Clock className="w-4 h-4 text-trine-black dark:text-white" />
                           {job.type}
                         </div>
                         <div className="flex items-center gap-2">
@@ -409,7 +414,7 @@ const AdminJobs = () => {
                         <span className="font-semibold text-trine-black dark:text-white">{job.responsibilities?.length || 0}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-trine-lightblue"></span>
+                        <span className="w-2 h-2 rounded-full bg-trine-black dark:bg-white"></span>
                         <span className="text-gray-500 dark:text-gray-400">Benefits:</span>
                         <span className="font-semibold text-trine-black dark:text-white">{job.benefits?.length || 0}</span>
                       </div>
@@ -528,7 +533,7 @@ const AdminJobs = () => {
                           href={app.resume_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-trine-lightblue text-white rounded-lg font-semibold hover:bg-trine-lightblue/90 transition-colors text-sm"
+                          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-trine-orange to-trine-green text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-trine-orange/25 transition-all text-sm"
                         >
                           <Eye className="w-4 h-4" />
                           Resume

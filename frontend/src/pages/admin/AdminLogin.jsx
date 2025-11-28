@@ -66,7 +66,7 @@ const AdminLogin = () => {
       {/* Floating Glow Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-trine-orange/20 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-trine-lightblue/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-trine-green/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-trine-green/10 rounded-full blur-3xl"></div>
       </div>
 
@@ -75,7 +75,7 @@ const AdminLogin = () => {
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-3xl shadow-2xl">
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-trine-orange via-trine-lightblue to-trine-green flex items-center justify-center mx-auto mb-4 shadow-xl shadow-trine-orange/20">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-trine-orange to-trine-green flex items-center justify-center mx-auto mb-4 shadow-xl shadow-trine-orange/20">
               <Shield className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">Admin Portal</h1>
@@ -158,7 +158,7 @@ const AdminLogin = () => {
               type="submit"
               disabled={loading}
               data-testid="admin-submit-btn"
-              className="w-full py-4 rounded-xl bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green text-white font-semibold flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-trine-orange/30 hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-trine-orange to-trine-green text-white font-semibold flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-trine-orange/30 hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {loading ? (
                 <div className="flex items-center space-x-2" role="status" aria-label="Loading">
@@ -183,7 +183,7 @@ const AdminLogin = () => {
               className="text-gray-400 hover:text-trine-orange transition-colors text-sm"
             >
               {isLogin ? "Don't have an account? " : 'Already have an account? '}
-              <span className="font-semibold text-trine-lightblue hover:text-trine-orange">
+              <span className="font-semibold text-trine-orange hover:text-trine-green">
                 {isLogin ? 'Register' : 'Sign In'}
               </span>
             </button>

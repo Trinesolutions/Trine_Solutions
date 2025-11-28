@@ -53,6 +53,8 @@ const AdminBlog = () => {
       console.error('Error fetching posts:', error);
       if (error.response?.status === 401) {
         navigate('/admin/login');
+      } else {
+        toast.error('Failed to load blog posts. Please try again.');
       }
       setLoading(false);
     }
@@ -243,7 +245,7 @@ const AdminBlog = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-orange/50 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-orange/50 hover:shadow-lg hover:shadow-trine-orange/5 transition-all duration-300 transform hover:-translate-y-1">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-trine-orange/10 flex items-center justify-center">
                 <FileText className="w-6 h-6 text-trine-orange" />
@@ -254,7 +256,7 @@ const AdminBlog = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-green/50 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-green/50 hover:shadow-lg hover:shadow-trine-green/5 transition-all duration-300 transform hover:-translate-y-1">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-trine-green/10 flex items-center justify-center">
                 <Eye className="w-6 h-6 text-trine-green" />
@@ -265,10 +267,10 @@ const AdminBlog = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-lightblue/50 transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-trine-black/30 dark:hover:border-white/30 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-trine-lightblue/10 flex items-center justify-center">
-                <EyeOff className="w-6 h-6 text-trine-lightblue" />
+              <div className="w-12 h-12 rounded-xl bg-trine-black/10 dark:bg-white/10 flex items-center justify-center">
+                <EyeOff className="w-6 h-6 text-trine-black dark:text-white" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-trine-black dark:text-white">{stats.draftPosts}</p>
@@ -364,7 +366,7 @@ const AdminBlog = () => {
                       {post.category}
                     </span>
                     {post.post_type === 'company-update' && (
-                      <span className="px-3 py-1 bg-trine-lightblue/10 text-trine-lightblue text-xs font-semibold rounded-full">
+                      <span className="px-3 py-1 bg-trine-green/10 text-trine-green text-xs font-semibold rounded-full">
                         Update
                       </span>
                     )}
