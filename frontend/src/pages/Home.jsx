@@ -269,71 +269,139 @@ const Home = () => {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-sky-50 to-green-50 dark:from-trine-black dark:via-trine-black dark:to-trine-black pt-20" aria-labelledby="hero-title">
-        {/* Animated Grid Background */}
-        <div className="animated-grid-bg" aria-hidden="true"></div>
-        
-        {/* Floating Glow Boxes */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <div className="glow-box glow-box-orange w-20 h-20 top-[15%] left-[10%]" style={{ animationDelay: '0s' }}></div>
-          <div className="glow-box glow-box-blue w-16 h-16 top-[25%] right-[15%]" style={{ animationDelay: '1s' }}></div>
-          <div className="glow-box glow-box-green w-24 h-24 bottom-[20%] left-[20%]" style={{ animationDelay: '2s' }}></div>
-          <div className="glow-box glow-box-orange w-14 h-14 bottom-[30%] right-[10%]" style={{ animationDelay: '0.5s' }}></div>
-          <div className="glow-box glow-box-blue w-18 h-18 top-[40%] left-[5%]" style={{ animationDelay: '1.5s' }}></div>
-          <div className="glow-box glow-box-green w-12 h-12 top-[60%] right-[25%]" style={{ animationDelay: '2.5s' }}></div>
+
+<section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-black pt-20 transition-colors duration-500" aria-labelledby="hero-title">
+  
+  {/* Left-side Content */}
+  <div className="container mx-auto px-6 relative z-10">
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      
+      {/* Left Column - Text Content */}
+      <div className="text-left">
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+        <h1
+          id="hero-title"
+          className="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 leading-tight"
+        >
+          <span className="block text-gray-900 dark:text-white">Transform</span>
+          <span className="block bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent mt-4 animate-pulse">
+            Your Digital Future
+          </span>
+        </h1>
+
+        <p className="text-xl lg:text-2xl mb-12 leading-relaxed text-gray-700 dark:text-white/80 font-light">
+          Cutting-edge <span className="font-bold text-cyan-500">AI solutions</span>, enterprise
+          <span className="font-bold text-blue-500"> cybersecurity</span>, and innovation that accelerates business growth.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-start gap-6 mb-16">
+          <Link to="/services" className="group relative">
+            <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition-all duration-300"></div>
+            <button className="relative px-12 py-6 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+              <span className="flex items-center gap-3">
+                Explore Solutions
+                <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
+              </span>
+            </button>
+          </Link>
+
+          <Link to="/contact" className="group relative">
+            <button className="relative px-12 py-6 rounded-2xl bg-black/5 dark:bg-white/10 backdrop-blur-sm border-2 border-black/10 dark:border-white/30 text-gray-900 dark:text-white font-bold text-lg hover:bg-black/10 dark:hover:bg-white/20 transition-all duration-300 flex items-center gap-3 hover:scale-105">
+              Get Started
+              <ChevronRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
+            </button>
+          </Link>
         </div>
-        
-        {/* Decorative Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-trine-orange/10 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-trine-lightblue/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-trine-green/5 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="container text-center px-6 relative z-10">
-          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-lightblue/10 border border-trine-orange/20 mb-8">
-              <Sparkles className="w-4 h-4 text-trine-orange" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-trine-orange to-trine-lightblue bg-clip-text text-transparent">
-                Digital Innovation & Excellence
-              </span>
-            </div>
-            
-            <h1 id="hero-title" className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight" data-testid="hero-title">
-              <span className="block text-trine-black">
-                Transform
-              </span>
-              <span className="block bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green bg-clip-text text-transparent mt-2">
-                Your Future
-              </span>
-            </h1>
-            
-            <p className="text-xl mb-12 max-w-3xl mx-auto leading-relaxed text-gray-600 dark:text-gray-300" data-testid="hero-subtitle">
-              Enterprise solutions in <span className="font-semibold text-trine-black dark:text-white">consulting, cybersecurity,</span> and <span className="font-semibold text-trine-orange">digital transformation</span> that drive measurable business growth.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <Link to="/services" data-testid="explore-services-btn" className="group">
-                <button className="px-8 py-4 rounded-lg bg-gradient-to-r from-trine-orange to-trine-orange/90 text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-trine-orange/30 hover:scale-105">
-                  <span className="flex items-center gap-2">
-                    Explore Services
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                  </span>
-                </button>
-              </Link>
+      </div>
+
+      {/* Right Column - MacBook M4 Laptop Showcase */}
+      <div className="relative">
+        {/* MacBook M4 Laptop Container */}
+        <div className="relative w-full max-w-lg mx-auto">
+          {/* Laptop Screen */}
+          <div className="relative mx-auto w-[90%]">
+            {/* Screen Bezel */}
+            <div className="relative rounded-t-[20px] bg-gray-900 p-3 shadow-2xl border border-gray-800">
+              {/* Camera Notch */}
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-12 h-4 bg-black rounded-b-lg z-10"></div>
               
-              <Link to="/contact" data-testid="get-consultation-btn" className="group">
-                <button className="px-8 py-4 rounded-lg bg-white dark:bg-trine-black border-2 border-trine-lightblue text-trine-lightblue font-semibold text-lg hover:bg-trine-lightblue hover:text-white transition-all duration-300 flex items-center gap-2">
-                  Get Started
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </button>
-              </Link>
+              {/* Screen Area - Replace the image source with your own */}
+              <div className="aspect-[16/10] rounded-t-[12px] overflow-hidden bg-gray-800 relative">
+                {/* Your image goes here */}
+                <img 
+                  src="./bg_hero.png" 
+                  alt="Dashboard Preview" 
+                  className="w-full h-full object-cover"
+                />
+                
+          
+              </div>
             </div>
+            
+            {/* Laptop Body */}
+            <div className="relative h-6 bg-gradient-to-b from-gray-300 to-gray-400 dark:from-gray-700 dark:to-gray-800 rounded-b-[18px] shadow-2xl mx-auto w-[99%]">
+              {/* Keyboard Area */}
+              <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-[85%] h-2 bg-gray-200 dark:bg-gray-600 rounded-b-md"></div>
+              
+              {/* Trackpad Indentation */}
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gray-400 dark:bg-gray-500 rounded-full"></div>
+            </div>
+            
+            {/* Laptop Base Shadow */}
+            <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-[110%] h-4 bg-black/20 rounded-full blur-md"></div>
+          </div>
+
+         
+          {/* Connection Lines Animation */}
+          <div className="absolute -inset-4 pointer-events-none">
+            <div className="absolute top-1/2 left-0 w-4 h-0.5 bg-gradient-to-r from-cyan-500 to-transparent animate-pulse"></div>
+            <div className="absolute top-1/4 right-0 w-4 h-0.5 bg-gradient-to-l from-purple-500 to-transparent animate-pulse" style={{ animationDelay: '1s' }}></div>
           </div>
         </div>
-      </section>
 
+        {/* Background Orbs for Laptop Area */}
+        <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96">
+          <div className="absolute top-0 left-0 w-full h-full bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Background Elements */}
+  <div className="absolute inset-0 opacity-30 pointer-events-none">
+    <div
+      className="absolute inset-0"
+      style={{
+        backgroundImage:
+          "linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(180deg, rgba(0,0,0,0.06) 1px, transparent 1px)",
+        backgroundSize: "50px 50px",
+      }}
+    ></div>
+  </div>
+
+  {/* Gradient Orbs */}
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="absolute -top-20 -left-20 w-96 h-96 bg-cyan-400/20 dark:bg-cyan-500/10 rounded-full blur-3xl"></div>
+    <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-400/20 dark:bg-purple-600/10 rounded-full blur-3xl"></div>
+  </div>
+
+  {/* CSS Animations */}
+  <style jsx>{`
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+  `}</style>
+</section>
       {/* Partners */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900" aria-labelledby="partners-title">
         <div className="container">
