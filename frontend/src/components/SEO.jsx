@@ -34,8 +34,20 @@ const SEO = ({
     ? title 
     : `${title} | ${COMPANY_NAME}`;
 
-  // Determine canonical URL
-  const canonical = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : SITE_URL);
+  // Determine canonical URL more consistently
+  const getCanonicalUrl = () => {
+    if (canonicalUrl) return canonicalUrl;
+    if (typeof window !== 'undefined') {
+      // Extract only the origin and pathname to avoid query params and fragments
+      const { origin, pathname } = window.location;
+      // Remove trailing slash for consistency (except for root)
+      const normalizedPath = pathname === '/' ? pathname : pathname.replace(/\/$/, '');
+      return `${origin}${normalizedPath}`;
+    }
+    return SITE_URL;
+  };
+
+  const canonical = getCanonicalUrl();
 
   // Generate breadcrumb structured data
   const generateBreadcrumbsSchema = () => {
@@ -427,7 +439,14 @@ export const structuredDataSchemas = {
       },
     ],
     priceRange: '$$$$',
-    servesCuisine: 'IT Consulting',
+    serviceType: [
+      'Digital Transformation Consulting',
+      'Cybersecurity Services',
+      'Cloud Computing Solutions',
+      'AI & Machine Learning',
+      'IT Consulting',
+      'Enterprise Technology Services',
+    ],
   },
   
   faqPage: (faqs) => ({

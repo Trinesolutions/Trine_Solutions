@@ -4,8 +4,9 @@
 # Allow all crawlers
 User-agent: *
 Allow: /
+Crawl-delay: 1
 
-# Allow specific search engines
+# Allow specific search engines (no delay)
 User-agent: Googlebot
 Allow: /
 
@@ -19,13 +20,10 @@ User-agent: DuckDuckBot
 Allow: /
 
 # Disallow admin and private areas
+User-agent: *
 Disallow: /admin/
 Disallow: /api/
 Disallow: /*.json$
-
-# Crawl-delay for non-major crawlers
-User-agent: *
-Crawl-delay: 1
 
 # Sitemap location
 Sitemap: https://trinesolutions.com/sitemap.xml
