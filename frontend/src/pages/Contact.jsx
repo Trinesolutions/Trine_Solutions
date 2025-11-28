@@ -166,18 +166,20 @@ const Contact = () => {
       </section>
 
       {/* Contact Form & Info */}
-      <section id="contact-form" className="py-20 relative">
-        <div className="container">
+      <section id="contact-form" className="py-20 relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        {/* Background overlay for better contrast */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-500/10 via-transparent to-green-500/10"></div>
+        <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Enhanced Form */}
             <div className="relative group">
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500"></div>
-              <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-10 shadow-2xl border border-gray-200/50 dark:border-gray-700/50" data-testid="contact-form">
+              <div className="absolute -inset-4 bg-gradient-to-r from-orange-500 to-green-500 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500"></div>
+              <div className="relative bg-white rounded-2xl p-10 shadow-2xl border border-gray-200/50" data-testid="contact-form">
                 <div className="text-center mb-8">
-                  <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-orange-500 to-green-500 bg-clip-text text-transparent">
                     Send Message
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <p className="text-gray-600">
                     Fill out the form below and we'll get back to you within 2 hours
                   </p>
                 </div>
@@ -185,7 +187,7 @@ const Contact = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Name *</label>
+                      <label className="block text-sm font-semibold mb-3 text-gray-700">Name *</label>
                       <input
                         type="text"
                         name="name"
@@ -193,12 +195,12 @@ const Contact = () => {
                         onChange={handleChange}
                         required
                         data-testid="contact-name-input"
-                        className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300"
+                        className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 transition-all duration-300"
                         placeholder="Your full name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Email *</label>
+                      <label className="block text-sm font-semibold mb-3 text-gray-700">Email *</label>
                       <input
                         type="email"
                         name="email"
@@ -206,27 +208,27 @@ const Contact = () => {
                         onChange={handleChange}
                         required
                         data-testid="contact-email-input"
-                        className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300"
+                        className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 transition-all duration-300"
                         placeholder="your.email@company.com"
                       />
                     </div>
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Company</label>
+                    <label className="block text-sm font-semibold mb-3 text-gray-700">Company</label>
                     <input
                       type="text"
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
                       data-testid="contact-company-input"
-                      className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300"
+                      className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 transition-all duration-300"
                       placeholder="Your company name"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Message *</label>
+                    <label className="block text-sm font-semibold mb-3 text-gray-700">Message *</label>
                     <textarea
                       name="message"
                       value={formData.message}
@@ -234,7 +236,7 @@ const Contact = () => {
                       required
                       rows={6}
                       data-testid="contact-message-input"
-                      className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 resize-none"
+                      className="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-200 text-gray-900 outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 transition-all duration-300 resize-none"
                       placeholder="Tell us about your project or inquiry..."
                     ></textarea>
                   </div>
@@ -243,7 +245,7 @@ const Contact = () => {
                     type="submit"
                     disabled={submitting}
                     data-testid="contact-submit-btn"
-                    className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-bold hover:shadow-2xl hover:shadow-blue-500/25 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-300 flex items-center justify-center space-x-3"
+                    className="w-full px-8 py-4 bg-gradient-to-r from-orange-500 to-green-500 text-white rounded-2xl font-bold hover:shadow-2xl hover:shadow-orange-500/25 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-300 flex items-center justify-center space-x-3"
                   >
                     {submitting ? (
                       <span>Processing...</span>
@@ -262,21 +264,21 @@ const Contact = () => {
             <div className="space-y-8">
               {/* Single Location Card */}
               <div className="relative group">
-                <div className="absolute -inset-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500"></div>
-                <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-10 shadow-2xl border border-gray-200/50 dark:border-gray-700/50">
-                  <h2 className="text-4xl font-black mb-8 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
+                <div className="absolute -inset-4 bg-gradient-to-r from-green-500 to-orange-500 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500"></div>
+                <div className="relative bg-white rounded-2xl p-10 shadow-2xl border border-gray-200/50">
+                  <h2 className="text-4xl font-black mb-8 bg-gradient-to-r from-green-500 to-orange-500 bg-clip-text text-transparent">
                     Our Office
                   </h2>
                   
                   <div className="space-y-8">
                     {/* Address */}
-                    <div className="group/item flex items-start space-x-6 p-6 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300 cursor-pointer border border-transparent hover:border-cyan-500/20">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center group-hover/item:scale-110 transition-transform duration-300">
-                        <MapPin className="w-7 h-7 text-cyan-500" />
+                    <div className="group/item flex items-start space-x-6 p-6 rounded-2xl hover:bg-gray-50 transition-all duration-300 cursor-pointer border border-transparent hover:border-orange-500/20">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500/20 to-green-500/20 flex items-center justify-center group-hover/item:scale-110 transition-transform duration-300">
+                        <MapPin className="w-7 h-7 text-orange-500" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">Headquarters</h3>
-                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        <h3 className="font-bold text-lg mb-2 text-gray-800">Headquarters</h3>
+                        <p className="text-gray-600 leading-relaxed">
                           14042 NE 8th Street, #201C<br />
                           Bellevue, WA 98007
                         </p>
@@ -284,15 +286,15 @@ const Contact = () => {
                     </div>
 
                     {/* Phone */}
-                    <div className="group/item flex items-center space-x-6 p-6 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300 cursor-pointer border border-transparent hover:border-blue-500/20">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center group-hover/item:scale-110 transition-transform duration-300">
-                        <Phone className="w-7 h-7 text-blue-500 group-hover/item:rotate-12 transition-all duration-300" />
+                    <div className="group/item flex items-center space-x-6 p-6 rounded-2xl hover:bg-gray-50 transition-all duration-300 cursor-pointer border border-transparent hover:border-green-500/20">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500/20 to-orange-500/20 flex items-center justify-center group-hover/item:scale-110 transition-transform duration-300">
+                        <Phone className="w-7 h-7 text-green-500 group-hover/item:rotate-12 transition-all duration-300" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">Phone</h3>
+                        <h3 className="font-bold text-lg mb-2 text-gray-800">Phone</h3>
                         <a 
                           href="tel:+14252025165" 
-                          className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-lg font-semibold"
+                          className="text-gray-600 hover:text-orange-500 transition-colors text-lg font-semibold"
                         >
                           +1 (425) 202-5165
                         </a>
@@ -300,15 +302,15 @@ const Contact = () => {
                     </div>
 
                     {/* Email */}
-                    <div className="group/item flex items-center space-x-6 p-6 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300 cursor-pointer border border-transparent hover:border-purple-500/20">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center group-hover/item:scale-110 transition-transform duration-300">
-                        <Mail className="w-7 h-7 text-purple-500" />
+                    <div className="group/item flex items-center space-x-6 p-6 rounded-2xl hover:bg-gray-50 transition-all duration-300 cursor-pointer border border-transparent hover:border-orange-500/20">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500/20 to-green-500/20 flex items-center justify-center group-hover/item:scale-110 transition-transform duration-300">
+                        <Mail className="w-7 h-7 text-orange-500" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">Email</h3>
+                        <h3 className="font-bold text-lg mb-2 text-gray-800">Email</h3>
                         <a 
                           href="mailto:trine@trinesolutions.com" 
-                          className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors text-lg font-semibold"
+                          className="text-gray-600 hover:text-orange-500 transition-colors text-lg font-semibold"
                         >
                           trine@trinesolutions.com
                         </a>
@@ -317,12 +319,12 @@ const Contact = () => {
                   </div>
 
                   {/* Office Hours */}
-                  <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-700/50 dark:to-blue-900/20 border border-gray-200/50 dark:border-gray-600/50">
-                    <h4 className="font-bold text-lg mb-3 text-gray-800 dark:text-white flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-blue-500" />
+                  <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-orange-50 border border-gray-200/50">
+                    <h4 className="font-bold text-lg mb-3 text-gray-800 flex items-center gap-2">
+                      <Clock className="w-5 h-5 text-orange-500" />
                       Office Hours
                     </h4>
-                    <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                    <div className="space-y-2 text-sm text-gray-600">
                       <div className="flex justify-between">
                         <span>Monday - Friday</span>
                         <span className="font-semibold">9:00 AM - 6:00 PM PST</span>
@@ -333,7 +335,7 @@ const Contact = () => {
                       </div>
                       <div className="flex justify-between">
                         <span>Sunday</span>
-                        <span className="font-semibold text-red-500">Closed</span>
+                        <span className="font-semibold text-gray-900">Closed</span>
                       </div>
                     </div>
                   </div>
@@ -344,14 +346,14 @@ const Contact = () => {
               <div className="grid grid-cols-2 gap-4">
                 <a 
                   href="tel:+14252025165"
-                  className="group relative p-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-500 text-white text-center font-semibold hover:shadow-2xl hover:shadow-green-500/25 transform hover:scale-105 transition-all duration-300"
+                  className="group relative p-4 rounded-2xl bg-gradient-to-r from-green-500 to-green-600 text-white text-center font-semibold hover:shadow-2xl hover:shadow-green-500/25 transform hover:scale-105 transition-all duration-300"
                 >
                   <Phone className="w-5 h-5 inline-block mr-2" />
                   Call Now
                 </a>
                 <a 
                   href="mailto:trine@trinesolutions.com"
-                  className="group relative p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-center font-semibold hover:shadow-2xl hover:shadow-blue-500/25 transform hover:scale-105 transition-all duration-300"
+                  className="group relative p-4 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center font-semibold hover:shadow-2xl hover:shadow-orange-500/25 transform hover:scale-105 transition-all duration-300"
                 >
                   <Mail className="w-5 h-5 inline-block mr-2" />
                   Email Us
