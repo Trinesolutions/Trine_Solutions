@@ -33,13 +33,11 @@ const Careers = () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/jobs`);
       setJobs(response.data);
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching jobs:', error);
       toast.error('Failed to load job postings');
-      setLoading(false);
-      // Set mock data for demo purposes
-      setJobs(mockJobs);
+      setJobs([]);
+    } finally {
       setLoading(false);
     }
   };
