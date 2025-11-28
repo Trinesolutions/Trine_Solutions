@@ -219,12 +219,16 @@ const ServiceDetail = () => {
         <div className="absolute inset-0 opacity-20" aria-hidden="true">
           <div className="absolute top-10 right-10 w-64 h-64 bg-trine-orange rounded-full blur-3xl animate-float"></div>
           <div className="absolute bottom-10 left-10 w-80 h-80 bg-trine-green rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-trine-orange/30 to-trine-green/30 rounded-full blur-3xl animate-pulse"></div>
         </div>
         
         <div className="container relative z-10">
           <div className="max-w-4xl mx-auto">
             {/* Section Header */}
-            <div className="text-center mb-12">
+            <div className="text-center mb-12 animate-fade-in-up">
+              <span className="inline-block px-4 py-2 rounded-full bg-trine-orange/10 border border-trine-orange/20 text-trine-orange text-sm font-medium mb-6">
+                Let's Connect
+              </span>
               <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-white">
                 Ready to Get Started with{' '}
                 <span className="bg-gradient-to-r from-trine-orange to-trine-green bg-clip-text text-transparent">
@@ -238,120 +242,162 @@ const ServiceDetail = () => {
             </div>
 
             {/* Consulting Form */}
-            <div className="glass-card bg-white/5 backdrop-blur-lg rounded-3xl p-8 lg:p-12 border border-white/10 hover:border-trine-orange/30 transition-all duration-300">
-              <div className="flex items-center gap-3 mb-8 p-4 rounded-2xl bg-trine-orange/10 border border-trine-orange/20">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-trine-orange to-trine-green flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-white" />
+            <div className="glass-card bg-white/5 backdrop-blur-xl rounded-3xl p-8 lg:p-12 border border-white/10 hover:border-trine-orange/40 transition-all duration-500 shadow-2xl shadow-trine-black/50 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              {/* Service Context Header */}
+              <div className="flex items-center gap-4 mb-10 p-5 rounded-2xl bg-gradient-to-r from-trine-orange/10 to-trine-green/5 border border-trine-orange/20 hover:border-trine-orange/40 transition-all duration-300 group">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-trine-orange to-trine-green flex items-center justify-center shadow-lg shadow-trine-orange/20 group-hover:shadow-trine-orange/40 group-hover:scale-105 transition-all duration-300">
+                  <Icon className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-white/60">Service Inquiry</p>
-                  <p className="text-lg font-semibold text-white">{service.title}</p>
+                  <p className="text-sm text-white/60 font-medium">Service Inquiry</p>
+                  <p className="text-xl font-bold text-white">{service.title}</p>
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Name */}
-                  <div>
-                    <label className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2">
+                  <div className="group">
+                    <label htmlFor="name" className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2 group-focus-within:text-trine-orange transition-colors duration-300">
                       <User className="w-4 h-4" />
-                      Name *
+                      Name <span className="text-trine-orange">*</span>
                     </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 transition-all duration-300"
-                      placeholder="Your full name"
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        aria-required="true"
+                        className="w-full px-5 py-4 rounded-xl bg-white/5 border-2 border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-orange focus:bg-white/10 focus:shadow-lg focus:shadow-trine-orange/10 hover:border-white/20 transition-all duration-300"
+                        placeholder="Your full name"
+                      />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-trine-orange to-trine-green opacity-0 group-focus-within:opacity-10 pointer-events-none transition-opacity duration-300"></div>
+                    </div>
                   </div>
                   
                   {/* Email */}
-                  <div>
-                    <label className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2">
+                  <div className="group">
+                    <label htmlFor="email" className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2 group-focus-within:text-trine-orange transition-colors duration-300">
                       <Mail className="w-4 h-4" />
-                      Email *
+                      Email <span className="text-trine-orange">*</span>
                     </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 transition-all duration-300"
-                      placeholder="your.email@company.com"
-                    />
+                    <div className="relative">
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        aria-required="true"
+                        className="w-full px-5 py-4 rounded-xl bg-white/5 border-2 border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-orange focus:bg-white/10 focus:shadow-lg focus:shadow-trine-orange/10 hover:border-white/20 transition-all duration-300"
+                        placeholder="your.email@company.com"
+                      />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-trine-orange to-trine-green opacity-0 group-focus-within:opacity-10 pointer-events-none transition-opacity duration-300"></div>
+                    </div>
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Company */}
-                  <div>
-                    <label className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2">
+                  <div className="group">
+                    <label htmlFor="company" className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2 group-focus-within:text-trine-green transition-colors duration-300">
                       <Building className="w-4 h-4" />
-                      Company
+                      Company <span className="text-white/40 text-xs font-normal">(Optional)</span>
                     </label>
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 transition-all duration-300"
-                      placeholder="Your company name"
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="company"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        className="w-full px-5 py-4 rounded-xl bg-white/5 border-2 border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-green focus:bg-white/10 focus:shadow-lg focus:shadow-trine-green/10 hover:border-white/20 transition-all duration-300"
+                        placeholder="Your company name"
+                      />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-trine-green to-trine-orange opacity-0 group-focus-within:opacity-10 pointer-events-none transition-opacity duration-300"></div>
+                    </div>
                   </div>
                   
                   {/* Phone */}
-                  <div>
-                    <label className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2">
+                  <div className="group">
+                    <label htmlFor="phone" className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2 group-focus-within:text-trine-green transition-colors duration-300">
                       <Phone className="w-4 h-4" />
-                      Phone
+                      Phone <span className="text-white/40 text-xs font-normal">(Optional)</span>
                     </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 transition-all duration-300"
-                      placeholder="+1 (555) 000-0000"
-                    />
+                    <div className="relative">
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="w-full px-5 py-4 rounded-xl bg-white/5 border-2 border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-green focus:bg-white/10 focus:shadow-lg focus:shadow-trine-green/10 hover:border-white/20 transition-all duration-300"
+                        placeholder="+1 (555) 000-0000"
+                      />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-trine-green to-trine-orange opacity-0 group-focus-within:opacity-10 pointer-events-none transition-opacity duration-300"></div>
+                    </div>
                   </div>
                 </div>
 
                 {/* Message */}
-                <div>
-                  <label className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2">
+                <div className="group">
+                  <label htmlFor="message" className="block text-sm font-semibold mb-3 text-white/80 flex items-center gap-2 group-focus-within:text-trine-orange transition-colors duration-300">
                     <MessageSquare className="w-4 h-4" />
-                    Message *
+                    Message <span className="text-trine-orange">*</span>
                   </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-orange focus:ring-2 focus:ring-trine-orange/20 transition-all duration-300 resize-none"
-                    placeholder={`Tell us about your ${service?.title?.toLowerCase() || 'service'} needs and goals...`}
-                  ></textarea>
+                  <div className="relative">
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      aria-required="true"
+                      rows={5}
+                      className="w-full px-5 py-4 rounded-xl bg-white/5 border-2 border-white/10 text-white placeholder-white/40 outline-none focus:border-trine-orange focus:bg-white/10 focus:shadow-lg focus:shadow-trine-orange/10 hover:border-white/20 transition-all duration-300 resize-none"
+                      placeholder={`Tell us about your ${service?.title?.toLowerCase() || 'service'} needs and goals...`}
+                    ></textarea>
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-trine-orange to-trine-green opacity-0 group-focus-within:opacity-10 pointer-events-none transition-opacity duration-300"></div>
+                  </div>
                 </div>
 
                 {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full px-8 py-5 bg-gradient-to-r from-trine-orange to-trine-green text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-trine-orange/25 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-300 flex items-center justify-center gap-3"
-                >
-                  {submitting ? (
-                    <span>Sending...</span>
-                  ) : (
-                    <>
-                      <span>Send Inquiry</span>
-                      <Send className="w-5 h-5" />
-                    </>
-                  )}
-                </button>
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full relative px-8 py-5 bg-gradient-to-r from-trine-orange to-trine-green text-white rounded-xl font-bold text-lg overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 hover:shadow-2xl hover:shadow-trine-orange/30"
+                  >
+                    {/* Button Background Animation */}
+                    <span className="absolute inset-0 bg-gradient-to-r from-trine-green to-trine-orange opacity-0 group-hover:opacity-100 group-disabled:opacity-0 transition-opacity duration-500"></span>
+                    {/* Button Glow Effect */}
+                    <span className="absolute -inset-1 bg-gradient-to-r from-trine-orange via-trine-green to-trine-orange opacity-0 group-hover:opacity-30 group-disabled:opacity-0 blur-xl transition-opacity duration-500"></span>
+                    {/* Button Content */}
+                    <span className="relative flex items-center justify-center gap-3">
+                      {submitting ? (
+                        <>
+                          <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Send Inquiry</span>
+                          <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                        </>
+                      )}
+                    </span>
+                  </button>
+                </div>
+
+                {/* Privacy Notice */}
+                <p className="text-center text-white/40 text-sm pt-2">
+                  By submitting this form, you agree to our{' '}
+                  <Link to="/privacy" className="text-trine-orange hover:text-trine-green transition-colors duration-300">Privacy Policy</Link>
+                </p>
               </form>
             </div>
           </div>
