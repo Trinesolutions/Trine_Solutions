@@ -268,6 +268,8 @@ class Service(BaseModel):
     icon: str
     capabilities: List[str] = []
     tools: List[str] = []
+    image: Optional[str] = None
+    fullDescription: Optional[str] = None
 
 class ServiceCreate(BaseModel):
     title: str
@@ -275,6 +277,8 @@ class ServiceCreate(BaseModel):
     icon: str
     capabilities: List[str] = []
     tools: List[str] = []
+    image: Optional[str] = None
+    fullDescription: Optional[str] = None
 
 class CaseStudy(BaseModel):
     model_config = ConfigDict(extra="ignore")
@@ -477,6 +481,74 @@ class JobApplicationCreate(BaseModel):
     portfolio_url: Optional[str] = None
 
 
+# ===================== DEFAULT SERVICES DATA =====================
+
+DEFAULT_SERVICES = [
+    {
+        "id": "1",
+        "title": "Digital Transformation",
+        "description": "Transform your business with cutting-edge digital solutions that drive innovation and efficiency.",
+        "icon": "Zap",
+        "capabilities": ["Enterprise Architecture", "Process Automation", "Digital Strategy", "Change Management"],
+        "tools": ["Cloud Platforms", "AI/ML", "IoT", "Blockchain"],
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+        "fullDescription": "Our Digital Transformation services help organizations reimagine their business processes and customer experiences through innovative technology solutions. We guide you through every step of your digital journey, from strategy development to implementation and optimization, ensuring sustainable growth and competitive advantage in the digital age."
+    },
+    {
+        "id": "2",
+        "title": "Cybersecurity",
+        "description": "Protect your enterprise with comprehensive security solutions and risk management strategies.",
+        "icon": "Shield",
+        "capabilities": ["Security Assessment", "Threat Intelligence", "Incident Response", "Compliance Management"],
+        "tools": ["SIEM", "Penetration Testing", "Security Operations Center", "Identity Management"],
+        "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800",
+        "fullDescription": "In today's threat landscape, cybersecurity is not optional—it's essential. Our comprehensive security solutions protect your enterprise from evolving cyber threats while ensuring compliance with industry regulations. From vulnerability assessments to 24/7 monitoring, we provide end-to-end security services that safeguard your digital assets and reputation."
+    },
+    {
+        "id": "3",
+        "title": "Cloud & DevOps",
+        "description": "Accelerate delivery with modern cloud infrastructure and DevOps best practices.",
+        "icon": "Cloud",
+        "capabilities": ["Cloud Migration", "Infrastructure as Code", "CI/CD Pipelines", "Container Orchestration"],
+        "tools": ["AWS", "Azure", "GCP", "Kubernetes", "Terraform"],
+        "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+        "fullDescription": "Embrace the power of cloud computing and modern DevOps practices to accelerate your software delivery and operational efficiency. Our experts help you design, migrate, and optimize cloud infrastructure while implementing CI/CD pipelines and container orchestration for faster, more reliable deployments."
+    },
+    {
+        "id": "4",
+        "title": "Data Analytics & AI",
+        "description": "Unlock insights from your data with advanced analytics and artificial intelligence solutions.",
+        "icon": "BarChart3",
+        "capabilities": ["Data Warehousing", "Machine Learning", "Predictive Analytics", "Business Intelligence"],
+        "tools": ["Python", "TensorFlow", "Tableau", "Power BI", "Snowflake"],
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
+        "fullDescription": "Transform raw data into actionable insights with our advanced analytics and AI solutions. We help organizations build data-driven cultures by implementing modern data architectures, machine learning models, and business intelligence tools that enable smarter, faster decision-making across all levels of your organization."
+    },
+    {
+        "id": "5",
+        "title": "Risk & Compliance",
+        "description": "Navigate regulatory landscapes with expert risk management and compliance solutions.",
+        "icon": "FileCheck",
+        "capabilities": ["Regulatory Compliance", "Risk Assessment", "Audit Support", "Policy Development"],
+        "tools": ["GRC Platforms", "Audit Tools", "Compliance Management Systems"],
+        "image": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800",
+        "fullDescription": "Stay ahead of regulatory requirements and manage enterprise risk effectively with our comprehensive GRC solutions. We help organizations develop robust compliance frameworks, conduct risk assessments, and implement policies that protect your business while enabling growth in complex regulatory environments."
+    },
+    {
+        "id": "6",
+        "title": "Managed IT Services",
+        "description": "Focus on your business while we manage your IT infrastructure and support needs.",
+        "icon": "Wrench",
+        "capabilities": ["24/7 Support", "Infrastructure Management", "Service Desk", "Performance Monitoring"],
+        "tools": ["Monitoring Tools", "Service Management", "Remote Support", "Asset Management"],
+        "image": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800",
+        "fullDescription": "Let our experienced team manage your IT infrastructure so you can focus on what matters most—growing your business. Our managed services include 24/7 monitoring and support, proactive maintenance, and strategic IT planning to ensure your technology investments deliver maximum value and reliability."
+    }
+]
+
+# Create a dict for quick lookup by ID
+DEFAULT_SERVICES_BY_ID = {service["id"]: service for service in DEFAULT_SERVICES}
+
 # ===================== PUBLIC API ROUTES =====================
 
 @api_router.get("/")
@@ -487,59 +559,18 @@ async def root():
 async def get_services():
     services = await db.services.find({}, {"_id": 0}).to_list(100)
     if not services:
-        # Return default services
-        default_services = [
-            {
-                "id": "1",
-                "title": "Digital Transformation",
-                "description": "Transform your business with cutting-edge digital solutions that drive innovation and efficiency.",
-                "icon": "Zap",
-                "capabilities": ["Enterprise Architecture", "Process Automation", "Digital Strategy", "Change Management"],
-                "tools": ["Cloud Platforms", "AI/ML", "IoT", "Blockchain"]
-            },
-            {
-                "id": "2",
-                "title": "Cybersecurity",
-                "description": "Protect your enterprise with comprehensive security solutions and risk management strategies.",
-                "icon": "Shield",
-                "capabilities": ["Security Assessment", "Threat Intelligence", "Incident Response", "Compliance Management"],
-                "tools": ["SIEM", "Penetration Testing", "Security Operations Center", "Identity Management"]
-            },
-            {
-                "id": "3",
-                "title": "Cloud & DevOps",
-                "description": "Accelerate delivery with modern cloud infrastructure and DevOps best practices.",
-                "icon": "Cloud",
-                "capabilities": ["Cloud Migration", "Infrastructure as Code", "CI/CD Pipelines", "Container Orchestration"],
-                "tools": ["AWS", "Azure", "GCP", "Kubernetes", "Terraform"]
-            },
-            {
-                "id": "4",
-                "title": "Data Analytics & AI",
-                "description": "Unlock insights from your data with advanced analytics and artificial intelligence solutions.",
-                "icon": "BarChart3",
-                "capabilities": ["Data Warehousing", "Machine Learning", "Predictive Analytics", "Business Intelligence"],
-                "tools": ["Python", "TensorFlow", "Tableau", "Power BI", "Snowflake"]
-            },
-            {
-                "id": "5",
-                "title": "Risk & Compliance",
-                "description": "Navigate regulatory landscapes with expert risk management and compliance solutions.",
-                "icon": "FileCheck",
-                "capabilities": ["Regulatory Compliance", "Risk Assessment", "Audit Support", "Policy Development"],
-                "tools": ["GRC Platforms", "Audit Tools", "Compliance Management Systems"]
-            },
-            {
-                "id": "6",
-                "title": "Managed IT Services",
-                "description": "Focus on your business while we manage your IT infrastructure and support needs.",
-                "icon": "Wrench",
-                "capabilities": ["24/7 Support", "Infrastructure Management", "Service Desk", "Performance Monitoring"],
-                "tools": ["Monitoring Tools", "Service Management", "Remote Support", "Asset Management"]
-            }
-        ]
-        return default_services
+        return DEFAULT_SERVICES
     return services
+
+@api_router.get("/services/{service_id}", response_model=Service)
+async def get_service_by_id(service_id: str):
+    service = await db.services.find_one({"id": service_id}, {"_id": 0})
+    if not service:
+        # Check if it's one of the default service IDs
+        if service_id in DEFAULT_SERVICES_BY_ID:
+            return DEFAULT_SERVICES_BY_ID[service_id]
+        raise HTTPException(status_code=404, detail="Service not found")
+    return service
 
 @api_router.get("/case-studies", response_model=List[CaseStudy])
 async def get_case_studies():
@@ -1452,14 +1483,18 @@ async def seed_mock_content():
                     description="Design, build, and operate resilient cloud-native applications with modern DevOps tooling.",
                     icon="Cloud",
                     capabilities=["Cloud Architecture", "Container Platforms", "DevSecOps"],
-                    tools=["AWS", "Azure", "Kubernetes", "Terraform"]
+                    tools=["AWS", "Azure", "Kubernetes", "Terraform"],
+                    image="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800",
+                    fullDescription="Our Cloud Native Engineering services help organizations design, build, and operate resilient cloud-native applications using modern DevOps tooling. We specialize in containerization, microservices architecture, and infrastructure as code to deliver scalable, maintainable solutions."
                 ),
                 Service(
                     title="Enterprise AI Acceleration",
                     description="Bring AI from experimentation to production with governed MLOps and responsible AI frameworks.",
                     icon="Cpu",
                     capabilities=["Model Strategy", "MLOps", "Responsible AI"],
-                    tools=["Azure ML", "Vertex AI", "Databricks"]
+                    tools=["Azure ML", "Vertex AI", "Databricks"],
+                    image="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+                    fullDescription="Accelerate your AI journey from experimentation to production with our Enterprise AI services. We implement governed MLOps pipelines and responsible AI frameworks that ensure your machine learning models are scalable, ethical, and deliver real business value."
                 )
             ]
             await db.services.insert_many([service.model_dump() for service in sample_services])

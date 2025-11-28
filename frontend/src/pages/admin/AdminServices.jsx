@@ -17,12 +17,15 @@ const AdminServices = () => {
   const [editingService, setEditingService] = useState(null);
   const [iconCategory, setIconCategory] = useState('All');
   const [iconSearch, setIconSearch] = useState('');
+  const [imageError, setImageError] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     icon: 'Zap',
     capabilities: '',
     tools: '',
+    image: '',
+    fullDescription: '',
   });
 
   const token = localStorage.getItem('adminToken');
@@ -58,13 +61,19 @@ const AdminServices = () => {
   };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+    // Reset image error when image URL changes
+    if (name === 'image') {
+      setImageError(false);
+    }
   };
 
   const openModal = (service = null) => {
+    setImageError(false);
     if (service) {
       setEditingService(service);
       setFormData({
@@ -73,6 +82,8 @@ const AdminServices = () => {
         icon: service.icon,
         capabilities: service.capabilities?.join(', ') || '',
         tools: service.tools?.join(', ') || '',
+        image: service.image || '',
+        fullDescription: service.fullDescription || '',
       });
     } else {
       setEditingService(null);
@@ -82,6 +93,8 @@ const AdminServices = () => {
         icon: 'Zap',
         capabilities: '',
         tools: '',
+        image: '',
+        fullDescription: '',
       });
     }
     setShowModal(true);
@@ -93,6 +106,8 @@ const AdminServices = () => {
       ...formData,
       capabilities: formData.capabilities.split(',').map(t => t.trim()).filter(t => t),
       tools: formData.tools.split(',').map(t => t.trim()).filter(t => t),
+      image: formData.image || null,
+      fullDescription: formData.fullDescription || null,
     };
 
     try {
@@ -352,6 +367,41 @@ const AdminServices = () => {
                     onChange={handleChange}
                     placeholder="AWS, Azure, Kubernetes, Terraform"
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Service Image URL</label>
+                  <input
+                    type="url"
+                    name="image"
+                    value={formData.image}
+                    onChange={handleChange}
+                    placeholder="https://images.unsplash.com/photo-..."
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500"
+                  />
+                  {formData.image && !imageError && (
+                    <div className="mt-3 p-2 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                      <img
+                        src={formData.image}
+                        alt={formData.title ? `${formData.title} preview` : 'Service image preview'}
+                        className="w-full h-32 object-cover rounded-lg"
+                        onError={() => setImageError(true)}
+                      />
+                    </div>
+                  )}
+                  {formData.image && imageError && (
+                    <p className="mt-2 text-sm text-red-500">Unable to load image preview. Please check the URL.</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Full Description (for detail page)</label>
+                  <textarea
+                    name="fullDescription"
+                    value={formData.fullDescription}
+                    onChange={handleChange}
+                    rows={4}
+                    placeholder="Enter a detailed description of the service that will appear on the service detail page..."
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 outline-none focus:border-orange-500 resize-none"
                   />
                 </div>
                 <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">

@@ -543,7 +543,7 @@ const Home = () => {
                       {service.description}
                     </p>
                     
-                    <Link to="/services" data-testid={`service-learn-more-${index}`} className="inline-block">
+                    <Link to={`/services/${service.id}`} data-testid={`service-learn-more-${index}`} className="inline-block">
                       <button className="group/btn flex items-center gap-2 text-trine-orange font-semibold hover:gap-3 transition-all duration-300">
                         <span>Learn More</span>
                         <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />

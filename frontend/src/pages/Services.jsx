@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowRight, CheckCircle2, Zap, AlertCircle } from 'lucide-react';
 import { iconMap, getIconByName } from '@/utils/serviceIcons';
-import { defaultServices } from '@/constants/defaultServices';
+import { defaultServices, getDefaultServiceImage } from '@/constants/defaultServices';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -98,7 +99,7 @@ const Services = () => {
 
                     {/* Tools */}
                     {service.tools && service.tools.length > 0 && (
-                      <div>
+                      <div className="mb-8">
                         <h3 className="text-2xl font-bold mb-4 text-trine-black dark:text-white">Technologies & Tools</h3>
                         <div className="flex flex-wrap gap-3">
                           {service.tools.map((tool, idx) => (
@@ -112,23 +113,23 @@ const Services = () => {
                         </div>
                       </div>
                     )}
+
+                    {/* Read More Button */}
+                    <Link
+                      to={`/services/${service.id}`}
+                      className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-gradient-to-r from-trine-orange to-trine-lightblue text-white font-semibold hover:shadow-lg hover:shadow-trine-orange/30 transition-all duration-300 hover:scale-105"
+                    >
+                      <span>Read More</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </Link>
                   </div>
 
                   <div className={!isEven ? 'md:col-start-1 md:row-start-1' : ''}>
                     <div className="glass-card p-8 rounded-3xl hover:border-trine-orange/30 transition-all duration-300">
                       <img
-                        src={`https://images.unsplash.com/photo-${
-                          [
-                            '1551288049-bebda4e38f71',
-                            '1563986768609-322da13575f3',
-                            '1544197150-b99a580bb7a8',
-                            '1551288049-bebda4e38f71',
-                            '1450101499163-c8848c66ca85',
-                            '1581091226825-a6a2a5aee158',
-                          ][index % 6]
-                        }?w=800`}
+                        src={service.image || getDefaultServiceImage(index)}
                         alt={service.title}
-                        className="rounded-2xl w-full"
+                        className="rounded-2xl w-full h-[350px] object-cover"
                       />
                     </div>
                   </div>
