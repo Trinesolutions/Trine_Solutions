@@ -1377,14 +1377,16 @@ async def submit_job_application(
             logger.warning(f"Cloudinary not configured. Application saved with placeholder resume URL for {name}")
         
         # Sanitize optional fields - convert empty strings to None
-        stripped_cover_letter = cover_letter.strip() if cover_letter else None
-        clean_cover_letter = stripped_cover_letter if stripped_cover_letter else None
+        def sanitize_optional(value: Optional[str]) -> Optional[str]:
+            """Strip whitespace and return None if empty."""
+            if value:
+                stripped = value.strip()
+                return stripped if stripped else None
+            return None
         
-        stripped_linkedin_url = linkedin_url.strip() if linkedin_url else None
-        clean_linkedin_url = stripped_linkedin_url if stripped_linkedin_url else None
-        
-        stripped_portfolio_url = portfolio_url.strip() if portfolio_url else None
-        clean_portfolio_url = stripped_portfolio_url if stripped_portfolio_url else None
+        clean_cover_letter = sanitize_optional(cover_letter)
+        clean_linkedin_url = sanitize_optional(linkedin_url)
+        clean_portfolio_url = sanitize_optional(portfolio_url)
         
         # Create application record
         application = JobApplication(
