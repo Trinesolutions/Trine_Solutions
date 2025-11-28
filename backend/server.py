@@ -738,6 +738,10 @@ async def get_blog_posts():
     posts = await db.blog_posts.find({}, {"_id": 0}).to_list(100)
     if not posts:
         return DEFAULT_BLOG_POSTS
+    # Transform posts to include 'image' field for frontend compatibility
+    for post in posts:
+        if 'featured_image' in post and 'image' not in post:
+            post['image'] = post['featured_image']
     return posts
 
 @api_router.get("/blog/{blog_id}")

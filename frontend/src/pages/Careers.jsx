@@ -95,7 +95,7 @@ const Careers = () => {
       name: '',
       email: '',
       phone: '',
-      resume: "",
+      resume: null,
       cover_letter: '',
       linkedin_url: '',
       portfolio_url: '',
