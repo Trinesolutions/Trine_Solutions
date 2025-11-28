@@ -26,8 +26,9 @@ const sanitizeHTML = (html) => {
   const sanitize = (node) => {
     if (node.nodeType === Node.TEXT_NODE) return;
     if (node.nodeType === Node.ELEMENT_NODE) {
-      // Remove dangerous tags
-      if (!allowedTags.includes(node.tagName.toLowerCase())) {
+      const tagName = node.tagName.toLowerCase();
+      // Remove dangerous tags (skip body/html as they are structural elements from DOMParser)
+      if (!allowedTags.includes(tagName) && tagName !== 'body' && tagName !== 'html') {
         node.replaceWith(...node.childNodes);
         return;
       }
