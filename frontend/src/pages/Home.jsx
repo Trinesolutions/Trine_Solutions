@@ -221,22 +221,26 @@ const Home = () => {
       rootMargin: '0px'
     };
     
+    // Capture refs at setup time to avoid stale closure issues
+    const servicesElement = servicesRef.current;
+    const consultingElement = consultingRef.current;
+    
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.target === servicesRef.current) {
+        if (servicesElement && entry.target === servicesElement) {
           setServicesInView(entry.isIntersecting);
-        } else if (entry.target === consultingRef.current) {
+        } else if (consultingElement && entry.target === consultingElement) {
           setConsultingInView(entry.isIntersecting);
         }
       });
     }, observerOptions);
     
-    if (servicesRef.current) {
-      sectionObserver.observe(servicesRef.current);
+    if (servicesElement) {
+      sectionObserver.observe(servicesElement);
     }
     
-    if (consultingRef.current) {
-      sectionObserver.observe(consultingRef.current);
+    if (consultingElement) {
+      sectionObserver.observe(consultingElement);
     }
     
     const handleScroll = () => {
