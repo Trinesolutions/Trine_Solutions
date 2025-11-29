@@ -5,3 +5,4 @@
  */
 
 export { defaultServices, getSimplifiedServices } from './defaultServices';
+export { staticClients } from './defaultClients';

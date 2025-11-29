@@ -9,6 +9,7 @@ import {
 import TestimonialSlider from '@/components/TestimonialSlider';
 import { iconMap, getIconByName } from '@/utils/serviceIcons';
 import { defaultServices, getSimplifiedServices } from '@/constants/defaultServices';
+import { staticClients } from '@/constants/defaultClients';
 import SEO, { pageSEO, structuredDataSchemas } from '@/components/SEO';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
@@ -134,7 +135,7 @@ const Home = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [dynamicTestimonials, setDynamicTestimonials] = useState(testimonials);
-  const [partners, setPartners] = useState([]);
+  const [partners, setPartners] = useState(staticClients);
   
   // State for scroll-based auto-hover on service sections
   const [servicesInView, setServicesInView] = useState(false);
@@ -177,24 +178,31 @@ const Home = () => {
           console.error('Error fetching blog:', error);
         }
         
-        // Fetch partners - only show actual data from API
+        // Fetch partners - combine static clients with dynamic ones from API
         try {
           console.log('Fetching partners from:', `${API}/partners`);
           const partnersRes = await axios.get(`${API}/partners`);
           console.log('Partners data received:', partnersRes.data);
-          console.log('Number of partners:', partnersRes.data.length);
-          setPartners(partnersRes.data);
-          console.log('Partners state updated with:', partnersRes.data);
+          console.log('Number of dynamic partners:', partnersRes.data.length);
+          // Combine static clients (always first) with dynamic clients from API
+          // Filter out any dynamic partners that might have the same name as static ones
+          // to avoid showing duplicate entries in the carousel (case-insensitive match)
+          const uniqueDynamicPartners = partnersRes.data.filter(
+            p => !staticClients.some(sc => sc.name.toLowerCase() === p.name.toLowerCase())
+          );
+          const combinedPartners = [...staticClients, ...uniqueDynamicPartners];
+          setPartners(combinedPartners);
+          console.log('Combined partners (static + dynamic):', combinedPartners);
         } catch (error) {
           console.error('Error fetching partners:', error);
           console.error('Error details:', error.response?.data);
-          // Even on error, set partners to empty array rather than mock data
-          setPartners([]);
+          // On error, keep showing static clients
+          setPartners(staticClients);
         }
       } catch (error) {
         console.error('General error fetching data:', error);
-        // Even on error, set partners to empty array rather than mock data
-        setPartners([]);
+        // On error, keep showing static clients
+        setPartners(staticClients);
         // Use mock data only for services when API fails
         setServices(mockServices);
       }
