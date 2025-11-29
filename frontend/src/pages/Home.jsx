@@ -715,7 +715,7 @@ const Home = () => {
       </div>
       <h2 id="why-choose-us-title" className="text-4xl md:text-5xl font-bold mb-4">
         <span className="text-trine-black dark:text-white">Why Choose </span>
-        <span className="bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green bg-clip-text text-transparent">Trine Solutions</span>
+        <span className="bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green bg-clip-text text-transparent">Trine Solutions ?</span>
       </h2>
       <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg">
         Partner with a team that combines deep expertise, innovative thinking, and proven delivery excellence.
