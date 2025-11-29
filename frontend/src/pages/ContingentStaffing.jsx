@@ -241,9 +241,13 @@ const ContingentStaffing = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+      <section className="py-20 bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="container">
           <div className="text-center mb-16">
+            <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-lightblue/10 text-trine-orange font-semibold text-sm mb-4">
+              <TrendingUp className="w-4 h-4 inline mr-2" />
+              Strategic Advantages
+            </span>
             <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
               Benefits of <span className="bg-gradient-to-r from-trine-orange to-trine-lightblue bg-clip-text text-transparent">Contingent Staffing</span>
             </h2>
@@ -254,12 +258,15 @@ const ContingentStaffing = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, index) => (
-              <div key={index} className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-trine-orange to-trine-lightblue flex items-center justify-center mb-6">
-                  <benefit.icon className="w-8 h-8 text-white" />
+              <div key={index} className="group relative bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-trine-orange/20 to-trine-lightblue/20 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-trine-orange/20 to-trine-lightblue/10 flex items-center justify-center mb-6 group-hover:from-trine-orange group-hover:to-trine-lightblue group-hover:shadow-lg transition-all duration-300">
+                    <benefit.icon className="w-8 h-8 text-trine-orange group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white group-hover:text-trine-orange transition-colors">{benefit.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.description}</p>
                 </div>
-                <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">{benefit.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -267,27 +274,34 @@ const ContingentStaffing = () => {
       </section>
 
       {/* Industries Section */}
-      <section className="py-20 bg-white dark:bg-gray-900">
+      <section className="py-20 bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="container">
           <div className="text-center mb-16">
+            <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-trine-green/10 to-trine-lightblue/10 text-trine-green font-semibold text-sm mb-4">
+              <Briefcase className="w-4 h-4 inline mr-2" />
+              Diverse Industries
+            </span>
             <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-              Industries <span className="text-trine-green">We Serve</span>
+              Industries <span className="bg-gradient-to-r from-trine-green to-trine-lightblue bg-clip-text text-transparent">We Serve</span>
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Our contingent staffing solutions span across multiple industries
+              Our contingent staffing solutions span across multiple industries with proven expertise
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {industries.map((industry, index) => (
-              <div key={index} className="group p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-700 border border-gray-100 dark:border-gray-700 hover:border-trine-orange/30 hover:shadow-lg transition-all duration-300">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-trine-orange to-trine-lightblue flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
-                    <industry.icon className="w-6 h-6 text-white" />
+              <div key={index} className="group relative bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 overflow-hidden hover:-translate-y-2">
+                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-trine-green/20 to-trine-lightblue/20 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-500"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center mb-6">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-trine-green/20 to-trine-lightblue/10 flex items-center justify-center mr-4 group-hover:from-trine-green group-hover:to-trine-lightblue group-hover:shadow-lg transition-all duration-300 flex-shrink-0">
+                      <industry.icon className="w-8 h-8 text-trine-green group-hover:text-white transition-colors" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-trine-green transition-colors">{industry.name}</h3>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{industry.name}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{industry.roles}</p>
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">{industry.roles}</p>
               </div>
             ))}
           </div>
@@ -295,9 +309,13 @@ const ContingentStaffing = () => {
       </section>
 
       {/* Our Process */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+      <section className="py-20 bg-white dark:bg-gray-900">
         <div className="container">
           <div className="text-center mb-16">
+            <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-green/10 text-trine-orange font-semibold text-sm mb-4">
+              <Cog className="w-4 h-4 inline mr-2" />
+              5-Step Process
+            </span>
             <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
               Our <span className="bg-gradient-to-r from-trine-orange to-trine-green bg-clip-text text-transparent">Process</span>
             </h2>
@@ -307,20 +325,20 @@ const ContingentStaffing = () => {
           </div>
 
           <div className="relative">
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green transform -translate-y-1/2"></div>
+            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green transform -translate-y-1/2 opacity-30"></div>
             
             <div className="grid md:grid-cols-5 gap-8">
               {processSteps.map((step, index) => (
-                <div key={index} className="relative">
-                  <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 text-center">
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-trine-orange rounded-full flex items-center justify-center text-white font-bold text-sm z-10">
+                <div key={index} className="relative group">
+                  <div className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 text-center border border-gray-100 dark:border-gray-700 group-hover:border-trine-orange/50 relative">
+                    <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-gradient-to-br from-trine-orange to-trine-lightblue rounded-full flex items-center justify-center text-white font-bold text-sm z-10 shadow-lg group-hover:scale-125 transition-transform duration-300">
                       {index + 1}
                     </div>
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-trine-orange/20 to-trine-lightblue/20 flex items-center justify-center mx-auto mb-4 mt-4">
-                      <step.icon className="w-8 h-8 text-trine-orange" />
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-trine-orange/20 to-trine-lightblue/20 flex items-center justify-center mx-auto mb-6 mt-6 group-hover:from-trine-orange group-hover:to-trine-lightblue transition-all duration-300">
+                      <step.icon className="w-8 h-8 text-trine-orange group-hover:text-white transition-colors" />
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-gray-900 dark:text-white">{step.title}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">{step.description}</p>
+                    <h3 className="text-lg font-bold mb-3 text-gray-900 dark:text-white group-hover:text-trine-orange transition-colors">{step.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{step.description}</p>
                   </div>
                 </div>
               ))}

@@ -274,11 +274,15 @@ const StatementOfWork = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+      <section className="py-20 bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="container">
           <div className="text-center mb-16">
+            <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-lightblue/10 text-trine-orange font-semibold text-sm mb-4">
+              <Target className="w-4 h-4 inline mr-2" />
+              Key Advantages
+            </span>
             <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-              Benefits of <span className="bg-gradient-to-r from-trine-orange to-trine-lightblue bg-clip-text text-transparent">SOW Engagements</span>
+              Benefits of <span className="bg-gradient-to-r from-trine-orange to-trine-lightblue bg-clip-text text-transparent">Statement of Work</span>
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Why organizations choose Statement of Work for project delivery
@@ -287,12 +291,15 @@ const StatementOfWork = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
-              <div key={index} className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-trine-orange to-trine-lightblue flex items-center justify-center mb-6">
-                  <benefit.icon className="w-8 h-8 text-white" />
+              <div key={index} className="group relative bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-trine-orange/20 to-trine-lightblue/20 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-trine-orange/20 to-trine-lightblue/10 flex items-center justify-center mb-6 group-hover:from-trine-orange group-hover:to-trine-lightblue group-hover:shadow-lg transition-all duration-300">
+                    <benefit.icon className="w-8 h-8 text-trine-orange group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white group-hover:text-trine-orange transition-colors">{benefit.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.description}</p>
                 </div>
-                <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">{benefit.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.description}</p>
               </div>
             ))}
           </div>
