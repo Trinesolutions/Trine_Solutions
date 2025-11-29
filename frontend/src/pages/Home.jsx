@@ -136,6 +136,14 @@ const Home = () => {
   const [dynamicTestimonials, setDynamicTestimonials] = useState(testimonials);
   const [partners, setPartners] = useState([]);
   
+  // State for scroll-based auto-hover on service sections
+  const [servicesInView, setServicesInView] = useState(false);
+  const [consultingInView, setConsultingInView] = useState(false);
+  
+  // Refs for service sections
+  const servicesRef = useRef(null);
+  const consultingRef = useRef(null);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -207,6 +215,34 @@ const Home = () => {
     fetchData();
     fetchTestimonials();
     
+    // IntersectionObserver for scroll-based auto-hover on service sections
+    const observerOptions = {
+      threshold: 0.4,
+      rootMargin: '0px'
+    };
+    
+    // Capture refs at setup time to avoid stale closure issues
+    const servicesElement = servicesRef.current;
+    const consultingElement = consultingRef.current;
+    
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (servicesElement && entry.target === servicesElement) {
+          setServicesInView(entry.isIntersecting);
+        } else if (consultingElement && entry.target === consultingElement) {
+          setConsultingInView(entry.isIntersecting);
+        }
+      });
+    }, observerOptions);
+    
+    if (servicesElement) {
+      sectionObserver.observe(servicesElement);
+    }
+    
+    if (consultingElement) {
+      sectionObserver.observe(consultingElement);
+    }
+    
     const handleScroll = () => {
       const elements = document.querySelectorAll('.animate-on-scroll');
       elements.forEach((el) => {
@@ -224,6 +260,7 @@ const Home = () => {
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      sectionObserver.disconnect();
     };
   }, []);
 
@@ -571,20 +608,20 @@ const Home = () => {
           <div className="flex flex-col gap-8 lg:gap-10">
             
             {/* TOP PART - Services Section (Styled like Services.jsx Hero) */}
-            <div className="group relative animate-on-scroll opacity-0">
+            <div ref={servicesRef} className="group relative animate-on-scroll opacity-0">
               <div className="relative w-full min-h-[320px] rounded-3xl overflow-hidden">
                 {/* Default Dark Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 to-gray-900/80 backdrop-blur-xl transition-opacity duration-500 ease-out group-hover:opacity-0"></div>
+                <div className={`absolute inset-0 bg-gradient-to-br from-gray-900/95 to-gray-900/80 backdrop-blur-xl transition-opacity duration-500 ease-out group-hover:opacity-0 ${servicesInView ? 'opacity-0' : ''}`}></div>
                 
                 {/* Hover Background - Services Hero Style (Orange to Light Blue) */}
-                <div className="absolute inset-0 bg-gradient-to-br from-trine-orange via-trine-orange/80 to-trine-lightblue opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100">
+                <div className={`absolute inset-0 bg-gradient-to-br from-trine-orange via-trine-orange/80 to-trine-lightblue opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 ${servicesInView ? 'opacity-100' : ''}`}>
                   {/* Floating Animated Blobs */}
                   <div className="absolute top-10 left-10 w-48 h-48 bg-white/20 rounded-full blur-3xl animate-float"></div>
                   <div className="absolute bottom-10 right-10 w-56 h-56 bg-trine-green/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
                 </div>
                 
                 {/* Border */}
-                <div className="absolute inset-0 rounded-3xl border border-white/10 group-hover:border-white/20 transition-colors duration-500 pointer-events-none"></div>
+                <div className={`absolute inset-0 rounded-3xl border border-white/10 group-hover:border-white/20 transition-colors duration-500 pointer-events-none ${servicesInView ? 'border-white/20' : ''}`}></div>
                 
                 {/* Main Content Container */}
                 <div className="relative h-full flex min-h-[320px]">
@@ -600,7 +637,7 @@ const Home = () => {
                       ].map((item, idx) => (
                         <div 
                           key={idx}
-                          className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.color} group-hover:bg-white/20 flex items-center justify-center transform hover:scale-110 transition-all duration-300`}
+                          className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.color} group-hover:bg-white/20 flex items-center justify-center transform hover:scale-110 transition-all duration-300 ${servicesInView ? 'bg-white/20' : ''}`}
                         >
                           <item.icon className="w-5 h-5 text-white" />
                         </div>
@@ -611,7 +648,7 @@ const Home = () => {
                       Our Services
                     </h3>
                     
-                    <p className="text-gray-300 group-hover:text-white/90 mb-6 leading-relaxed max-w-xl transition-colors duration-500">
+                    <p className={`text-gray-300 group-hover:text-white/90 mb-6 leading-relaxed max-w-xl transition-colors duration-500 ${servicesInView ? 'text-white/90' : ''}`}>
                       We deliver innovative technology solutions across software development, cloud infrastructure, AI & machine learning, and cybersecurity—empowering businesses to thrive in the digital age.
                     </p>
 
@@ -631,10 +668,10 @@ const Home = () => {
                       {defaultServices.slice(0, 4).map((service, idx) => (
                         <div 
                           key={service.id}
-                          className="flex items-center gap-2 p-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
+                          className={`flex items-center gap-2 p-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 ${servicesInView ? 'opacity-100 translate-y-0' : ''}`}
                           style={{ transitionDelay: `${idx * 100}ms` }}
                         >
-                          <ChevronRight className="w-4 h-4 text-trine-orange group-hover:text-white flex-shrink-0 transition-colors duration-300" />
+                          <ChevronRight className={`w-4 h-4 text-trine-orange group-hover:text-white flex-shrink-0 transition-colors duration-300 ${servicesInView ? 'text-white' : ''}`} />
                           <span className="text-white text-xs font-medium">{service.title}</span>
                         </div>
                       ))}
@@ -644,11 +681,11 @@ const Home = () => {
                   {/* Right Side - Services List (appears on hover) */}
                   <div className="hidden lg:flex absolute right-0 top-0 bottom-0 w-1/2 items-center justify-center p-8 z-10">
                     <div className="space-y-3 w-full max-w-sm">
-                      <p className="text-sm font-semibold text-white uppercase tracking-wider mb-4 opacity-0 group-hover:opacity-100 transition-all duration-300">Available Services</p>
+                      <p className={`text-sm font-semibold text-white uppercase tracking-wider mb-4 opacity-0 group-hover:opacity-100 transition-all duration-300 ${servicesInView ? 'opacity-100' : ''}`}>Available Services</p>
                       {defaultServices.slice(0, 6).map((service, idx) => (
                         <div 
                           key={service.id}
-                          className="flex items-center gap-3 py-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                          className={`flex items-center gap-3 py-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 ${servicesInView ? 'opacity-100 translate-y-0' : ''}`}
                           style={{ transitionDelay: `${idx * 100}ms` }}
                         >
                           <ChevronRight className="w-4 h-4 text-trine-orange flex-shrink-0" />
@@ -662,13 +699,13 @@ const Home = () => {
             </div>
 
             {/* BOTTOM PART - Consulting Services Section (Styled like ConsultingServices.jsx Hero) */}
-            <div className="group relative animate-on-scroll opacity-0" style={{ animationDelay: '0.2s' }}>
+            <div ref={consultingRef} className="group relative animate-on-scroll opacity-0" style={{ animationDelay: '0.2s' }}>
               <div className="relative w-full min-h-[320px] rounded-3xl overflow-hidden">
                 {/* Default Dark Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 to-gray-900/80 backdrop-blur-xl transition-opacity duration-500 ease-out group-hover:opacity-0"></div>
+                <div className={`absolute inset-0 bg-gradient-to-br from-gray-900/95 to-gray-900/80 backdrop-blur-xl transition-opacity duration-500 ease-out group-hover:opacity-0 ${consultingInView ? 'opacity-0' : ''}`}></div>
                 
                 {/* Hover Background - Consulting Hero Style (Trine Brand Colors) */}
-                <div className="absolute inset-0 bg-gradient-to-br from-trine-green via-trine-green/80 to-trine-orange opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100">
+                <div className={`absolute inset-0 bg-gradient-to-br from-trine-green via-trine-green/80 to-trine-orange opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 ${consultingInView ? 'opacity-100' : ''}`}>
                   {/* Radial Gradient Overlay */}
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/10 to-black/20"></div>
                   {/* Floating Animated Blobs */}
@@ -682,14 +719,14 @@ const Home = () => {
                 </div>
                 
                 {/* Border */}
-                <div className="absolute inset-0 rounded-3xl border border-white/10 group-hover:border-white/20 transition-colors duration-500 pointer-events-none"></div>
+                <div className={`absolute inset-0 rounded-3xl border border-white/10 group-hover:border-white/20 transition-colors duration-500 pointer-events-none ${consultingInView ? 'border-white/20' : ''}`}></div>
                 
                 {/* Main Content Container */}
                 <div className="relative h-full flex min-h-[320px]">
                   {/* Left Side - Consulting Services List (appears on hover) */}
                   <div className="hidden lg:flex absolute left-0 top-0 bottom-0 w-1/2 items-center justify-center p-8 z-10">
                     <div className="space-y-3 w-full max-w-sm">
-                      <p className="text-sm font-semibold text-trine-green uppercase tracking-wider mb-4 opacity-0 group-hover:opacity-100 transition-all duration-300">Consulting Services</p>
+                      <p className={`text-sm font-semibold text-trine-green uppercase tracking-wider mb-4 opacity-0 group-hover:opacity-100 transition-all duration-300 ${consultingInView ? 'opacity-100' : ''}`}>Consulting Services</p>
                       {[
                         { name: 'Contingent Staffing', icon: Users },
                         { name: 'Permanent Hiring', icon: Briefcase },
@@ -699,7 +736,7 @@ const Home = () => {
                       ].map((service, idx) => (
                         <div 
                           key={idx}
-                          className="flex items-center gap-3 py-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                          className={`flex items-center gap-3 py-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 ${consultingInView ? 'opacity-100 translate-y-0' : ''}`}
                           style={{ transitionDelay: `${idx * 100}ms` }}
                         >
                           <ChevronRight className="w-4 h-4 text-trine-green flex-shrink-0" />
@@ -712,16 +749,16 @@ const Home = () => {
                   {/* Right Side - Always Visible Content */}
                   <div className="w-full lg:w-1/2 lg:ml-auto p-8 lg:p-10 flex flex-col justify-center transition-all duration-500 ease-out z-10">
                     {/* Consulting Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-trine-green/10 group-hover:bg-white/10 border border-trine-green/30 group-hover:border-white/20 mb-6 w-fit transition-all duration-500">
+                    <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-trine-green/10 group-hover:bg-white/10 border border-trine-green/30 group-hover:border-white/20 mb-6 w-fit transition-all duration-500 ${consultingInView ? 'bg-white/10 border-white/20' : ''}`}>
                       <Briefcase className="w-4 h-4 text-trine-green group-hover:text-trine-green transition-colors duration-500" />
-                      <span className="text-sm font-semibold text-trine-green group-hover:text-white transition-colors duration-500">Expert Guidance</span>
+                      <span className={`text-sm font-semibold text-trine-green group-hover:text-white transition-colors duration-500 ${consultingInView ? 'text-white' : ''}`}>Expert Guidance</span>
                     </div>
 
                     <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
                       Consulting Services
                     </h3>
                     
-                    <p className="text-gray-300 group-hover:text-white/90 mb-6 leading-relaxed max-w-xl transition-colors duration-500">
+                    <p className={`text-gray-300 group-hover:text-white/90 mb-6 leading-relaxed max-w-xl transition-colors duration-500 ${consultingInView ? 'text-white/90' : ''}`}>
                       Our expert consultants provide strategic guidance to help you navigate complex digital transformations, optimize operations, and unlock new growth opportunities for your business.
                     </p>
 
@@ -747,10 +784,10 @@ const Home = () => {
                       ].map((service, idx) => (
                         <div 
                           key={idx}
-                          className="flex items-center gap-2 p-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
+                          className={`flex items-center gap-2 p-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 ${consultingInView ? 'opacity-100 translate-y-0' : ''}`}
                           style={{ transitionDelay: `${idx * 100}ms` }}
                         >
-                          <ChevronRight className="w-4 h-4 text-trine-green group-hover:text-white flex-shrink-0 transition-colors duration-300" />
+                          <ChevronRight className={`w-4 h-4 text-trine-green group-hover:text-white flex-shrink-0 transition-colors duration-300 ${consultingInView ? 'text-white' : ''}`} />
                           <span className="text-white text-xs font-medium">{service.name}</span>
                         </div>
                       ))}
