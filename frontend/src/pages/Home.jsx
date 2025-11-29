@@ -300,7 +300,7 @@ const Home = () => {
       playsInline
       className="w-full h-full object-cover"
     >
-      <source src="/vecteezy_black-geometric-shapes-repeating-3d-rending_43199429.mp4" type="video/mp4" />
+      <source src="" type="video/mp4" />
     </video>
     {/* Overlay for better text readability */}
     <div className="absolute inset-0 bg-black/60"></div>
