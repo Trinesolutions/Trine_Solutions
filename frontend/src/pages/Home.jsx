@@ -11,7 +11,6 @@ import { iconMap, getIconByName } from '@/utils/serviceIcons';
 import { defaultServices, getSimplifiedServices } from '@/constants/defaultServices';
 import { staticClients } from '@/constants/defaultClients';
 import SEO, { pageSEO, structuredDataSchemas } from '@/components/SEO';
-import HERObGvideo from '@/constants/HERObGvideo.mp4';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 const API = `${BACKEND_URL}/api`;
@@ -301,7 +300,7 @@ const Home = () => {
       playsInline
       className="w-full h-full object-cover"
     >
-      <source src={HERObGvideo} type="video/mp4" />
+      <source src="/vecteezy_black-geometric-shapes-repeating-3d-rending_43199429.mp4" type="video/mp4" />
     </video>
     {/* Overlay for better text readability */}
     <div className="absolute inset-0 bg-black/60"></div>
