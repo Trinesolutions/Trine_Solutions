@@ -65,10 +65,19 @@ body {
   overflow-x: hidden;
 }
 
-#root, .App {
+#root {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+/* Fix Sonner Toaster taking up space in document flow */
+[data-sonner-toaster],
+section[aria-label*="Notifications"] {
+  position: fixed !important;
+  height: auto !important;
 }
 
 .dark body {
