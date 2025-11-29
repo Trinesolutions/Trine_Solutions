@@ -25,21 +25,21 @@ export const staticClients = [
     id: "static-cvs",
     name: "CVS",
     logo_url: "/cvs.png",
-    website: "https://www.cvs.com",
+    website: "http://cvshealth.com/",
     priority: 3
   },
   {
     id: "static-talking-rain",
     name: "Talking Rain",
     logo_url: "/talking-rain.webp",
-    website: "https://www.talkingrain.com",
+    website: "https://talkingrain.com/",
     priority: 4
   },
   {
     id: "static-wizards-of-the-coast",
     name: "Wizards of the Coast",
     logo_url: "/Wizards_of_the_Coast_logo_.png",
-    website: "https://company.wizards.com",
+    website: "https://company.wizards.com/en",
     priority: 5
   },
   {
