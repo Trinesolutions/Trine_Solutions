@@ -601,12 +601,22 @@ const Home = () => {
             
             {/* TOP PART - Services Section (Styled like Services.jsx Hero) */}
             <div ref={servicesRef} className="group relative animate-on-scroll opacity-0">
-              <div className="relative w-full min-h-[320px] rounded-3xl overflow-hidden">
-                {/* Default Dark Background */}
-                <div className={`absolute inset-0 bg-gradient-to-br from-gray-900/95 to-gray-900/80 backdrop-blur-xl transition-opacity duration-500 ease-out group-hover:opacity-0 ${servicesInView ? 'opacity-0' : ''}`}></div>
+              <div className="relative w-full min-h-[450px] rounded-3xl overflow-hidden">
+                {/* Hero Image Background */}
+                <img 
+                  src="/service-banner-graphic-new.svg" 
+                  alt="IT Services banner showing technology solutions including software development, cloud infrastructure, and cybersecurity"
+                  className="absolute inset-0 w-full h-full object-cover object-center opacity-20 group-hover:opacity-40 transition-opacity duration-500"
+                  style={{ mixBlendMode: 'luminosity' }}
+                  loading="lazy"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+                
+                {/* Default Dark Background Overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-gray-900/80 backdrop-blur-sm transition-opacity duration-500 ease-out group-hover:opacity-70 ${servicesInView ? 'opacity-70' : ''}`}></div>
                 
                 {/* Hover Background - Services Hero Style (Orange to Light Blue) */}
-                <div className={`absolute inset-0 bg-gradient-to-br from-trine-orange via-trine-orange/80 to-trine-lightblue opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 ${servicesInView ? 'opacity-100' : ''}`}>
+                <div className={`absolute inset-0 bg-gradient-to-br from-trine-orange/90 via-trine-orange/70 to-trine-lightblue/80 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 ${servicesInView ? 'opacity-100' : ''}`}>
                   {/* Floating Animated Blobs */}
                   <div className="absolute top-10 left-10 w-48 h-48 bg-white/20 rounded-full blur-3xl animate-float"></div>
                   <div className="absolute bottom-10 right-10 w-56 h-56 bg-trine-green/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
@@ -616,7 +626,7 @@ const Home = () => {
                 <div className={`absolute inset-0 rounded-3xl border border-white/10 group-hover:border-white/20 transition-colors duration-500 pointer-events-none ${servicesInView ? 'border-white/20' : ''}`}></div>
                 
                 {/* Main Content Container */}
-                <div className="relative h-full flex min-h-[320px]">
+                <div className="relative h-full flex min-h-[450px]">
                   {/* Left Side - Always Visible Content */}
                   <div className="w-full lg:w-1/2 p-8 lg:p-10 flex flex-col justify-center transition-all duration-500 ease-out z-10">
                     {/* Icon Grid */}
@@ -692,12 +702,22 @@ const Home = () => {
 
             {/* BOTTOM PART - Consulting Services Section (Styled like ConsultingServices.jsx Hero) */}
             <div ref={consultingRef} className="group relative animate-on-scroll opacity-0" style={{ animationDelay: '0.2s' }}>
-              <div className="relative w-full min-h-[320px] rounded-3xl overflow-hidden">
-                {/* Default Dark Background */}
-                <div className={`absolute inset-0 bg-gradient-to-br from-gray-900/95 to-gray-900/80 backdrop-blur-xl transition-opacity duration-500 ease-out group-hover:opacity-0 ${consultingInView ? 'opacity-0' : ''}`}></div>
+              <div className="relative w-full min-h-[450px] rounded-3xl overflow-hidden">
+                {/* Hero Image Background */}
+                <img 
+                  src="/sample-Group1810.svg" 
+                  alt="Consulting Services banner showing professional staffing and strategic business guidance"
+                  className="absolute inset-0 w-full h-full object-cover object-center opacity-20 group-hover:opacity-40 transition-opacity duration-500"
+                  style={{ mixBlendMode: 'luminosity' }}
+                  loading="lazy"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+                
+                {/* Default Dark Background Overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-gray-900/80 backdrop-blur-sm transition-opacity duration-500 ease-out group-hover:opacity-70 ${consultingInView ? 'opacity-70' : ''}`}></div>
                 
                 {/* Hover Background - Consulting Hero Style (Trine Brand Colors) */}
-                <div className={`absolute inset-0 bg-gradient-to-br from-trine-green via-trine-green/80 to-trine-orange opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 ${consultingInView ? 'opacity-100' : ''}`}>
+                <div className={`absolute inset-0 bg-gradient-to-br from-trine-green/90 via-trine-green/70 to-trine-orange/80 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 ${consultingInView ? 'opacity-100' : ''}`}>
                   {/* Radial Gradient Overlay */}
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/10 to-black/20"></div>
                   {/* Floating Animated Blobs */}
@@ -710,7 +730,7 @@ const Home = () => {
                 <div className={`absolute inset-0 rounded-3xl border border-white/10 group-hover:border-white/20 transition-colors duration-500 pointer-events-none ${consultingInView ? 'border-white/20' : ''}`}></div>
                 
                 {/* Main Content Container */}
-                <div className="relative h-full flex min-h-[320px]">
+                <div className="relative h-full flex min-h-[450px]">
                   {/* Left Side - Consulting Services List (appears on hover) */}
                   <div className="hidden lg:flex absolute left-0 top-0 bottom-0 w-1/2 items-center justify-center p-8 z-10">
                     <div className="space-y-3 w-full max-w-sm">
