@@ -60,6 +60,9 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
                 className="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-trine-orange focus:ring-offset-2 rounded-xl" 
                 data-testid="logo-link"
                 aria-label="Trine Solutions - Home"
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
               >
                 <img 
                   src="/trine_logo.png" 
