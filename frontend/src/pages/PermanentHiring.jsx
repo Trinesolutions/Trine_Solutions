@@ -16,12 +16,15 @@ import {
   Handshake,
   Star,
   Quote,
-  Zap
+  Shield,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import SEO, { pageSEO } from '@/components/SEO';
 
 const PermanentHiring = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [openFaq, setOpenFaq] = useState(0);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -31,22 +34,26 @@ const PermanentHiring = () => {
     {
       icon: Heart,
       title: "Long-term Commitment",
-      description: "Build dedicated teams invested in your company's success and growth over time."
+      description: "Build dedicated teams invested in your company's success and growth over time.",
+      tag: "Loyalty"
     },
     {
       icon: Users,
       title: "Cultural Fit",
-      description: "We ensure candidates align with your organization's values, mission, and work culture."
+      description: "We ensure candidates align with your organization's values, mission, and work culture.",
+      tag: "Alignment"
     },
     {
       icon: TrendingUp,
       title: "Career Growth",
-      description: "Permanent roles attract top talent seeking stability and advancement opportunities."
+      description: "Permanent roles attract top talent seeking stability and advancement opportunities.",
+      tag: "Retention"
     },
     {
       icon: Award,
       title: "Quality Assurance",
-      description: "Rigorous vetting process ensures only the best candidates reach your team."
+      description: "Rigorous vetting process ensures only the best candidates reach your team.",
+      tag: "Excellence"
     }
   ];
 
@@ -135,7 +142,7 @@ const PermanentHiring = () => {
   const stats = [
     { value: "2,000+", label: "Permanent Placements" },
     { value: "92%", label: "First-Year Retention" },
-    { value: "30", label: "Days Avg. Time to Fill" },
+    { value: "30 Days", label: "Avg. Time to Fill" },
     { value: "98%", label: "Client Satisfaction" }
   ];
 
@@ -155,7 +162,11 @@ const PermanentHiring = () => {
   ];
 
   return (
-    <div className={`min-h-screen transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+    <div
+      className={`min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 transition-opacity duration-700 ease-out ${
+        isLoaded ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       <SEO 
         {...pageSEO.permanentHiring}
         canonicalUrl="https://trinesolutions.com/consulting/permanent-hiring"
@@ -166,147 +177,212 @@ const PermanentHiring = () => {
         ]}
       />
 
-      {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-32">
-        <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=800&fit=crop"
-            alt="Permanent Hiring - Long-term Talent Acquisition"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-trine-black/90 via-trine-black/80 to-trine-green/40"></div>
-        </div>
-        
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-trine-green to-trine-lightblue rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-trine-orange to-trine-lightblue rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        </div>
+      {/* Global background accents */}
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute -top-40 -right-32 h-96 w-96 rounded-full bg-gradient-to-br from-emerald-500/20 via-green-500/10 to-transparent dark:from-emerald-500/20 dark:via-green-500/10 blur-3xl" />
+        <div className="absolute top-1/3 -left-20 h-[420px] w-[420px] rounded-full bg-gradient-to-tr from-green-400/20 via-emerald-400/10 to-transparent dark:from-green-400/20 dark:via-emerald-400/10 blur-3xl" />
+        <div className="absolute bottom-0 left-1/2 h-80 w-[600px] -translate-x-1/2 rounded-[999px] bg-gradient-to-t from-slate-100 via-slate-100 to-transparent dark:from-slate-900 dark:via-slate-900 blur-2xl" />
+      </div>
 
-        <div className="container relative z-10 text-center text-white px-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex items-center justify-center mb-6">
-              <Briefcase className="w-16 h-16 text-trine-green mr-4" />
-              <h1 className="text-5xl lg:text-7xl font-bold bg-gradient-to-r from-trine-green via-trine-lightblue to-trine-orange bg-clip-text text-transparent">
-                Permanent Hiring
-              </h1>
-            </div>
-            <p className="text-xl lg:text-2xl mb-4 text-trine-green font-semibold">
+      {/* Hero */}
+      <section className="relative pt-28 pb-20 lg:pt-32 lg:pb-28">
+        <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 lg:flex-row lg:items-center lg:px-6 xl:px-0">
+          {/* Left: Content */}
+          <div className="flex-1 space-y-8">
+            <div className="inline-flex items-center rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300 backdrop-blur-sm">
+              <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-green-600">
+                <Briefcase className="h-3.5 w-3.5 text-white" />
+              </span>
               Long-term Talent Acquisition
+            </div>
+
+            <h1 className="text-balance text-4xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
+              Build your
+              <span className="bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 bg-clip-text pl-2 text-transparent">
+                dream team
+              </span>
+              <br />
+              with confidence
+            </h1>
+
+            <p className="max-w-xl text-base text-slate-600 dark:text-slate-300 sm:text-lg leading-relaxed">
+              Connect with exceptional professionals who align with your vision. Our permanent hiring solutions ensure you find talent that grows with your organization.
             </p>
-            <p className="text-lg lg:text-xl mb-8 opacity-90 leading-relaxed">
-              Build lasting teams with exceptional talent. Our permanent hiring solutions 
-              connect you with professionals who will grow with your organization.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact" className="px-8 py-4 bg-gradient-to-r from-trine-green to-trine-lightblue rounded-full font-semibold hover:shadow-lg hover:shadow-trine-green/30 transition-all duration-300 hover:scale-105 flex items-center justify-center">
-                Find Your Team
-                <ArrowRight className="w-5 h-5 ml-2" />
+
+            {/* Key points */}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="mt-1 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <div>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                    Cultural Alignment
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Candidates who fit your values and mission.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="mt-1 h-5 w-5 flex-shrink-0 text-green-500" />
+                <div>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                    Long-term Retention
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Focus on career growth and stability.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center justify-center rounded-full bg-emerald-600 dark:bg-emerald-500 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:bg-emerald-700 dark:hover:bg-emerald-400"
+              >
+                Start Hiring
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link to="/services" className="px-8 py-4 border-2 border-white/30 rounded-full font-semibold hover:bg-white/10 transition-all duration-300 flex items-center justify-center">
-                View All Services
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
+              <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 dark:text-slate-400">
+                <span className="inline-flex items-center rounded-full border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/5 px-3 py-1">
+                  <Award className="mr-1.5 h-3.5 w-3.5 text-emerald-500" />
+                  92% First-Year Retention
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Hero Image */}
+          <div className="flex-1 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-md lg:max-w-full">
+              <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-emerald-500/30 via-green-500/20 to-teal-500/30 opacity-60 blur-3xl" />
+              <img 
+                src="/career.svg" 
+                alt="Permanent Hiring Illustration" 
+                className="relative z-10 w-full h-auto drop-shadow-2xl transform hover:scale-105 transition-transform duration-500"
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Breadcrumb */}
-      <section className="py-4 bg-gray-50 dark:bg-gray-900">
-        <div className="container">
-          <nav className="flex items-center text-sm">
-            <Link to="/" className="text-gray-600 dark:text-gray-400 hover:text-trine-orange transition-colors">Home</Link>
-            <ArrowRight className="w-4 h-4 mx-2 text-gray-400" />
-            <span className="text-gray-600 dark:text-gray-400">Consulting Services</span>
-            <ArrowRight className="w-4 h-4 mx-2 text-gray-400" />
-            <span className="text-trine-green font-medium">Permanent Hiring</span>
+      {/* Breadcrumb bar */}
+      <section className="border-y border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-950/80">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 text-xs text-slate-600 dark:text-slate-400 lg:px-6 xl:px-0">
+          <nav className="flex items-center gap-2">
+            <Link to="/" className="hover:text-slate-900 dark:hover:text-slate-100">
+              Home
+            </Link>
+            <span className="text-slate-400 dark:text-slate-600">/</span>
+            <span className="hover:text-slate-900 dark:hover:text-slate-100">Consulting Services</span>
+            <span className="text-slate-400 dark:text-slate-600">/</span>
+            <span className="font-medium text-slate-900 dark:text-slate-200">Permanent Hiring</span>
           </nav>
+          <span className="hidden items-center gap-2 sm:inline-flex">
+            <span className="h-1 w-1 rounded-full bg-emerald-500" />
+            <span>Strategic Talent Acquisition</span>
+          </span>
         </div>
       </section>
 
-      {/* What is Permanent Hiring */}
-      <section className="py-20 bg-white dark:bg-gray-900">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-                What is <span className="text-trine-green">Permanent Hiring</span>?
+      {/* Section: What is Permanent Hiring */}
+      <section className="relative py-16 lg:py-20 bg-white dark:bg-slate-950">
+        <div className="mx-auto max-w-6xl px-4 lg:px-6 xl:px-0">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr] lg:items-start">
+            <div className="space-y-6">
+              <h2 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+                Invest in your
+                <span className="bg-gradient-to-r from-emerald-500 to-green-500 bg-clip-text pl-2 text-transparent">
+                  long-term success
+                </span>
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Permanent hiring, also known as direct placement, is the process of recruiting full-time 
-                employees who become integral members of your organization. Unlike temporary or contract 
-                positions, permanent hires join your company as regular employees with full benefits.
+              <p className="text-sm text-slate-600 dark:text-slate-300 sm:text-base leading-relaxed">
+                Permanent hiring is more than just filling a vacancy; it's about adding a core member to your family. 
+                It requires a deep understanding of not just technical skills, but also soft skills, aspirations, and cultural fit.
               </p>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                At Trine Solutions, we specialize in finding exceptional talent that not only meets your 
-                technical requirements but also aligns with your company culture and long-term vision. 
-                Our comprehensive approach ensures quality placements that contribute to lasting success.
+              <p className="text-sm text-slate-600 dark:text-slate-300 sm:text-base leading-relaxed">
+                At Trine Solutions, we act as your brand ambassadors in the talent market. We tell your story, 
+                champion your vision, and attract professionals who are eager to contribute to your journey for the long haul.
               </p>
               
-              <div className="grid grid-cols-2 gap-6 mb-8">
+              <div className="grid grid-cols-2 gap-4 mt-6">
                 {stats.map((stat, index) => (
-                  <div key={index} className="text-center p-6 rounded-2xl bg-gradient-to-br from-trine-green/10 to-trine-lightblue/10 dark:from-gray-800 dark:to-gray-700">
-                    <div className="text-3xl font-bold text-trine-green mb-2">{stat.value}</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">{stat.label}</div>
+                  <div key={index} className="rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-900/50 p-4">
+                    <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{stat.value}</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{stat.label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=600&h=400&fit=crop"
-                  alt="Professional interview"
-                  className="w-full h-[400px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div className="absolute bottom-6 left-6 right-6">
-                  <h3 className="text-white text-xl font-bold mb-2">Expert Talent Acquisition</h3>
-                  <p className="text-white/90 text-sm">Finding the perfect fit for your organization</p>
-                </div>
+            {/* Benefits Grid */}
+            <div className="space-y-5 rounded-3xl border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-slate-950/60 p-5 shadow-xl">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-slate-400">
+                  CORE ADVANTAGES
+                </p>
+                <span className="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-1 text-[11px] text-emerald-700 dark:text-emerald-300">
+                  <Heart className="mr-1 h-3 w-3" />
+                  People First
+                </span>
               </div>
-              
-              <div className="absolute -top-6 -right-6 bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl">
-                <div className="flex items-center mb-2">
-                  <TrendingUp className="w-8 h-8 text-trine-green mr-3" />
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">92%</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">Retention Rate</div>
+              <div className="space-y-4">
+                {benefits.map((benefit, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 rounded-2xl border border-slate-200 dark:border-white/5 bg-white dark:bg-white/5 p-3.5 hover:border-emerald-400/40 hover:bg-emerald-50/30 dark:hover:border-emerald-400/40 dark:hover:bg-white/10 transition-colors"
+                  >
+                    <div className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500/20 via-green-500/20 to-teal-500/20">
+                      <benefit.icon className="h-4.5 w-4.5 text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-semibold text-slate-900 dark:text-slate-50">{benefit.title}</p>
+                        <span className="rounded-full bg-slate-100 dark:bg-slate-900 px-2 py-0.5 text-[10px] text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-800">
+                          {benefit.tag}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{benefit.description}</p>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        <div className="container">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-trine-green/10 to-trine-lightblue/10 text-trine-green font-semibold text-sm mb-4">
-              <Heart className="w-4 h-4 inline mr-2" />
-              Strategic Benefits
-            </span>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-              Benefits of <span className="bg-gradient-to-r from-trine-green to-trine-lightblue bg-clip-text text-transparent">Permanent Hiring</span>
+      {/* Methodology Process */}
+      <section className="relative py-16 lg:py-20 bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-white/5">
+        <div className="mx-auto max-w-6xl px-4 lg:px-6 xl:px-0">
+          <div className="mb-12 text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-emerald-600 dark:text-emerald-400">
+              OUR PROCESS
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              Precision
+              <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text pl-2 text-transparent">
+                Recruitment Methodology
+              </span>
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Why organizations choose permanent hiring for building strong, dedicated teams
+            <p className="mt-3 max-w-2xl mx-auto text-sm text-slate-600 dark:text-slate-300 sm:text-base">
+              A systematic approach designed to identify, evaluate, and secure the best talent for your specific needs.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="group relative bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-trine-green/20 to-trine-lightblue/20 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-500"></div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {methodology.map((step, index) => (
+              <div key={index} className="group relative rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-slate-950 p-6 shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
+                <div className="absolute top-6 right-6 text-4xl font-bold text-slate-100 dark:text-slate-800 group-hover:text-emerald-50 dark:group-hover:text-emerald-900/20 transition-colors">
+                  {step.step}
+                </div>
                 <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-trine-green/20 to-trine-lightblue/10 flex items-center justify-center mb-6 group-hover:from-trine-green group-hover:to-trine-lightblue group-hover:shadow-lg transition-all duration-300">
-                    <benefit.icon className="w-8 h-8 text-trine-green group-hover:text-white transition-colors" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                    <step.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white group-hover:text-trine-green transition-colors">{benefit.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.description}</p>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">{step.title}</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{step.description}</p>
                 </div>
               </div>
             ))}
@@ -314,69 +390,37 @@ const PermanentHiring = () => {
         </div>
       </section>
 
-      {/* Recruitment Methodology */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        <div className="container">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-green/10 text-trine-orange font-semibold text-sm mb-4">
-              <Target className="w-4 h-4 inline mr-2" />
-              6-Step Process
-            </span>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-              Our <span className="bg-gradient-to-r from-trine-orange to-trine-green bg-clip-text text-transparent">Recruitment Methodology</span>
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              A proven systematic process that delivers exceptional permanent hires
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green transform -translate-y-1/2 opacity-30"></div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {methodology.map((step, index) => (
-                <div key={index} className="relative group">
-                  <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 group-hover:border-trine-orange/50 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-trine-orange/10 to-trine-green/10 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-500"></div>
-                    <div className="absolute top-6 right-6 text-5xl font-bold text-gray-100 dark:text-gray-700 group-hover:text-trine-orange/20 transition-colors z-0">
-                      {step.step}
-                    </div>
-                    <div className="relative z-10">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-trine-orange/20 to-trine-green/10 flex items-center justify-center mb-6 group-hover:from-trine-orange group-hover:to-trine-green group-hover:shadow-lg transition-all duration-300">
-                        <step.icon className="w-7 h-7 text-trine-orange group-hover:text-white transition-colors" />
-                      </div>
-                      <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-trine-orange transition-colors">{step.title}</h3>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{step.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+      {/* Specializations */}
+      <section className="relative py-16 lg:py-20 bg-white dark:bg-slate-950">
+        <div className="mx-auto max-w-6xl px-4 lg:px-6 xl:px-0">
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+                Specialized
+                <span className="bg-gradient-to-r from-emerald-500 to-green-500 bg-clip-text pl-2 text-transparent">
+                  Talent Pools
+                </span>
+              </h2>
+              <p className="mt-3 max-w-xl text-sm text-slate-600 dark:text-slate-300 sm:text-base">
+                We maintain deep networks in key industries to ensure rapid access to qualified professionals.
+              </p>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Industries & Roles */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-              Industries & Roles <span className="text-trine-lightblue">We Specialize In</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {specializations.map((spec, index) => (
-              <div key={index} className="bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-lg">
-                <div className="flex items-center mb-4">
-                  <Building2 className="w-6 h-6 text-trine-green mr-2" />
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">{spec.category}</h3>
+              <div key={index} className="rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-900/50 p-6 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm">
+                    <Building2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <h3 className="font-semibold text-slate-900 dark:text-white">{spec.category}</h3>
                 </div>
-                <ul className="space-y-2">
+                <ul className="space-y-2.5">
                   {spec.roles.map((role, idx) => (
-                    <li key={idx} className="flex items-center text-gray-600 dark:text-gray-300">
-                      <CheckCircle2 className="w-4 h-4 text-trine-green mr-2 flex-shrink-0" />
-                      <span className="text-sm">{role}</span>
+                    <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-emerald-500" />
+                      <span>{role}</span>
                     </li>
                   ))}
                 </ul>
@@ -387,35 +431,40 @@ const PermanentHiring = () => {
       </section>
 
       {/* Success Stories */}
-      <section className="py-20 bg-white dark:bg-gray-900">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-              Success <span className="bg-gradient-to-r from-trine-green to-trine-orange bg-clip-text text-transparent">Stories</span>
+      <section className="relative py-16 lg:py-20 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-white/5">
+        <div className="mx-auto max-w-6xl px-4 lg:px-6 xl:px-0">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              Proven
+              <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text pl-2 text-transparent">
+                Results
+              </span>
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Real results from our permanent hiring partnerships
-            </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid gap-6 lg:grid-cols-3">
             {successStories.map((story, index) => (
-              <div key={index} className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-700 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 bg-trine-green/10 text-trine-green rounded-full text-sm font-medium">
-                    {story.industry}
-                  </span>
-                  <span className="text-2xl font-bold text-trine-orange">{story.metric}</span>
+              <div key={index} className="relative overflow-hidden rounded-3xl bg-white dark:bg-slate-950 p-6 shadow-lg border border-slate-100 dark:border-white/5">
+                <div className="absolute top-0 right-0 p-4 opacity-10">
+                  <Award className="h-24 w-24 text-emerald-500" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{story.company}</h3>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">Challenge</p>
-                    <p className="text-gray-600 dark:text-gray-300">{story.challenge}</p>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="inline-flex items-center rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                      {story.industry}
+                    </span>
+                    <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{story.metric}</span>
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-trine-green">Result</p>
-                    <p className="text-gray-600 dark:text-gray-300">{story.result}</p>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">{story.company}</h3>
+                  <div className="space-y-4 text-sm">
+                    <div>
+                      <p className="font-semibold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider mb-1">Challenge</p>
+                      <p className="text-slate-700 dark:text-slate-300">{story.challenge}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-emerald-600 dark:text-emerald-400 text-xs uppercase tracking-wider mb-1">Result</p>
+                      <p className="text-slate-700 dark:text-slate-300">{story.result}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -425,63 +474,64 @@ const PermanentHiring = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-              Client <span className="bg-gradient-to-r from-trine-lightblue to-trine-green bg-clip-text text-transparent">Testimonials</span>
+      <section className="relative py-16 lg:py-20 bg-white dark:bg-slate-950">
+        <div className="mx-auto max-w-4xl px-4 lg:px-6 xl:px-0">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              Client
+              <span className="bg-gradient-to-r from-emerald-500 to-green-500 bg-clip-text pl-2 text-transparent">
+                Testimonials
+              </span>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid gap-6 md:grid-cols-2">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="relative bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-lg">
-                <Quote className="w-12 h-12 text-trine-green/20 mb-4" />
-                
+              <div key={index} className="rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-900/50 p-6">
+                <Quote className="h-8 w-8 text-emerald-200 dark:text-emerald-900 mb-4" />
                 <div className="flex mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-trine-orange fill-current" />
+                    <Star key={i} className="h-4 w-4 text-amber-400 fill-current" />
                   ))}
                 </div>
-                
-                <p className="text-gray-700 dark:text-gray-300 mb-6 italic text-lg leading-relaxed">
+                <p className="text-sm text-slate-700 dark:text-slate-300 italic mb-6 leading-relaxed">
                   "{testimonial.content}"
                 </p>
-                
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-trine-green to-trine-lightblue rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold">
                     {testimonial.name.charAt(0)}
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</div>
-                    <div className="text-gray-600 dark:text-gray-400 text-sm">{testimonial.position}</div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{testimonial.name}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{testimonial.position}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-trine-green via-trine-lightblue to-trine-orange">
-        <div className="container text-center">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-              Ready to Build Your Dream Team?
-            </h2>
-            <p className="text-xl text-white/90 mb-10 leading-relaxed">
-              Partner with Trine Solutions for your permanent hiring needs. 
-              Let us help you find exceptional talent that drives long-term success.
+          {/* Bottom CTA */}
+          <div className="mt-16 rounded-3xl border border-emerald-200 dark:border-emerald-800 bg-gradient-to-br from-emerald-50 dark:from-emerald-900/20 via-white dark:via-slate-950 to-green-50 dark:to-slate-950 px-6 py-8 text-center shadow-lg">
+            <h3 className="text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
+              Ready to build your dream team?
+            </h3>
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+              Partner with Trine Solutions for your permanent hiring needs. Let us help you find exceptional talent that drives long-term success.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact" className="px-8 py-4 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 hover:scale-105 flex items-center justify-center">
+            <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-emerald-600 dark:bg-emerald-500 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-700 dark:hover:bg-emerald-400"
+              >
                 Start Hiring
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
-              <Link to="/consulting/contingent-staffing" className="px-8 py-4 border-2 border-white/30 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 flex items-center justify-center">
+              <Link
+                to="/consulting/contingent-staffing"
+                className="inline-flex items-center justify-center rounded-full border border-slate-300 dark:border-white/20 px-6 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:border-emerald-500 dark:hover:text-white"
+              >
                 Explore Contingent Staffing
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
           </div>
