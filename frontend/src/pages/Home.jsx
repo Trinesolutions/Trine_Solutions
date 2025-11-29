@@ -4,7 +4,7 @@ import axios from 'axios';
 import {
   ArrowRight, Zap, Shield,
   Sparkles, TrendingUp, Award, Users, Globe, Rocket, ChevronRight,
-  Target, Lightbulb, Star, Heart
+  Target, Lightbulb, Star, Heart, Briefcase, MessageSquare, Layers, Cpu
 } from 'lucide-react';
 import TestimonialSlider from '@/components/TestimonialSlider';
 import { iconMap, getIconByName } from '@/utils/serviceIcons';
@@ -530,6 +530,191 @@ const Home = () => {
                 </button>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Preview Section - Innovative Split Layout */}
+      <section className="py-24 relative overflow-hidden bg-trine-black" aria-labelledby="services-preview-title">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-trine-orange/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-0 w-80 h-80 bg-trine-lightblue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-trine-green/5 rounded-full blur-3xl"></div>
+          {/* Grid Pattern */}
+          <div 
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: 'linear-gradient(90deg, #fff 1px, transparent 1px), linear-gradient(180deg, #fff 1px, transparent 1px)',
+              backgroundSize: '60px 60px'
+            }}
+          ></div>
+        </div>
+
+        <div className="container relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-16 animate-on-scroll opacity-0">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6">
+              <Layers className="w-4 h-4 text-trine-orange" />
+              <span className="text-sm font-semibold text-white uppercase tracking-wider">What We Offer</span>
+            </div>
+            <h2 id="services-preview-title" className="text-4xl md:text-5xl font-bold mb-6">
+              <span className="text-white">Comprehensive </span>
+              <span className="bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green bg-clip-text text-transparent">Solutions</span>
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+              From cutting-edge technology services to strategic consulting, we deliver end-to-end solutions that transform your business
+            </p>
+          </div>
+
+          {/* Innovative Split Layout */}
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+            
+            {/* Services Overview Card - Left Side */}
+            <div className="group relative animate-on-scroll opacity-0">
+              {/* Glow Effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-orange rounded-3xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+              
+              <div className="relative h-full bg-gradient-to-br from-gray-900/80 to-gray-900/40 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden">
+                {/* Header Accent */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green"></div>
+                
+                <div className="p-8 lg:p-10">
+                  {/* Icon Grid */}
+                  <div className="flex gap-3 mb-8">
+                    {[
+                      { icon: Cpu, color: 'from-trine-orange to-orange-600' },
+                      { icon: Shield, color: 'from-trine-lightblue to-blue-600' },
+                      { icon: Globe, color: 'from-trine-green to-green-600' },
+                      { icon: Zap, color: 'from-trine-orange to-yellow-500' }
+                    ].map((item, idx) => (
+                      <div 
+                        key={idx}
+                        className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center transform hover:scale-110 hover:rotate-3 transition-all duration-300`}
+                      >
+                        <item.icon className="w-6 h-6 text-white" />
+                      </div>
+                    ))}
+                  </div>
+
+                  <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
+                    Our Services
+                  </h3>
+                  
+                  <p className="text-gray-300 mb-6 leading-relaxed">
+                    We deliver innovative technology solutions across software development, cloud infrastructure, AI & machine learning, cybersecurity, and digital transformation—empowering businesses to thrive in the digital age.
+                  </p>
+
+                  {/* Service Highlights */}
+                  <div className="space-y-3 mb-8">
+                    {[
+                      'Custom Software Development',
+                      'Cloud & DevOps Solutions',
+                      'AI & Machine Learning',
+                      'Cybersecurity Services'
+                    ].map((service, idx) => (
+                      <div 
+                        key={idx}
+                        className="flex items-center gap-3 text-gray-300 group/item"
+                      >
+                        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-trine-orange to-trine-lightblue group-hover/item:scale-150 transition-transform duration-300"></div>
+                        <span className="group-hover/item:text-white transition-colors duration-300">{service}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA Button */}
+                  <Link to="/services" className="group/btn inline-flex">
+                    <button className="relative px-8 py-4 rounded-xl overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-trine-orange to-trine-lightblue transition-all duration-300 group-hover/btn:scale-105"></div>
+                      <span className="relative flex items-center gap-2 text-white font-semibold">
+                        View All Services
+                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform duration-300" />
+                      </span>
+                    </button>
+                  </Link>
+                </div>
+
+                {/* Decorative Corner Element */}
+                <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-trine-orange/20 to-transparent rounded-tl-full"></div>
+              </div>
+            </div>
+
+            {/* Consulting Services Card - Right Side */}
+            <div className="group relative animate-on-scroll opacity-0" style={{ animationDelay: '0.2s' }}>
+              {/* Glow Effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-trine-green via-trine-lightblue to-trine-green rounded-3xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+              
+              <div className="relative h-full bg-gradient-to-br from-gray-900/80 to-gray-900/40 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden">
+                {/* Header Accent */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-trine-green via-trine-lightblue to-trine-orange"></div>
+                
+                <div className="p-8 lg:p-10">
+                  {/* Consulting Badge */}
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-trine-green/10 border border-trine-green/30 mb-6">
+                    <Briefcase className="w-4 h-4 text-trine-green" />
+                    <span className="text-sm font-semibold text-trine-green">Expert Guidance</span>
+                  </div>
+
+                  <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
+                    Consulting Services
+                  </h3>
+                  
+                  <p className="text-gray-300 mb-6 leading-relaxed">
+                    Our expert consultants provide strategic guidance to help you navigate complex digital transformations, optimize operations, and unlock new growth opportunities for your business.
+                  </p>
+
+                  {/* Consulting Features Grid */}
+                  <div className="grid grid-cols-2 gap-4 mb-8">
+                    {[
+                      { icon: Target, label: 'Strategy', desc: 'Digital roadmaps' },
+                      { icon: MessageSquare, label: 'Advisory', desc: 'Expert insights' },
+                      { icon: TrendingUp, label: 'Growth', desc: 'Scale solutions' },
+                      { icon: Lightbulb, label: 'Innovation', desc: 'Future-ready' }
+                    ].map((item, idx) => (
+                      <div 
+                        key={idx}
+                        className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-trine-green/30 hover:bg-white/10 transition-all duration-300 group/card"
+                      >
+                        <item.icon className="w-6 h-6 text-trine-green mb-2 group-hover/card:scale-110 transition-transform duration-300" />
+                        <div className="font-semibold text-white text-sm">{item.label}</div>
+                        <div className="text-gray-400 text-xs">{item.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA Button */}
+                  <Link to="/consulting" className="group/btn inline-flex">
+                    <button className="relative px-8 py-4 rounded-xl overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-trine-green to-trine-lightblue transition-all duration-300 group-hover/btn:scale-105"></div>
+                      <span className="relative flex items-center gap-2 text-white font-semibold">
+                        Explore Consulting
+                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform duration-300" />
+                      </span>
+                    </button>
+                  </Link>
+                </div>
+
+                {/* Decorative Corner Element */}
+                <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-trine-green/20 to-transparent rounded-tl-full"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Stats Bar */}
+          <div className="mt-16 flex flex-wrap justify-center gap-8 lg:gap-16 animate-on-scroll opacity-0">
+            {[
+              { value: '100+', label: 'Services Delivered' },
+              { value: '24/7', label: 'Support Available' },
+              { value: '15+', label: 'Industry Experts' }
+            ].map((stat, idx) => (
+              <div key={idx} className="text-center group">
+                <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300 inline-block">
+                  {stat.value}
+                </div>
+                <div className="text-gray-400 text-sm mt-1">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
