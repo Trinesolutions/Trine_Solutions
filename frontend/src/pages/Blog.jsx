@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, User, ArrowRight, Search, Tag, Clock, TrendingUp, Sparkles, BookOpen } from 'lucide-react';
 import axios from 'axios';
+import { toast } from 'sonner';
 import SEO, { pageSEO } from '@/components/SEO';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
@@ -12,6 +13,8 @@ const Blog = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedType, setSelectedType] = useState('all'); // 'all', 'blog', 'company-update'
+  const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     fetchBlogPosts();
@@ -25,6 +28,26 @@ const Blog = () => {
     } catch (error) {
       console.error('Error fetching blog posts:', error);
       setLoading(false);
+    }
+  };
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error('Please enter your email address');
+      return;
+    }
+    
+    setSubmitting(true);
+    try {
+      await axios.post(`${BACKEND_URL}/api/newsletter/subscribe`, { email });
+      toast.success('Successfully subscribed to newsletter!');
+      setEmail('');
+    } catch (error) {
+      console.error('Subscription error:', error);
+      toast.error(error.response?.data?.detail || 'Failed to subscribe. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -346,19 +369,24 @@ const Blog = () => {
           </p>
 
           <div className="max-w-xl mx-auto">
-            <div className="flex flex-col sm:flex-row gap-3">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address"
                 className="flex-1 px-6 py-4 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-300"
+                disabled={submitting}
               />
-              <Link to="/contact" className="inline-block">
-                <button className="px-8 py-4 bg-white text-orange-600 rounded-2xl font-bold hover:bg-green-50 transform hover:scale-105 transition-all duration-300 shadow-2xl flex items-center gap-2">
-                  Contact Us
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </Link>
-            </div>
+              <button 
+                type="submit"
+                disabled={submitting}
+                className="px-8 py-4 bg-white text-orange-600 rounded-2xl font-bold hover:bg-green-50 transform hover:scale-105 transition-all duration-300 shadow-2xl flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {submitting ? 'Subscribing...' : 'Subscribe'}
+                {!submitting && <ArrowRight className="w-5 h-5" />}
+              </button>
+            </form>
           </div>
         </div>
       </section>

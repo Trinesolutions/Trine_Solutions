@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, FileText, 
-  LogOut, Menu, X, Megaphone, Mail, Wrench, Quote, Handshake, UserCheck
+  LogOut, Menu, X, Megaphone, Mail, Wrench, Quote, Handshake, UserCheck, Users
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -42,6 +42,7 @@ const AdminLayout = ({ children }) => {
     { icon: UserCheck, label: 'Careers', path: '/admin/jobs' },
     { icon: Megaphone, label: 'Announcements', path: '/admin/announcements' },
     { icon: Mail, label: 'Contacts', path: '/admin/contacts' },
+    { icon: Users, label: 'Subscribers', path: '/admin/subscribers' },
   ];
 
   return (

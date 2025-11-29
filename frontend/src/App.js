@@ -24,6 +24,7 @@ import AdminServices from "@/pages/admin/AdminServices";
 import AdminJobs from "@/pages/admin/AdminJobs";
 import AdminAnnouncements from "@/pages/admin/AdminAnnouncements";
 import AdminContacts from "@/pages/admin/AdminContacts";
+import AdminSubscribers from "@/pages/admin/AdminSubscribers";
 import AdminTestimonials from "@/pages/admin/AdminTestimonials";
 import AdminPartners from "@/pages/admin/AdminPartners";
 import DigitalTransformation from "@/pages/DigitalTransformation";
@@ -110,6 +111,7 @@ function App() {
               <Route path="/admin/partners" element={<AdminPartners />} />
               <Route path="/admin/announcements" element={<AdminAnnouncements />} />
               <Route path="/admin/contacts" element={<AdminContacts />} />
+              <Route path="/admin/subscribers" element={<AdminSubscribers />} />
             </Routes>
           
           </Layout>

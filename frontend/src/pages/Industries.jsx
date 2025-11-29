@@ -213,12 +213,6 @@ const Industries = () => {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden lg:block">
-          <div className="w-8 h-12 border-2 border-white/60 rounded-full flex justify-center items-start p-2">
-            <div className="w-2 h-3 bg-white/80 rounded-full animate-pulse"></div>
-          </div>
-        </div>
       </section>
 
 

@@ -354,6 +354,17 @@ class ContactFormCreate(BaseModel):
     company: str
     message: str
 
+class Subscriber(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    email: EmailStr
+    subscribed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    active: bool = True
+
+class SubscriberCreate(BaseModel):
+    email: EmailStr
+
 class TeamMember(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
@@ -785,6 +796,29 @@ async def create_contact(input: ContactFormCreate):
     await db.contacts.insert_one(doc)
     return contact_obj
 
+@api_router.post("/newsletter/subscribe", response_model=Subscriber)
+async def subscribe_newsletter(subscriber_data: SubscriberCreate):
+    # Check if email already exists
+    existing = await db.subscribers.find_one({"email": subscriber_data.email})
+    if existing:
+        # If inactive, reactivate
+        if not existing.get("active", True):
+            await db.subscribers.update_one(
+                {"email": subscriber_data.email},
+                {"$set": {"active": True}}
+            )
+            updated = await db.subscribers.find_one({"email": subscriber_data.email}, {"_id": 0})
+            return Subscriber(**updated)
+        # Already subscribed
+        raise HTTPException(status_code=400, detail="Email already subscribed")
+    
+    subscriber = Subscriber(email=subscriber_data.email)
+    doc = subscriber.model_dump()
+    doc['subscribed_at'] = doc['subscribed_at'].isoformat()
+    
+    await db.subscribers.insert_one(doc)
+    return subscriber
+
 @api_router.get("/team", response_model=List[TeamMember])
 async def get_team():
     team = await db.team_members.find({}, {"_id": 0}).to_list(100)
@@ -1192,6 +1226,19 @@ async def admin_delete_contact(contact_id: str, current_user: dict = Depends(get
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Contact not found")
     return {"message": "Contact deleted successfully"}
+
+# Subscribers Management
+@admin_router.get("/subscribers", response_model=List[Subscriber])
+async def admin_get_subscribers(current_user: dict = Depends(get_current_user)):
+    subscribers = await db.subscribers.find({}, {"_id": 0}).sort("subscribed_at", -1).to_list(1000)
+    return subscribers
+
+@admin_router.delete("/subscribers/{subscriber_id}")
+async def admin_delete_subscriber(subscriber_id: str, current_user: dict = Depends(get_current_user)):
+    result = await db.subscribers.delete_one({"id": subscriber_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Subscriber not found")
+    return {"message": "Subscriber deleted successfully"}
 
 # Announcements CRUD
 @admin_router.get("/announcements", response_model=List[Announcement])

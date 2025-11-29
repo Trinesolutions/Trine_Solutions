@@ -136,12 +136,6 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden lg:block">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/70 rounded-full mt-2"></div>
-          </div>
-        </div>
       </section>
 
       {/* Features Section */}
@@ -261,7 +255,7 @@ const Contact = () => {
                     type="submit"
                     disabled={submitting}
                     data-testid="contact-submit-btn"
-                    className="w-full px-8 py-4 bg-gradient-to-r from-orange-500 to-green-500 text-white rounded-2xl font-bold hover:shadow-2xl hover:shadow-orange-500/25 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-300 flex items-center justify-center space-x-3"
+                    className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-2xl font-bold hover:shadow-2xl hover:shadow-blue-500/25 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-300 flex items-center justify-center space-x-3"
                   >
                     {submitting ? (
                       <span>Processing...</span>
@@ -361,14 +355,14 @@ const Contact = () => {
               <div className="grid grid-cols-2 gap-4">
                 <a 
                   href="tel:+14252025165"
-                  className="group relative p-4 rounded-2xl bg-gradient-to-r from-green-500 to-green-600 text-white text-center font-semibold hover:shadow-2xl hover:shadow-green-500/25 transform hover:scale-105 transition-all duration-300"
+                  className="group relative p-4 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center font-semibold hover:shadow-2xl hover:shadow-blue-500/25 transform hover:scale-105 transition-all duration-300"
                 >
                   <Phone className="w-5 h-5 inline-block mr-2" />
                   Call Now
                 </a>
                 <a 
                   href="mailto:trine@trinesolutions.com"
-                  className="group relative p-4 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center font-semibold hover:shadow-2xl hover:shadow-orange-500/25 transform hover:scale-105 transition-all duration-300"
+                  className="group relative p-4 rounded-2xl bg-gradient-to-r from-cyan-600 to-cyan-700 text-white text-center font-semibold hover:shadow-2xl hover:shadow-cyan-500/25 transform hover:scale-105 transition-all duration-300"
                 >
                   <Mail className="w-5 h-5 inline-block mr-2" />
                   Email Us
@@ -379,54 +373,7 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-12 lg:py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-50 via-blue-50/50 to-purple-50/30 dark:from-cyan-950/20 dark:via-blue-950/10 dark:to-purple-950/20"></div>
-        <div className="container relative z-10 px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 lg:mb-12">
-            <h2 className="text-3xl lg:text-5xl font-black mb-4 lg:mb-6">
-              <span className="bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Visit Our Office
-              </span>
-            </h2>
-            <p className="text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Located in the heart of Bellevue's tech corridor, our office is designed for collaboration and innovation.
-            </p>
-          </div>
 
-          {/* Enhanced Map Placeholder */}
-          <div className="relative group rounded-3xl overflow-hidden shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-cyan-600/20 z-10"></div>
-            <div className="h-64 lg:h-96 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center relative">
-              {/* Map Grid Pattern */}
-              <div className="absolute inset-0 opacity-30">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
-                                   linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px)`,
-                  backgroundSize: '40px 40px',
-                }}></div>
-              </div>
-              
-              {/* Map Center Marker */}
-              <div className="relative z-20 text-center">
-                <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center mx-auto mb-4 shadow-2xl group-hover:scale-110 transition-transform duration-500">
-                  <MapPin className="w-8 h-8 lg:w-10 lg:h-10 text-white" />
-                </div>
-                <div className="text-white bg-black/50 backdrop-blur-sm rounded-2xl p-4 lg:p-6 inline-block">
-                  <div className="text-xl lg:text-2xl font-black mb-2">Trine Solutions</div>
-                  <div className="text-xs lg:text-sm opacity-90">14042 NE 8th Street, #201C</div>
-                  <div className="text-xs lg:text-sm opacity-90">Bellevue, WA 98007</div>
-                </div>
-              </div>
-
-              {/* Interactive Map Elements */}
-              <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-cyan-400 rounded-full animate-pulse"></div>
-              <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-              <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
