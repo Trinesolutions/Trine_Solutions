@@ -254,6 +254,32 @@ export const pageSEO = {
     description: 'Access expert analysis, whitepapers, and research from Trine Solutions. Deep dive into technology trends, best practices, and industry insights.',
     keywords: 'Technology Insights, IT Whitepapers, Industry Analysis, Tech Research, Best Practices, Expert Analysis, Technology Reports',
   },
+  // Consulting Services Pages
+  contingentStaffing: {
+    title: 'Contingent Staffing – Flexible Workforce Solutions',
+    description: 'Access top talent on-demand with Trine Solutions contingent staffing services. Scale your workforce efficiently with temporary, contract, and project-based professionals.',
+    keywords: 'Contingent Staffing, Temporary Staffing, Contract Workers, Flexible Workforce, Staff Augmentation, On-Demand Talent, IT Staffing, Contract Employment',
+  },
+  permanentHiring: {
+    title: 'Permanent Hiring – Long-term Talent Acquisition',
+    description: 'Build lasting teams with Trine Solutions permanent hiring services. Expert recruitment for full-time positions across technology, healthcare, finance, and more.',
+    keywords: 'Permanent Hiring, Direct Placement, Full-Time Recruitment, Talent Acquisition, Executive Search, Professional Recruitment, Career Placement',
+  },
+  contractToHire: {
+    title: 'Contract to Hire – Try Before You Hire',
+    description: 'Minimize hiring risks with contract-to-hire solutions from Trine Solutions. Evaluate candidates in real work scenarios before permanent commitment.',
+    keywords: 'Contract to Hire, Temp to Perm, Try Before Hire, Contract-to-Permanent, Evaluation Period, Hiring Solutions, Risk-Free Hiring',
+  },
+  statementOfWork: {
+    title: 'Statement of Work (SOW) – Project-Based Engagement',
+    description: 'Achieve project goals with Trine Solutions SOW engagement model. Fixed-price, defined deliverables, and guaranteed outcomes for your projects.',
+    keywords: 'Statement of Work, SOW Services, Project-Based Staffing, Fixed Price Projects, Deliverable-Based Engagement, Project Management, Outsourced Projects',
+  },
+  managedServices: {
+    title: 'Managed Services – Comprehensive Service Management',
+    description: 'Transform your operations with Trine Solutions managed services. End-to-end management of IT staffing, workforce, and HR functions with guaranteed SLAs.',
+    keywords: 'Managed Services, IT Managed Services, Workforce Management, HR Outsourcing, Service Level Agreements, Operational Excellence, Business Process Outsourcing',
+  },
 };
 
 // Structured data schemas

@@ -78,7 +78,7 @@ const Blog = () => {
         <div className="container relative z-10 px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Side - Content */}
-            <div className="text-center lg:text-left text-white">
+            <div className="text-center lg:text-left text-white lg:col-span-2">
               <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/20 backdrop-blur-md border border-white/30 mb-8 shadow-xl">
                 <BookOpen className="w-5 h-5 text-white animate-pulse" />
                 <span className="text-sm font-semibold tracking-wide">Latest Articles & Updates</span>
@@ -108,17 +108,6 @@ const Blog = () => {
                   <Search className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-6 text-white/70" />
                 </div>
               </div>
-            </div>
-
-            {/* Right Side - Image */}
-            <div className="relative block mt-12 lg:mt-0">
-               <div className="relative w-full h-[300px] md:h-[500px] lg:h-[600px] flex items-center justify-center">
-                 <img 
-                   src="/blog-banner.svg" 
-                   alt="Blog Insights" 
-                   className="w-full h-full object-contain drop-shadow-2xl transform scale-125"
-                 />
-               </div>
             </div>
           </div>
         </div>

@@ -84,15 +84,15 @@ const Footer = () => {
                   <MapPin className="w-5 h-5 mt-1 flex-shrink-0 group-hover:text-orange-400" />
                   <div>
                     <p className="font-medium text-white">Global Headquarters</p>
-                    <p className="text-sm">123 Innovation Drive, Tech Valley, CA 94025</p>
+                    <p className="text-sm">14042 NE 8th Street, #201C, Bellevue, WA 98007</p>
                   </div>
                 </div>
                 
-                <a href="tel:+15551234567" className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors group">
+                <a href="tel:+14252025165" className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors group">
                   <Phone className="w-5 h-5 flex-shrink-0 group-hover:text-orange-400" />
                   <div>
                     <p className="font-medium text-white">Phone</p>
-                    <p className="text-sm">+1 (555) 123-4567</p>
+                    <p className="text-sm">+1 (425) 202-5165</p>
                   </div>
                 </a>
                 

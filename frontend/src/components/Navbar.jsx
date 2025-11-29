@@ -1,12 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Moon, Sun, Globe, Menu, X, Linkedin } from 'lucide-react';
+import { Search, Moon, Sun, Globe, Menu, X, Linkedin, ChevronDown, Users, Briefcase, Calendar, FileText, Settings } from 'lucide-react';
 
 const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [consultingDropdownOpen, setConsultingDropdownOpen] = useState(false);
+  const [mobileConsultingOpen, setMobileConsultingOpen] = useState(false);
   const location = useLocation();
+
+  const consultingServices = [
+    { name: 'Contingent Staffing', path: '/consulting/contingent-staffing', icon: Users },
+    { name: 'Permanent Hiring', path: '/consulting/permanent-hiring', icon: Briefcase },
+    { name: 'Contract to Hire', path: '/consulting/contract-to-hire', icon: Calendar },
+    { name: 'Statement of Work', path: '/consulting/statement-of-work', icon: FileText },
+    { name: 'Managed Services', path: '/consulting/managed-services', icon: Settings },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,16 +32,21 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
       if (e.key === 'Escape') {
         setMobileMenuOpen(false);
         setSearchOpen(false);
+        setConsultingDropdownOpen(false);
       }
     };
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, []);
 
+  // Check if current path is a consulting service path
+  const isConsultingActive = location.pathname.startsWith('/consulting');
+
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
     { name: 'Services', path: '/services' },
+    { name: 'Consulting Services', path: '/consulting', hasDropdown: true },
     { name: 'Industries', path: '/industries' },
     { name: 'Blog', path: '/blog' },
     { name: 'Careers', path: '/careers' },
@@ -67,19 +82,73 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
               {/* Desktop Navigation */}
               <nav className="hidden lg:flex items-center space-x-1" aria-label="Primary">
                 {navLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    data-testid={`nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-trine-orange ${
-                      location.pathname === link.path
-                        ? 'bg-gradient-to-r from-trine-orange to-trine-lightblue text-white'
-                        : 'hover:bg-trine-orange/10 hover:text-trine-orange'
-                    }`}
-                    aria-current={location.pathname === link.path ? 'page' : undefined}
-                  >
-                    {link.name}
-                  </Link>
+                  link.hasDropdown ? (
+                    <div 
+                      key={link.path}
+                      className="relative"
+                      onMouseEnter={() => setConsultingDropdownOpen(true)}
+                      onMouseLeave={() => setConsultingDropdownOpen(false)}
+                    >
+                      <button
+                        data-testid={`nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-trine-orange flex items-center ${
+                          isConsultingActive
+                            ? 'bg-gradient-to-r from-trine-orange to-trine-lightblue text-white'
+                            : 'hover:bg-trine-orange/10 hover:text-trine-orange'
+                        }`}
+                        aria-expanded={consultingDropdownOpen}
+                        aria-haspopup="true"
+                      >
+                        {link.name}
+                        <ChevronDown className={`w-4 h-4 ml-1 transition-transform duration-200 ${consultingDropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      
+                      {/* Dropdown Menu */}
+                      {consultingDropdownOpen && (
+                        <div 
+                          className="absolute top-full left-0 mt-2 w-64 glass rounded-2xl shadow-xl overflow-hidden z-50 animate-fade-in"
+                          role="menu"
+                          aria-orientation="vertical"
+                        >
+                          <div className="py-2">
+                            {consultingServices.map((service) => {
+                              const ServiceIcon = service.icon;
+                              return (
+                                <Link
+                                  key={service.path}
+                                  to={service.path}
+                                  className={`flex items-center px-4 py-3 text-sm font-medium transition-all duration-300 ${
+                                    location.pathname === service.path
+                                      ? 'bg-trine-orange/10 text-trine-orange'
+                                      : 'hover:bg-trine-orange/10 hover:text-trine-orange'
+                                  }`}
+                                  role="menuitem"
+                                  onClick={() => setConsultingDropdownOpen(false)}
+                                >
+                                  <ServiceIcon className="w-5 h-5 mr-3" aria-hidden="true" />
+                                  {service.name}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      data-testid={`nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-trine-orange ${
+                        location.pathname === link.path
+                          ? 'bg-gradient-to-r from-trine-orange to-trine-lightblue text-white'
+                          : 'hover:bg-trine-orange/10 hover:text-trine-orange'
+                      }`}
+                      aria-current={location.pathname === link.path ? 'page' : undefined}
+                    >
+                      {link.name}
+                    </Link>
+                  )
                 ))}
               </nav>
 
@@ -199,7 +268,7 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
         >
           <nav
             id="mobile-menu"
-            className="glass absolute right-4 top-20 w-[calc(100%-2rem)] max-w-sm rounded-3xl p-6"
+            className="glass absolute right-4 top-20 w-[calc(100%-2rem)] max-w-sm rounded-3xl p-6 max-h-[80vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
             data-testid="mobile-menu"
             aria-label="Mobile navigation"
@@ -207,19 +276,64 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
             <ul className="flex flex-col space-y-2" role="list">
               {navLinks.map((link) => (
                 <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    onClick={() => setMobileMenuOpen(false)}
-                    data-testid={`mobile-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    className={`block px-4 py-3 rounded-2xl text-base font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-trine-orange ${
-                      location.pathname === link.path
-                        ? 'bg-gradient-to-r from-trine-orange to-trine-lightblue text-white'
-                        : 'hover:bg-trine-orange/10 hover:text-trine-orange'
-                    }`}
-                    aria-current={location.pathname === link.path ? 'page' : undefined}
-                  >
-                    {link.name}
-                  </Link>
+                  {link.hasDropdown ? (
+                    <div>
+                      <button
+                        onClick={() => setMobileConsultingOpen(!mobileConsultingOpen)}
+                        data-testid={`mobile-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
+                        className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-base font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-trine-orange ${
+                          isConsultingActive
+                            ? 'bg-gradient-to-r from-trine-orange to-trine-lightblue text-white'
+                            : 'hover:bg-trine-orange/10 hover:text-trine-orange'
+                        }`}
+                        aria-expanded={mobileConsultingOpen}
+                      >
+                        {link.name}
+                        <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${mobileConsultingOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      
+                      {mobileConsultingOpen && (
+                        <ul className="mt-2 ml-4 space-y-1 border-l-2 border-trine-orange/20 pl-4">
+                          {consultingServices.map((service) => {
+                            const ServiceIcon = service.icon;
+                            return (
+                              <li key={service.path}>
+                                <Link
+                                  to={service.path}
+                                  onClick={() => {
+                                    setMobileMenuOpen(false);
+                                    setMobileConsultingOpen(false);
+                                  }}
+                                  className={`flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                                    location.pathname === service.path
+                                      ? 'bg-trine-orange/10 text-trine-orange'
+                                      : 'hover:bg-trine-orange/10 hover:text-trine-orange'
+                                  }`}
+                                >
+                                  <ServiceIcon className="w-4 h-4 mr-2" aria-hidden="true" />
+                                  {service.name}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      to={link.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      data-testid={`mobile-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
+                      className={`block px-4 py-3 rounded-2xl text-base font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-trine-orange ${
+                        location.pathname === link.path
+                          ? 'bg-gradient-to-r from-trine-orange to-trine-lightblue text-white'
+                          : 'hover:bg-trine-orange/10 hover:text-trine-orange'
+                      }`}
+                      aria-current={location.pathname === link.path ? 'page' : undefined}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

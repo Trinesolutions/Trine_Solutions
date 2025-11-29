@@ -262,14 +262,14 @@ const Home = () => {
           id="hero-title"
           className="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 leading-tight"
         >
-          <span className="block text-gray-900 dark:text-white">Transform</span>
+          <span className="block text-gray-900 dark:text-white">Transforming</span>
           <span className="block bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent mt-4 animate-pulse">
-            Your Digital Future
+            Vision Into Reality
           </span>
         </h1>
 
         <p className="text-xl lg:text-2xl mb-12 leading-relaxed text-gray-700 dark:text-white/80 font-light">
-          Cutting-edge <span className="font-bold text-cyan-500">AI solutions</span>, enterprise
+          IT Services, Consulting, <span className="font-bold text-cyan-500">AI solutions</span>, enterprise
           <span className="font-bold text-blue-500"> cybersecurity</span>, and innovation that accelerates business growth.
         </p>
 
@@ -515,6 +515,75 @@ const Home = () => {
                 </button>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Industries */}
+      <section className="py-20 bg-gradient-to-br from-green-50 to-sky-50 dark:from-gray-900 dark:to-gray-900">
+        <div className="container">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-trine-green/10 to-trine-lightblue/10 border border-trine-green/20 mb-6">
+              <Globe className="w-4 h-4 text-trine-green" />
+              <span className="text-sm font-semibold text-trine-green">INDUSTRIES</span>
+            </div>
+            
+            <h2 className="text-4xl font-bold mb-6" data-testid="industries-title">
+              <span className="text-trine-black dark:text-white">Expertise Across</span>
+              <br />
+              <span className="bg-gradient-to-r from-trine-green to-trine-lightblue bg-clip-text text-transparent">Every Sector</span>
+            </h2>
+            
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Delivering specialized solutions tailored to your industry's unique challenges and opportunities.
+            </p>
+          </div>
+          
+          {/* Industry Cards Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {industries.map((industry, index) => (
+              <div
+                key={index}
+                className="group animate-on-scroll opacity-0 bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
+                data-testid={`industry-card-${index}`}
+              >
+                {/* Image Section */}
+                <div className="relative overflow-hidden aspect-[4/3]">
+                  <img
+                    src={industry.image}
+                    alt={`${industry.name} industry solutions`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+                
+                {/* Content Section */}
+                <div className="p-6">
+                  <div className="mb-4">
+                    <span className="text-xs font-semibold text-trine-orange uppercase tracking-wider">
+                      {String(index + 1).padStart(2, '0')} / {String(industries.length).padStart(2, '0')}
+                    </span>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold mb-3">
+                    <span className="text-trine-black dark:text-white group-hover:text-trine-orange transition-colors duration-300">{industry.name}</span>
+                  </h3>
+                  
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3">
+                    {industry.description}
+                  </p>
+                  
+                  <Link 
+                    to={`/industries/${industry.slug}`}
+                    className="inline-flex items-center gap-2 text-trine-orange font-semibold group/btn"
+                  >
+                    Read More
+                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
