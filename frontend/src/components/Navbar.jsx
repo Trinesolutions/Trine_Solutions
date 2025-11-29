@@ -124,26 +124,6 @@ const Navbar = ({ darkMode, setDarkMode, language, setLanguage }) => {
                   {darkMode ? <Sun className="w-5 h-5" aria-hidden="true" /> : <Moon className="w-5 h-5" aria-hidden="true" />}
                 </button>
 
-                {/* Language Selector */}
-                <div className="relative hidden sm:block">
-                  <label htmlFor="language-selector" className="sr-only">Select language</label>
-                  <span id="language-description" className="sr-only">Choose your preferred language for the website</span>
-                  <select
-                    id="language-selector"
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
-                    data-testid="language-selector"
-                    aria-describedby="language-description"
-                    className="appearance-none bg-transparent pl-8 pr-3 py-2 rounded-full text-sm font-medium cursor-pointer outline-none hover:bg-trine-orange/10 transition-all duration-300 focus:ring-2 focus:ring-trine-orange"
-                  >
-                    <option value="EN">EN</option>
-                    <option value="ES">ES</option>
-                    <option value="FR">FR</option>
-                    <option value="DE">DE</option>
-                  </select>
-                  <Globe className="w-4 h-4 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true" />
-                </div>
-
                 {/* Mobile Menu Toggle */}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

@@ -46,7 +46,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-gradient-to-br from-gray-900 to-black text-white" data-testid="main-footer">
+    <footer className="relative bg-gradient-to-br from-gray-900 to-black text-white mb-0 pb-0" data-testid="main-footer">
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -70,7 +70,7 @@ const Footer = () => {
                     className="h-16 w-auto mb-3"
                   />
                 </Link>
-                <p className="text-sm text-green-400 font-medium">Digital Innovation Partner</p>
+                <p className="text-sm text-orange-400 font-medium">Digital Innovation Partner</p>
               </div>
               
               <p className="text-gray-400 mb-8 leading-relaxed">
@@ -111,7 +111,7 @@ const Footer = () => {
               <div key={index}>
                 <h3 className="text-white text-lg font-bold mb-6 relative inline-block">
                   {section.title}
-                  <span className="absolute -bottom-2 left-0 w-12 h-0.5 bg-gradient-to-r from-orange-500 to-green-500"></span>
+                  <span className="absolute -bottom-2 left-0 w-12 h-0.5 bg-gradient-to-r from-orange-500 to-blue-500"></span>
                 </h3>
                 <ul className="space-y-3">
                   {section.links.map((link, linkIndex) => (
@@ -120,7 +120,7 @@ const Footer = () => {
                         to={link.path}
                         className="group flex items-center text-gray-400 hover:text-orange-400 transition-all duration-300"
                       >
-                        <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 text-green-400" />
+                        <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 text-orange-400" />
                         <span className="font-medium">{link.name}</span>
                       </Link>
                     </li>
@@ -140,7 +140,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="w-10 h-10 rounded-lg bg-white/5 hover:bg-gradient-to-r hover:from-orange-500 hover:to-green-500 border border-gray-700 hover:border-transparent flex items-center justify-center transition-all duration-300 hover:scale-110 group"
+                    className="w-10 h-10 rounded-lg bg-white/5 hover:bg-gradient-to-r hover:from-orange-500 hover:to-blue-500 border border-gray-700 hover:border-transparent flex items-center justify-center transition-all duration-300 hover:scale-110 group"
                   >
                     <social.icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
                   </a>

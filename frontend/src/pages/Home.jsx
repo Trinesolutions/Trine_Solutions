@@ -244,8 +244,23 @@ const Home = () => {
         ]}
       />
 
-<section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-black pt-32 transition-colors duration-500" aria-labelledby="hero-title">
+<section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 transition-colors duration-500" aria-labelledby="hero-title">
   
+  {/* Video Background */}
+  <div className="absolute inset-0 z-0">
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="w-full h-full object-cover"
+    >
+      <source src="/HERObGvideo.mp4" type="video/mp4" />
+    </video>
+    {/* Overlay for better text readability */}
+    <div className="absolute inset-0 bg-black/60"></div>
+  </div>
+
   {/* Left-side Content */}
   <div className="container mx-auto px-6 relative z-10">
     <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -262,15 +277,15 @@ const Home = () => {
           id="hero-title"
           className="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 leading-tight"
         >
-          <span className="block text-gray-900 dark:text-white">Transforming</span>
+          <span className="block text-white">Transforming</span>
           <span className="block bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent mt-4 animate-pulse">
             Vision Into Reality
           </span>
         </h1>
 
-        <p className="text-xl lg:text-2xl mb-12 leading-relaxed text-gray-700 dark:text-white/80 font-light">
-          IT Services, Consulting, <span className="font-bold text-cyan-500">AI solutions</span>, enterprise
-          <span className="font-bold text-blue-500"> cybersecurity</span>, and innovation that accelerates business growth.
+        <p className="text-xl lg:text-2xl mb-12 leading-relaxed text-white/90 font-light">
+          IT Services, Consulting, <span className="font-bold text-cyan-400">AI solutions</span>, enterprise
+          <span className="font-bold text-blue-400"> cybersecurity</span>, and innovation that accelerates business growth.
         </p>
 
         <div className="flex flex-col sm:flex-row items-start gap-6 mb-16">
@@ -285,7 +300,7 @@ const Home = () => {
           </Link>
 
           <Link to="/contact" className="group relative">
-            <button className="relative px-12 py-6 rounded-2xl bg-black/5 dark:bg-white/10 backdrop-blur-sm border-2 border-black/10 dark:border-white/30 text-gray-900 dark:text-white font-bold text-lg hover:bg-black/10 dark:hover:bg-white/20 transition-all duration-300 flex items-center gap-3 hover:scale-105">
+            <button className="relative px-12 py-6 rounded-2xl bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg hover:bg-white/20 transition-all duration-300 flex items-center gap-3 hover:scale-105">
               Get Started
               <ChevronRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
             </button>
@@ -308,7 +323,7 @@ const Home = () => {
               <div className="aspect-[16/10] rounded-t-[12px] overflow-hidden bg-gray-800 relative">
                 {/* Your image goes here */}
                 <img 
-                  src="./bg_hero.png" 
+                  src="./unnamed.jpg" 
                   alt="Dashboard Preview" 
                   className="w-full h-full object-cover"
                 />
@@ -462,7 +477,7 @@ const Home = () => {
                 <div className="absolute -inset-4 bg-gradient-to-r from-trine-orange/20 via-trine-lightblue/20 to-trine-green/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
                 <div className="relative overflow-hidden rounded-2xl shadow-lg">
                   <img
-                    src="https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?w=800"
+                    src="./sample-contact-graphoc.svg"
                     alt="Modern office workspace showcasing innovation"
                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                     data-testid="about-image"
