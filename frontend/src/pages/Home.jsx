@@ -185,10 +185,10 @@ const Home = () => {
           console.log('Partners data received:', partnersRes.data);
           console.log('Number of dynamic partners:', partnersRes.data.length);
           // Combine static clients (always first) with dynamic clients from API
-          // Filter out any dynamic partners that might duplicate static ones by name
-          const staticClientNames = staticClients.map(c => c.name.toLowerCase());
+          // Filter out any dynamic partners that might have the same name as static ones
+          // to avoid showing duplicate entries in the carousel (case-insensitive match)
           const uniqueDynamicPartners = partnersRes.data.filter(
-            p => !staticClientNames.includes(p.name.toLowerCase())
+            p => !staticClients.some(sc => sc.name.toLowerCase() === p.name.toLowerCase())
           );
           const combinedPartners = [...staticClients, ...uniqueDynamicPartners];
           setPartners(combinedPartners);
