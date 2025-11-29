@@ -173,13 +173,8 @@ const Industries = () => {
               <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                 <Link to="/contact" className="w-full sm:w-auto">
                   <button className="w-full sm:w-auto group px-10 py-5 bg-white text-orange-600 rounded-2xl font-bold text-lg hover:bg-green-50 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-2xl hover:shadow-green-500/50 flex items-center justify-center gap-3">
-                    <span>Explore Solutions</span>
+                    <span>Schedule Consultation</span>
                     <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-                  </button>
-                </Link>
-                <Link to="/case-studies" className="w-full sm:w-auto">
-                  <button className="w-full sm:w-auto px-10 py-5 border-2 border-white/40 text-white rounded-2xl font-bold text-lg backdrop-blur-md hover:bg-white/20 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-xl">
-                    View Success Stories
                   </button>
                 </Link>
               </div>
@@ -196,9 +191,9 @@ const Industries = () => {
           {/* Quick Stats */}
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto lg:mx-0 lg:max-w-none">
             {[
-              { value: '8+', label: 'Industries' },
-              { value: '200+', label: 'Projects' },
-              { value: '99%', label: 'Success Rate' },
+              { value: '5+', label: 'Industries' },
+              { value: '20+', label: 'Projects' },
+              { value: '92%', label: 'Success Rate' },
               { value: '24/7', label: 'Support' }
             ].map((stat, index) => (
               <div key={index} className="text-center lg:text-left animate-fade-in-up" style={{ animationDelay: `${0.4 + index * 0.1}s` }}>
@@ -217,75 +212,7 @@ const Industries = () => {
         </div>
       </section>
 
-      {/* Telecom Spotlight Section */}
-      <section className="py-12 lg:py-28 relative overflow-hidden bg-gradient-to-br from-white via-green-50/50 to-orange-50/30">
-        {/* Background Decorations */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-orange-200/30 to-transparent rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-green-200/30 to-transparent rounded-full blur-3xl"></div>
-        </div>
 
-        <div className="container relative z-10 px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-orange-100 to-green-100 border border-orange-200/50 mb-6 shadow-lg">
-              <Wifi className="w-5 h-5 text-orange-600 animate-pulse" />
-              <span className="text-sm font-bold text-gray-800 tracking-wide">Featured Industry</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl lg:text-7xl font-black mb-6">
-              <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent">
-                Telecommunications
-              </span>
-            </h2>
-            <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-              Powering the next generation of connectivity with cutting-edge solutions for 5G, IoT, and global communications infrastructure.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12 lg:mb-16">
-            {telecomFeatures.map((feature, index) => (
-              <div
-                key={index}
-                className="group relative overflow-hidden rounded-3xl bg-white backdrop-blur-sm border border-gray-200/50 p-8 hover:shadow-2xl transform hover:scale-105 transition-all duration-500"
-              >
-                <div className="absolute -inset-4 bg-gradient-to-r from-orange-500 to-green-500 rounded-3xl opacity-0 group-hover:opacity-20 blur transition-all duration-500"></div>
-                <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <feature.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-800 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-orange-600 group-hover:to-green-600 group-hover:bg-clip-text transition-all duration-300">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
-                    {feature.description}
-                  </p>
-                  <div className="text-2xl font-black text-orange-600">
-                    {feature.stats}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Telecom Impact Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { value: '5G Networks', label: 'Deployed' },
-              { value: '99.99%', label: 'Network Uptime' },
-              { value: '1M+', label: 'IoT Devices' },
-              { value: '40%', label: 'Cost Reduction' }
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-2xl md:text-3xl lg:text-4xl font-black bg-gradient-to-r from-orange-600 to-green-600 bg-clip-text text-transparent mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-600 font-medium">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Industries Grid */}
       <section className="py-12 lg:py-28 relative bg-gradient-to-b from-white via-green-50/30 to-white">
@@ -293,7 +220,7 @@ const Industries = () => {
           <div className="text-center mb-12 lg:mb-20">
             <h2 className="text-3xl md:text-5xl lg:text-7xl font-black mb-6">
               <span className="bg-gradient-to-r from-orange-600 via-green-600 to-orange-600 bg-clip-text text-transparent">
-                All Industries
+                Industries We Serve
               </span>
             </h2>
             <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
@@ -397,7 +324,7 @@ const Industries = () => {
           <h2 className="text-3xl md:text-5xl lg:text-7xl font-black mb-8 leading-tight">
             <span className="block text-white drop-shadow-2xl">Ready to Transform</span>
             <span className="block bg-gradient-to-r from-green-300 via-green-200 to-green-100 bg-clip-text text-transparent drop-shadow-lg">
-              Your Industry?
+              Your Business?
             </span>
           </h2>
           
@@ -409,22 +336,17 @@ const Industries = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
             <Link to="/contact" className="w-full sm:w-auto">
               <button className="w-full sm:w-auto group px-12 py-5 bg-white text-orange-600 rounded-2xl font-bold text-lg hover:bg-green-50 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-2xl hover:shadow-green-500/50 flex items-center justify-center gap-3">
-                <span>Start Your Project</span>
+                <span>Schedule Consultation</span>
                 <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-              </button>
-            </Link>
-            <Link to="/contact" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto px-12 py-5 border-2 border-white/40 text-white rounded-2xl font-bold text-lg backdrop-blur-md hover:bg-white/20 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-xl">
-                Get In Touch
               </button>
             </Link>
           </div>
 
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-4xl mx-auto">
             {[
-              { value: '8+', label: 'Industries', icon: Building2 },
-              { value: '200+', label: 'Projects', icon: CheckCircle },
-              { value: '99%', label: 'Success Rate', icon: TrendingUp },
+              { value: '5+', label: 'Industries', icon: Building2 },
+              { value: '20+', label: 'Projects', icon: CheckCircle },
+              { value: '92%', label: 'Success Rate', icon: TrendingUp },
               { value: '24/7', label: 'Support', icon: Zap }
             ].map((stat, index) => (
               <div key={index} className="group transform hover:scale-110 transition-transform duration-300">

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Briefcase, Mail,MapPin, Clock, DollarSign, Users, Heart, Zap, Award, X, Upload, Loader2, Check, FileText, Link as LinkIcon, CheckCircle, ArrowRight, Sparkles, Building2, GraduationCap, Cpu } from 'lucide-react';
+import { Briefcase, Mail,MapPin, Clock, DollarSign, Users, Heart, Zap, Award, X, Upload, Loader2, Check, FileText, Link as LinkIcon, CheckCircle, ArrowRight, Sparkles, Building2, GraduationCap, Cpu, Search } from 'lucide-react';
 import { toast } from 'sonner';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
 const Careers = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showApplicationModal, setShowApplicationModal] = useState(false);
@@ -150,7 +151,13 @@ const Careers = () => {
   };
 
   const departments = ['All', ...new Set(jobs.map(job => job.department))];
-  const filteredPositions = selectedDepartment === 'All' ? jobs : jobs.filter(job => job.department === selectedDepartment);
+  const filteredPositions = jobs.filter(job => {
+    const matchesDepartment = selectedDepartment === 'All' || job.department === selectedDepartment;
+    const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          job.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          job.department.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesDepartment && matchesSearch;
+  });
 
   const benefits = [
     {
@@ -217,7 +224,7 @@ const Careers = () => {
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 text-white">
                 Build Your
                 <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent mt-4">
-                  Career Legacy
+                  Career Legacy With Us
                 </span>
               </h1>
               
@@ -250,7 +257,7 @@ const Careers = () => {
               PERKS & BENEFITS
             </div>
             <h2 className="text-4xl lg:text-5xl font-black mb-6 text-gray-900 dark:text-white">
-              Why You'll Love <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">Working Here</span>
+              Why You'll Love <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">Working With Us</span>
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               We invest in our team's success with comprehensive benefits that support your growth and well-being
@@ -321,6 +328,20 @@ const Careers = () => {
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Find your next opportunity and take your career to new heights with Trine Solutions
             </p>
+          </div>
+
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search for roles, keywords, or departments..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-6 py-4 pl-14 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent shadow-sm transition-all"
+              />
+              <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            </div>
           </div>
 
           {/* Department Filter */}

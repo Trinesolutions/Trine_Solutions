@@ -42,7 +42,7 @@ const Contact = () => {
     {
       icon: Clock,
       title: 'Quick Response',
-      description: 'We typically respond within 2 business hours',
+      description: 'We typically respond within 24 business hours',
       color: 'from-blue-500 to-cyan-500'
     },
     {
@@ -186,7 +186,7 @@ const Contact = () => {
                     Send Message
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Fill out the form below and we'll get back to you within 2 hours
+                    Fill out the form below and we'll get back to you within 24 hours
                   </p>
                 </div>
                 

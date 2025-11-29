@@ -97,7 +97,7 @@ const About = () => {
   const timeline = [
     { 
       year: '2015', 
-      event: 'Our Journey Begins', 
+      event: 'Started Our Journey', 
       description: 'Started with a mission to deliver impactful digital transformation solutions.',
       milestone: 'Secured our first enterprise technology engagement'
     },
@@ -162,7 +162,7 @@ const About = () => {
                 <span className="text-sm font-medium text-white">Trusted by Fortune 500 Companies</span>
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-8xl font-black mb-8 bg-gradient-to-r from-white via-cyan-100 to-blue-200 bg-clip-text text-transparent" data-testid="about-hero-title">
+              <h1 className="text-3xl md:text-5xl lg:text-7xl font-black mb-8 bg-gradient-to-r from-white via-cyan-100 to-blue-200 bg-clip-text text-transparent" data-testid="about-hero-title">
                 Digital
                 <span className="block bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Transformation</span>
               </h1>
@@ -175,7 +175,7 @@ const About = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
                 <Link to="/contact" className="w-full sm:w-auto">
                   <button className="w-full sm:w-auto px-8 py-4 bg-white text-blue-600 rounded-2xl font-bold hover:bg-cyan-50 transform hover:scale-105 transition-all duration-300 shadow-2xl">
-                    Start Your Project
+                    Schedule Consultation
                   </button>
                 </Link>
                 <Link to="/services" className="w-full sm:w-auto">
@@ -199,61 +199,9 @@ const About = () => {
             </div>
           </div>
         </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden lg:block">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/70 rounded-full mt-2"></div>
-          </div>
-        </div>
       </section>
 
-      {/* Expertise Section */}
-      <section className="py-12 lg:py-24 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-100/50 to-gray-200/30 dark:via-gray-800/50 dark:to-gray-900/30"></div>
-        <div className="container relative z-10 px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 lg:mb-20">
-            <h2 className="text-3xl md:text-5xl lg:text-7xl font-black mb-6">
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
-                Our Expertise
-              </span>
-            </h2>
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Specialized solutions tailored to drive your digital transformation journey
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {expertiseAreas.map((area, index) => (
-              <div
-                key={index}
-                className="group relative overflow-hidden rounded-3xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 p-8 hover:shadow-2xl transform hover:scale-105 transition-all duration-500"
-                data-testid={`expertise-${index}`}
-              >
-                {/* Background Gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${area.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-                
-                {/* Icon */}
-                <div className={`relative z-10 w-16 h-16 rounded-2xl bg-gradient-to-br ${area.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <area.icon className="w-8 h-8 text-white" />
-                </div>
-
-                <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text transition-all duration-300">
-                  {area.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {area.description}
-                </p>
-
-                {/* Hover Effect Border */}
-                <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${area.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10`}>
-                  <div className="absolute inset-[2px] rounded-3xl bg-white dark:bg-gray-800"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Enhanced Vision & Mission */}
       <section className="py-12 lg:py-24 relative overflow-hidden">
@@ -427,10 +375,10 @@ const About = () => {
             >
               <div className="absolute -inset-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500"></div>
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <h3 className="text-2xl font-bold mb-4 text-purple-600 dark:text-purple-400 group-hover:text-white transition-colors duration-300">
                   Innovation First
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed group-hover:text-white transition-colors duration-300">
                   We foster a culture of continuous learning and experimentation, 
                   encouraging our team to push boundaries and explore new technologies 
                   that shape the future of enterprise solutions.
@@ -444,10 +392,10 @@ const About = () => {
             >
               <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500"></div>
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                <h3 className="text-2xl font-bold mb-4 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300">
                   Collaborative Spirit
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed group-hover:text-white transition-colors duration-300">
                   Our success is built on teamwork, diversity, and the collective 
                   expertise of professionals from around the world working together 
                   to solve complex challenges.
@@ -461,10 +409,10 @@ const About = () => {
             >
               <div className="absolute -inset-4 bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500"></div>
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                <h3 className="text-2xl font-bold mb-4 text-green-600 dark:text-green-400 group-hover:text-white transition-colors duration-300">
                   Meaningful Impact
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed group-hover:text-white transition-colors duration-300">
                   We're committed to delivering solutions that create lasting value 
                   for our clients and contribute to a sustainable future through 
                   responsible technology practices.
@@ -503,7 +451,7 @@ const About = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Link to="/contact">
               <button className="px-12 py-5 bg-white text-blue-600 rounded-2xl font-bold text-lg hover:bg-cyan-50 transform hover:scale-105 transition-all duration-300 shadow-2xl">
-                Start Your Project
+                Schedule Consultation
               </button>
             </Link>
           </div>

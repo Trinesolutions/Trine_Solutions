@@ -250,14 +250,14 @@ const Home = () => {
           id="hero-title"
           className="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 leading-tight"
         >
-          <span className="block text-gray-900 dark:text-white">Transform</span>
+          <span className="block text-gray-900 dark:text-white">Transforming</span>
           <span className="block bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent mt-4 animate-pulse">
-            Your Digital Future
+            Vision Into Reality
           </span>
         </h1>
 
         <p className="text-xl lg:text-2xl mb-12 leading-relaxed text-gray-700 dark:text-white/80 font-light">
-          Cutting-edge <span className="font-bold text-cyan-500">AI solutions</span>, enterprise
+          IT Services, Consulting, <span className="font-bold text-cyan-500">AI solutions</span>, enterprise
           <span className="font-bold text-blue-500"> cybersecurity</span>, and innovation that accelerates business growth.
         </p>
 
@@ -527,59 +527,48 @@ const Home = () => {
             </p>
           </div>
           
-          {/* Alternating Industry Cards */}
-          <div className="space-y-16">
+          {/* Industry Cards Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {industries.map((industry, index) => (
               <div
                 key={index}
-                className={`group animate-on-scroll opacity-0 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
-                  index % 2 === 1 ? 'lg:grid-flow-dense' : ''
-                }`}
+                className="group animate-on-scroll opacity-0 bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
                 data-testid={`industry-card-${index}`}
               >
                 {/* Image Section */}
-                <div className={`relative overflow-hidden rounded-2xl shadow-xl ${
-                  index % 2 === 1 ? 'lg:col-start-2' : ''
-                }`}>
-                  <div className="relative group">
-                    <div className="absolute -inset-4 bg-gradient-to-r from-trine-orange/20 via-trine-lightblue/20 to-trine-green/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-                    <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
-                      <img
-                        src={industry.image}
-                        alt={`${industry.name} industry solutions`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-trine-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    </div>
-                  </div>
+                <div className="relative overflow-hidden aspect-[4/3]">
+                  <img
+                    src={industry.image}
+                    alt={`${industry.name} industry solutions`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
                 
                 {/* Content Section */}
-                <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
-                  <div className="space-y-6">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-trine-orange/10 to-trine-green/10 border border-trine-orange/20">
-                      <span className="text-xs font-semibold text-trine-orange uppercase tracking-wider">
-                        {String(index + 1).padStart(2, '0')} / {String(industries.length).padStart(2, '0')}
-                      </span>
-                    </div>
-                    
-                    <h3 className="text-3xl lg:text-4xl font-bold">
-                      <span className="text-trine-black dark:text-white">{industry.name}</span>
-                    </h3>
-                    
-                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                      {industry.description}
-                    </p>
-                    
-                    <Link 
-                      to={`/industries/${industry.slug}`}
-                      className="group/btn inline-flex items-center gap-3 px-6 py-3 rounded-lg bg-gradient-to-r from-trine-orange to-trine-lightblue text-white font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-trine-orange/30 hover:scale-105"
-                    >
-                      Read More
-                      <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                    </Link>
+                <div className="p-6">
+                  <div className="mb-4">
+                    <span className="text-xs font-semibold text-trine-orange uppercase tracking-wider">
+                      {String(index + 1).padStart(2, '0')} / {String(industries.length).padStart(2, '0')}
+                    </span>
                   </div>
+                  
+                  <h3 className="text-xl font-bold mb-3">
+                    <span className="text-trine-black dark:text-white group-hover:text-trine-orange transition-colors duration-300">{industry.name}</span>
+                  </h3>
+                  
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3">
+                    {industry.description}
+                  </p>
+                  
+                  <Link 
+                    to={`/industries/${industry.slug}`}
+                    className="inline-flex items-center gap-2 text-trine-orange font-semibold group/btn"
+                  >
+                    Read More
+                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                  </Link>
                 </div>
               </div>
             ))}
