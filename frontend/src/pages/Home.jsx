@@ -578,14 +578,6 @@ const Home = () => {
           <div className="absolute top-0 left-0 w-96 h-96 bg-trine-orange/10 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-0 right-0 w-80 h-80 bg-trine-lightblue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-trine-green/5 rounded-full blur-3xl"></div>
-          {/* Grid Pattern */}
-          <div 
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: 'linear-gradient(90deg, #fff 1px, transparent 1px), linear-gradient(180deg, #fff 1px, transparent 1px)',
-              backgroundSize: '60px 60px'
-            }}
-          ></div>
         </div>
 
         <div className="container relative z-10">
@@ -712,10 +704,6 @@ const Home = () => {
                   <div className="absolute top-10 left-10 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
                   <div className="absolute bottom-10 right-10 w-44 h-44 bg-trine-green/20 rounded-full blur-3xl"></div>
                   <div className="absolute top-1/2 right-1/4 w-36 h-36 bg-trine-orange/20 rounded-full blur-3xl"></div>
-                  {/* Grid Pattern */}
-                  <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
-                  </div>
                 </div>
                 
                 {/* Border */}
