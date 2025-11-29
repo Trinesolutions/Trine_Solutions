@@ -303,7 +303,7 @@ const Home = () => {
       playsInline
       className="w-full h-full object-cover"
     >
-      <source src={HERO_VIDEO_PATH} type="video/mp4" />
+      <source src={"3130182-uhd_3840_2160_30fps.mp4"} type="video/mp4" />
     </video>
     {/* Overlay for better text readability */}
     <div className="absolute inset-0 bg-black/60"></div>
@@ -501,7 +501,7 @@ const Home = () => {
 
         <p className="text-lg mb-8 text-gray-600 dark:text-gray-300 leading-relaxed">
           Trine Solutions is a <span className="font-semibold text-trine-black dark:text-white">global leader</span> 
-          in enterprise technology consulting, delivering innovative solutions that transform businesses 
+          {" "}in enterprise technology consulting, delivering innovative solutions that transform businesses 
           and drive <span className="font-semibold text-trine-orange">measurable results</span>.
         </p>
 
