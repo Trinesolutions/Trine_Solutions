@@ -805,22 +805,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
-          {/* Bottom Stats Bar */}
-          <div className="mt-16 flex flex-wrap justify-center gap-8 lg:gap-16 animate-on-scroll opacity-0">
-            {[
-              { value: '8+', label: 'Industries Served' },
-              { value: '24/7', label: 'Support Available' },
-              { value: '50+', label: 'Projects Completed' }
-            ].map((stat, idx) => (
-              <div key={idx} className="text-center group">
-                <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-trine-orange via-trine-lightblue to-trine-green bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300 inline-block">
-                  {stat.value}
-                </div>
-                <div className="text-gray-400 text-sm mt-1">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
