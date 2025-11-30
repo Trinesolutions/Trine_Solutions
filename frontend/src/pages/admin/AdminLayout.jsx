@@ -40,7 +40,6 @@ const AdminLayout = ({ children }) => {
     { icon: Quote, label: 'Testimonials', path: '/admin/testimonials' },
     { icon: Handshake, label: 'Partners', path: '/admin/partners' },
     { icon: UserCheck, label: 'Careers', path: '/admin/jobs' },
-    { icon: Megaphone, label: 'Announcements', path: '/admin/announcements' },
     { icon: Mail, label: 'Contacts', path: '/admin/contacts' },
     { icon: Users, label: 'Subscribers', path: '/admin/subscribers' },
   ];

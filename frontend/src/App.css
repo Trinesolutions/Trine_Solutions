@@ -93,8 +93,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Glassmorphism Effects */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
   border: 1px solid var(--glass-border);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
 }
