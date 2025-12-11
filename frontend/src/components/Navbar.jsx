@@ -95,7 +95,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                           ? 'bg-gradient-to-r from-trine-orange to-trine-lightblue text-white scale-105'
                           : darkMode
                           ? 'hover:bg-white/20 hover:text-trine-orange text-white hover:scale-105 bg-white/5'
-                          : 'hover:bg-trine-orange/20 hover:text-trine-orange text-trine-orange hover:scale-105 bg-gray-900/10'
+                          : 'hover:bg-trine-orange/20 hover:text-trine-white text-trine-orange hover:scale-105 bg-gray-900/10'
                       }
                     `}
                   >
