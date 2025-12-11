@@ -95,11 +95,11 @@ const Footer = () => {
                   </div>
                 </a>
                 
-                <a href="mailto:info@trinesolutions.com" className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors group">
+                <a href="mailto:trine@trinesolutions.com" className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors group">
                   <Mail className="w-5 h-5 flex-shrink-0 group-hover:text-orange-400" />
                   <div>
                     <p className="font-medium text-white">Email</p>
-                    <p className="text-sm">info@trinesolutions.com</p>
+                    <p className="text-sm">trine@trinesolutions.com</p>
                   </div>
                 </a>
               </div>
